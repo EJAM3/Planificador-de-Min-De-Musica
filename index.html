@@ -478,7 +478,7 @@ function openPinPad(user){
   updatePinDots();
 
   // Check if PIN exists in Firebase
-  db.ref(`/alabanza/pins/${user.replace(/\s/g,'_')}`).once('value').then(snap=>{
+  db.ref(`/alabanza/pins/${user.replace(/[^a-zA-Z0-9]/g,'_')}`).once('value').then(snap=>{
     if(snap.val()){
       // PIN already set — ask to enter it
       pinMode='check';
@@ -543,7 +543,7 @@ async function checkPin(){
   const hash = await sha256(pinBuffer);
 
   if(pinMode==='check'){
-    const snap = await db.ref(`/alabanza/pins/${pinUser.replace(/\s/g,'_')}`).once('value');
+    const snap = await db.ref(`/alabanza/pins/${pinUser.replace(/[^a-zA-Z0-9]/g,'_')}`).once('value');
     if(snap.val()===hash){
       // Correct PIN
       closePinPad();
@@ -571,7 +571,7 @@ async function checkPin(){
   } else if(pinMode==='set-confirm'){
     if(pinBuffer===pinFirstEntry){
       // Save hashed PIN to Firebase
-      await db.ref(`/alabanza/pins/${pinUser.replace(/\s/g,'_')}`).set(hash);
+      await db.ref(`/alabanza/pins/${pinUser.replace(/[^a-zA-Z0-9]/g,'_')}`).set(hash);
       closePinPad();
       doLogin(pinUser);
       showToast('🔐 PIN creado correctamente',false);
@@ -884,4 +884,4 @@ function showToast(msg,isErr){
 }
 </script>
 </body>
-</html>s
+</html>
