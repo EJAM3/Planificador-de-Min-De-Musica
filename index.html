@@ -8,27 +8,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Alabanza"/>
 <title>Alabanza · Grace</title>
-
-<!-- Firebase MUST load before any script — no async/defer -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-/* ═══ THEMES ═══ */
-[data-theme="dark"]{
-  --bg:#0b0e15;--surf:#141921;--surf2:#0f1320;--bdr:#1e2535;
-  --txt:#e8edf8;--mut:#6b7a99;--ov:rgba(0,0,0,.72);--sh:#141921;--inp:#0b0e15;
-}
-[data-theme="light"]{
-  --bg:#f0f3fa;--surf:#ffffff;--surf2:#e6eaf4;--bdr:#cdd5e8;
-  --txt:#1a2035;--mut:#7a8aaa;--ov:rgba(0,0,0,.4);--sh:#ffffff;--inp:#f0f3fa;
-}
-:root{
-  --gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);
-  --blue:#5b8fff;--green:#4ade80;--red:#f87171;--vio:#a78bfa;
-  --r:17px;--nav:66px;
-}
+[data-theme="dark"]{--bg:#0b0e15;--surf:#141921;--surf2:#0f1320;--bdr:#1e2535;--txt:#e8edf8;--mut:#6b7a99;--ov:rgba(0,0,0,.78);--sh:#141921;--inp:#0b0e15}
+[data-theme="light"]{--bg:#f0f3fa;--surf:#ffffff;--surf2:#e6eaf4;--bdr:#cdd5e8;--txt:#1a2035;--mut:#7a8aaa;--ov:rgba(0,0,0,.45);--sh:#ffffff;--inp:#f0f3fa}
+:root{--gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);--blue:#5b8fff;--green:#4ade80;--red:#f87171;--vio:#a78bfa;--r:17px;--nav:66px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
 
@@ -74,7 +60,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .b-dir{background:rgba(212,168,67,.12);color:#fde68a;border-color:rgba(212,168,67,.28)}
 .b-voz{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
 .b-flt{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
-.b-s3 {background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
+.b-s3{background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
 .b-rst{background:rgba(248,113,113,.08);color:#fecaca;border-color:rgba(248,113,113,.18)}
 
 /* Services */
@@ -100,7 +86,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .ev-d{background:rgba(91,143,255,.13);border:1px solid rgba(91,143,255,.34);color:#7eb8ff}
 .ev-i{background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.34);color:#c4b5fd}
 .ev-w{background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.28);color:#6ee7a0}
-.ev-f{border:1px dashed var(--bdr);cursor:pointer}
+.ev-f{border:1px dashed var(--bdr)}
 .leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}
 .li{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--mut)}
 .ld{width:9px;height:9px;border-radius:50%}
@@ -116,7 +102,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .cl{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
 .cr{background:var(--surf2);color:var(--mut);border-color:var(--bdr)}
 
-/* Labels / badges */
+/* Labels */
 .sec{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:13px 0 7px}
 .nbadge{display:inline-block;background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.3);border-radius:999px;font-size:11px;font-weight:700;padding:3px 10px;margin-bottom:9px;font-family:'Outfit',sans-serif}
 .rbanner{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));border:1px solid rgba(212,168,67,.32);border-radius:var(--r);padding:13px;margin-bottom:12px;display:none}
@@ -124,7 +110,12 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .rt{font-family:'Outfit',sans-serif;font-weight:800;font-size:14.5px;color:var(--gold);margin-bottom:5px}
 .ri{font-size:13px;margin-bottom:3px;display:flex;align-items:center;gap:6px}
 
-/* Repertorio */
+/* Dir band */
+.db{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:11px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.18);margin-bottom:12px}
+.dbn{font-weight:700;color:var(--gold);font-size:13.5px}
+.dbs{font-size:11px;color:var(--mut)}
+
+/* Repertorio form */
 .rf{background:var(--surf);border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:14px;margin-bottom:13px}
 .rft{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--gold);margin:0 0 12px}
 .ig{margin-bottom:10px}
@@ -148,15 +139,10 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .sno{font-size:11px;color:var(--mut);margin-top:3px;font-style:italic}
 .bdl{width:27px;height:27px;border-radius:50%;border:1px solid var(--bdr);background:rgba(248,113,113,.07);color:var(--red);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .bdl:active{background:rgba(248,113,113,.2)}
-.db{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:11px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.18);margin-bottom:12px}
-.dbn{font-weight:700;color:var(--gold);font-size:13.5px}
-.dbs{font-size:11px;color:var(--mut)}
 .empty{text-align:center;padding:30px 14px;color:var(--mut)}
 .empty .ei{font-size:34px;opacity:.4;margin-bottom:8px}
 .empty p{font-size:12.5px;margin:0;line-height:1.6}
 .lmsg{text-align:center;padding:22px;color:var(--mut);font-size:13px}
-
-/* Read-only notice */
 .ro-notice{display:flex;align-items:center;gap:8px;background:rgba(107,122,153,.09);border:1px solid rgba(107,122,153,.2);border-radius:12px;padding:10px 13px;margin-bottom:13px;font-size:12.5px;color:var(--mut)}
 
 /* Devocional */
@@ -172,7 +158,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .bo{padding:10px 18px;border-radius:12px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;cursor:pointer}
 .bo:active{opacity:.75}
 
-/* Sheet */
+/* Day sheet */
 .shov{position:fixed;inset:0;background:var(--ov);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
 .shov.open{opacity:1;pointer-events:all}
 .sh{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(102%);width:100%;max-width:430px;background:var(--sh);border-radius:22px 22px 0 0;border:1px solid var(--bdr);border-bottom:none;z-index:201;transition:transform .3s cubic-bezier(.32,1,.36,1);max-height:87dvh;overflow-y:auto;padding-bottom:40px}
@@ -185,16 +171,41 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .shb{padding:13px 14px 0}
 .shx{position:absolute;top:12px;right:14px;width:28px;height:28px;border-radius:50%;border:1px solid var(--bdr);background:var(--surf2);color:var(--mut);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* Login */
+/* ══ LOGIN SCREEN ══ */
 .lov{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .4s}
 .lov.gone{opacity:0;pointer-events:none}
 .llogo{font-size:52px;margin-bottom:6px}
 .ltitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:26px;color:var(--gold);margin-bottom:4px;text-align:center}
-.lsub{font-size:13px;color:var(--mut);text-align:center;margin-bottom:28px;line-height:1.5}
+.lsub{font-size:13px;color:var(--mut);text-align:center;margin-bottom:24px;line-height:1.5}
 .lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;width:100%;max-width:340px}
-.lbtn{padding:14px 8px;border-radius:14px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
+.lbtn{padding:13px 8px;border-radius:14px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
 .lbtn:active{transform:scale(.96);background:var(--gbg);border-color:var(--gd);color:var(--gold)}
 .lbtn.special{border-color:rgba(212,168,67,.4);background:rgba(212,168,67,.07);color:var(--gold)}
+/* Lock icon for privileged users */
+.lbtn.privileged::after{content:'🔒';font-size:11px;display:block;margin-top:3px;opacity:.5}
+
+/* ══ PIN PAD ══ */
+.pin-ov{position:fixed;inset:0;background:var(--ov);z-index:600;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.pin-ov.open{opacity:1;pointer-events:all}
+.pin-sheet{background:var(--sh);border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:28px 24px 40px;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,1,.36,1)}
+.pin-ov.open .pin-sheet{transform:translateY(0)}
+.pin-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;text-align:center;margin-bottom:4px}
+.pin-label{font-size:13px;color:var(--mut);text-align:center;margin-bottom:24px}
+/* PIN dots */
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:28px}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--bdr);background:transparent;transition:all .15s}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold)}
+.pin-dot.error{background:var(--red);border-color:var(--red)}
+/* PIN keypad */
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto}
+.pin-key{height:62px;border-radius:16px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;user-select:none}
+.pin-key:active{background:var(--gbg);border-color:var(--gd);color:var(--gold);transform:scale(.93)}
+.pin-key.del{font-size:18px;color:var(--mut)}
+.pin-key.empty{background:transparent;border:none;pointer-events:none}
+.pin-err{text-align:center;color:var(--red);font-size:13px;font-weight:600;margin-top:12px;min-height:20px}
+.pin-first-time{font-size:12px;color:var(--mut);text-align:center;margin-bottom:16px;padding:8px 12px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.15);border-radius:10px;line-height:1.5}
+.pin-back{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bdr);background:transparent;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;margin-top:14px}
+.pin-back:active{opacity:.7}
 
 /* Firebase error */
 .fberr{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.28);color:#fecaca;border-radius:12px;padding:10px 13px;font-size:12px;margin-bottom:11px;display:none}
@@ -206,14 +217,14 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .toast.err{background:#2d1a1a;border-color:var(--red);color:#fecaca}
 
 /* Summary table */
-.st{width:100%;border-collapse:collapse;font-size:12.5px}
-.st th,.st td{padding:5px 3px;border-bottom:1px solid var(--bdr)}
-.st th{color:var(--mut);font-weight:600}
+.stbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.stbl th,.stbl td{padding:5px 3px;border-bottom:1px solid var(--bdr)}
+.stbl th{color:var(--mut);font-weight:600}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ══ LOGIN ══ -->
 <div class="lov" id="loginOv">
   <div class="llogo">🎵</div>
   <div class="ltitle">Alabanza · Grace</div>
@@ -221,7 +232,40 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   <div class="lgrid" id="loginGrid"></div>
 </div>
 
-<!-- APP -->
+<!-- ══ PIN PAD ══ -->
+<div class="pin-ov" id="pinOv">
+  <div class="pin-sheet">
+    <div class="pin-name" id="pinName"></div>
+    <div class="pin-label" id="pinLabel"></div>
+    <div class="pin-first-time" id="pinFirstTime" style="display:none">
+      🔐 Primera vez — crea tu PIN de 4 dígitos.<br>Solo tú lo sabrás.
+    </div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key empty"></button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-err" id="pinErr"></div>
+    <button class="pin-back" onclick="closePinPad()">← Volver</button>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
 <div class="app" id="mainApp" style="display:none">
   <div class="topbar">
     <div class="tr">
@@ -267,7 +311,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <div class="cm"><div class="ct">Mayo 2026</div><div class="cg" id="calMay"></div></div>
       <div class="sec">Resumen directoras</div>
       <div class="card" style="padding:10px">
-        <table class="st">
+        <table class="stbl">
           <thead><tr><th style="text-align:left">Directora</th><th style="text-align:center">S1</th><th style="text-align:center">S2</th><th style="text-align:center">S3</th><th style="text-align:center">S4</th><th style="text-align:center">S5</th><th style="text-align:center">S6</th></tr></thead>
           <tbody>
             <tr><td style="font-weight:700;color:var(--gold)">Veruzka</td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td></tr>
@@ -281,7 +325,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
     <!-- EQUIPO -->
     <div id="page-equipo" class="page">
       <div class="sec">Pastora / Directora General</div>
-      <div class="mc"><div class="mn" style="color:var(--gold)">✝ Pra. Mary</div><div style="font-size:12px;color:var(--mut)">Directora General del Ministerio</div></div>
+      <div class="mc"><div class="mn" style="color:var(--gold)">Pra. Mary</div><div style="font-size:12px;color:var(--mut)">Directora General del Ministerio</div></div>
       <div class="sec">Directoras</div>
       <div class="mc"><div class="mn" style="color:var(--gold)">Veruzka</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc c3"><div>S3</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc c3"><div>S3</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
       <div class="mc"><div class="mn" style="color:#7eb8ff">Diana</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc c3"><div>S3</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc c3"><div>S3</div><div class="wnn">S6</div></div></div></div>
@@ -297,7 +341,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
     <!-- REPERTORIO -->
     <div id="page-repertorio" class="page">
       <div class="fberr" id="repErr">⚠️ Error de conexión. Verifica las reglas de Firebase.</div>
-      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — solo las directoras pueden agregar canciones</div>
+      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — las directoras gestionan el repertorio</div>
       <div class="pills" id="repPills">
         <button class="pill active" onclick="selRepWeek(1,this)">S1 · 5 abr</button>
         <button class="pill" onclick="selRepWeek(2,this)">S2 · 12 abr</button>
@@ -306,8 +350,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
         <button class="pill" onclick="selRepWeek(5,this)">S5 · 3 may</button>
         <button class="pill" onclick="selRepWeek(6,this)">S6 · 10 may</button>
       </div>
-      <div class="db" id="repDirBand"><div style="font-size:16px">★</div><div><div class="dbn" id="repDirName">Veruzka</div><div class="dbs" id="repDirSub">Directora · Semana 1</div></div></div>
-      <!-- Form: only visible to directors + Pra.Mary -->
+      <div class="db"><div style="font-size:16px">★</div><div><div class="dbn" id="repDirName">Veruzka</div><div class="dbs" id="repDirSub">Directora · Semana 1</div></div></div>
       <div id="repForm" class="rf">
         <div class="rft">🎵 Agregar canción</div>
         <div class="ig"><label class="il">Título *</label><input id="iTitle" class="inp" type="text" placeholder="Ej: Grande y Poderoso" autocomplete="off"/></div>
@@ -322,14 +365,11 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
     <!-- DEVOCIONAL -->
     <div id="page-devocional" class="page">
-      <div class="fberr" id="devoErr">⚠️ Error de conexión. Verifica las reglas de Firebase.</div>
+      <div class="fberr" id="devoErr">⚠️ Error de conexión.</div>
       <div id="devoReadOnly" class="ro-notice" style="display:none">👁 Solo Pra. Mary puede publicar el devocional</div>
       <div class="dcard">
         <div class="dhdr">
-          <div>
-            <div class="dtitle">📖 Devocional</div>
-            <div class="dmeta" id="devoMeta">Cargando…</div>
-          </div>
+          <div><div class="dtitle">📖 Devocional</div><div class="dmeta" id="devoMeta">Cargando…</div></div>
           <div id="devoEdBadge" style="display:none"><span class="debadge">✏️ Editor</span></div>
         </div>
         <div id="devoRead"><div class="dtext" id="devoText"></div></div>
@@ -346,7 +386,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       </div>
     </div>
 
-  </div><!-- /scr -->
+  </div>
 
   <nav class="nav">
     <button class="nb active" onclick="goNav('inicio',this)"><span class="ico">🏠</span>Inicio</button>
@@ -369,44 +409,31 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════
-// FIREBASE INIT
-// ══════════════════════════════════════════════
+// ══ FIREBASE ══════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyBuKRoh9gZeYcCMgJv8p6iHDuEcraqd-dk",
-  authDomain: "asistentegrace-e750c.firebaseapp.com",
-  databaseURL: "https://asistentegrace-e750c-default-rtdb.firebaseio.com",
-  projectId: "asistentegrace-e750c",
-  storageBucket: "asistentegrace-e750c.firebasestorage.app",
-  messagingSenderId: "446240076504",
-  appId: "1:446240076504:web:90e26c8360fc8aa26c9dad"
+  apiKey:"AIzaSyBuKRoh9gZeYcCMgJv8p6iHDuEcraqd-dk",
+  authDomain:"asistentegrace-e750c.firebaseapp.com",
+  databaseURL:"https://asistentegrace-e750c-default-rtdb.firebaseio.com",
+  projectId:"asistentegrace-e750c",
+  storageBucket:"asistentegrace-e750c.firebasestorage.app",
+  messagingSenderId:"446240076504",
+  appId:"1:446240076504:web:90e26c8360fc8aa26c9dad"
 };
-
 let db;
-try {
-  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-  db = firebase.database();
-} catch(e) {
-  console.error('Firebase init error:', e);
-}
+try{ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig); db=firebase.database(); }
+catch(e){ console.error('Firebase:',e); }
 
-// ══════════════════════════════════════════════
-// ROLES
-// ══════════════════════════════════════════════
-// Pra. Mary: can write devocional + repertorio
-// Directoras: can write repertorio
-// Voces: read-only
+// ══ ROLES ══════════════════════════════════════════════
 const DIRECTORA_GENERAL = 'Pra. Mary';
 const DIRECTORAS = ['Veruzka','Diana','Isamar'];
 const VOCES      = ['Joselyn','Valeria','Zuisay','Ma Alex','Gelimar'];
-const ALL_TEAM   = [DIRECTORA_GENERAL, ...DIRECTORAS, ...VOCES];
 
-function canEditRep(user)  { return user === DIRECTORA_GENERAL || DIRECTORAS.includes(user); }
-function canEditDevo(user) { return user === DIRECTORA_GENERAL; }
+// Users that require a PIN to log in
+function needsPin(user){ return user===DIRECTORA_GENERAL || DIRECTORAS.includes(user); }
+function canEditRep(user){ return user===DIRECTORA_GENERAL || DIRECTORAS.includes(user); }
+function canEditDevo(user){ return user===DIRECTORA_GENERAL; }
 
-// ══════════════════════════════════════════════
-// SCHEDULE DATA
-// ══════════════════════════════════════════════
+// ══ SCHEDULE DATA ══════════════════════════════════════
 const weeks = [
   {n:1,date:'Domingo, 5 de abril 2026',  short:'5 abr',  dir:'Veruzka',voces:['Joselyn','Valeria'],flot:'Zuisay', s3:'Isamar', desc:['Diana','Ma Alex','Gelimar']},
   {n:2,date:'Domingo, 12 de abril 2026', short:'12 abr', dir:'Diana',  voces:['Valeria','Zuisay'], flot:'Ma Alex',s3:'Veruzka',desc:['Isamar','Joselyn','Gelimar']},
@@ -415,8 +442,7 @@ const weeks = [
   {n:5,date:'Domingo, 3 de mayo 2026',   short:'3 may',  dir:'Diana',  voces:['Gelimar','Joselyn'],flot:'Valeria',s3:'Veruzka',desc:['Isamar','Zuisay','Ma Alex']},
   {n:6,date:'Domingo, 10 de mayo 2026',  short:'10 may', dir:'Isamar', voces:['Joselyn','Zuisay'], flot:'Gelimar',s3:'Diana',  desc:['Veruzka','Valeria','Ma Alex']}
 ];
-
-const CAL = {
+const CAL={
   '2026-04-03':{t:'fri',wn:1},'2026-04-05':{t:'sun',wn:1,dir:'v'},
   '2026-04-08':{t:'wed',wn:1},
   '2026-04-10':{t:'fri',wn:2},'2026-04-12':{t:'sun',wn:2,dir:'d'},
@@ -430,184 +456,266 @@ const CAL = {
   '2026-05-08':{t:'fri',wn:6},'2026-05-10':{t:'sun',wn:6,dir:'i'},
   '2026-05-13':{t:'wed',wn:6}
 };
-
-function userInWeek(user, wn) {
-  if (user === DIRECTORA_GENERAL) return true; // Pra. Mary always involved
-  const w = weeks[wn-1];
-  return w.dir===user || w.voces.includes(user) || w.flot===user || w.s3===user;
+function userInWeek(user,wn){
+  if(user===DIRECTORA_GENERAL) return true;
+  const w=weeks[wn-1];
+  return w.dir===user||w.voces.includes(user)||w.flot===user||w.s3===user;
 }
 
-// ══════════════════════════════════════════════
-// LOGIN
-// ══════════════════════════════════════════════
-let loggedUser = localStorage.getItem('alabanza_user') || '';
+// ══ PIN SYSTEM ═════════════════════════════════════════
+let pinUser='', pinBuffer='', pinMode='check'; // mode: 'check' | 'set-first' | 'set-confirm'
+let pinFirstEntry='', pinAttempts=0, pinLocked=false;
 
-function buildLogin() {
-  const g = document.getElementById('loginGrid');
-  // Pra. Mary gets special styling
-  g.innerHTML = [DIRECTORA_GENERAL, ...DIRECTORAS, ...VOCES]
-    .map(n => `<button class="lbtn ${n===DIRECTORA_GENERAL?'special':''}" onclick="doLogin('${n}')">${n===DIRECTORA_GENERAL?'✝ '+n:n}</button>`)
-    .join('');
+async function sha256(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-function doLogin(name) {
-  loggedUser = name;
-  localStorage.setItem('alabanza_user', name);
-  const ov = document.getElementById('loginOv');
+function openPinPad(user){
+  pinUser=user; pinBuffer=''; pinAttempts=0; pinLocked=false;
+  document.getElementById('pinName').textContent=user;
+  document.getElementById('pinErr').textContent='';
+  updatePinDots();
+
+  // Check if PIN exists in Firebase
+  db.ref(`/alabanza/pins/${user.replace(/\s/g,'_')}`).once('value').then(snap=>{
+    if(snap.val()){
+      // PIN already set — ask to enter it
+      pinMode='check';
+      document.getElementById('pinLabel').textContent='Ingresa tu PIN de 4 dígitos';
+      document.getElementById('pinFirstTime').style.display='none';
+    } else {
+      // No PIN yet — create one
+      pinMode='set-first';
+      document.getElementById('pinLabel').textContent='Crea tu PIN personal (4 dígitos)';
+      document.getElementById('pinFirstTime').style.display='block';
+    }
+    document.getElementById('pinOv').classList.add('open');
+  }).catch(()=>{
+    // Firebase error — fallback: just let them in read-only
+    showToast('⚠️ Error verificando PIN, acceso limitado',true);
+    doLogin(user);
+  });
+}
+
+function closePinPad(){
+  document.getElementById('pinOv').classList.remove('open');
+  pinBuffer=''; pinUser=''; pinMode='check';
+}
+
+function pinKey(digit){
+  if(pinLocked) return;
+  if(pinBuffer.length>=4) return;
+  pinBuffer+=digit;
+  updatePinDots();
+  if(pinBuffer.length===4) setTimeout(checkPin,120);
+}
+
+function pinDel(){
+  if(pinLocked) return;
+  pinBuffer=pinBuffer.slice(0,-1);
+  updatePinDots();
+  document.getElementById('pinErr').textContent='';
+}
+
+function updatePinDots(){
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('d'+i);
+    d.classList.toggle('filled', i<pinBuffer.length);
+    d.classList.remove('error');
+  }
+}
+
+function shakeAndClear(msg){
+  for(let i=0;i<4;i++) document.getElementById('d'+i).classList.add('error');
+  document.getElementById('pinErr').textContent=msg;
+  setTimeout(()=>{ pinBuffer=''; updatePinDots(); },800);
+}
+
+async function checkPin(){
+  const hash = await sha256(pinBuffer);
+
+  if(pinMode==='check'){
+    const snap = await db.ref(`/alabanza/pins/${pinUser.replace(/\s/g,'_')}`).once('value');
+    if(snap.val()===hash){
+      // Correct PIN
+      closePinPad();
+      doLogin(pinUser);
+    } else {
+      pinAttempts++;
+      if(pinAttempts>=3){
+        pinLocked=true;
+        shakeAndClear('Demasiados intentos. Espera 30 segundos.');
+        setTimeout(()=>{ pinLocked=false; pinAttempts=0; shakeAndClear(''); pinBuffer=''; updatePinDots(); document.getElementById('pinErr').textContent=''; },30000);
+      } else {
+        shakeAndClear(`PIN incorrecto. Intento ${pinAttempts}/3`);
+      }
+    }
+
+  } else if(pinMode==='set-first'){
+    pinFirstEntry=pinBuffer;
+    pinBuffer='';
+    updatePinDots();
+    pinMode='set-confirm';
+    document.getElementById('pinLabel').textContent='Confirma tu PIN de 4 dígitos';
+    document.getElementById('pinFirstTime').style.display='none';
+    document.getElementById('pinErr').textContent='';
+
+  } else if(pinMode==='set-confirm'){
+    if(pinBuffer===pinFirstEntry){
+      // Save hashed PIN to Firebase
+      await db.ref(`/alabanza/pins/${pinUser.replace(/\s/g,'_')}`).set(hash);
+      closePinPad();
+      doLogin(pinUser);
+      showToast('🔐 PIN creado correctamente',false);
+    } else {
+      pinFirstEntry='';
+      pinMode='set-first';
+      document.getElementById('pinLabel').textContent='Los PINs no coinciden. Inténtalo de nuevo.';
+      shakeAndClear('');
+      document.getElementById('pinErr').textContent='';
+    }
+  }
+}
+
+// ══ LOGIN ══════════════════════════════════════════════
+let loggedUser = localStorage.getItem('alabanza_user')||'';
+
+function buildLogin(){
+  const g=document.getElementById('loginGrid');
+  const all=[DIRECTORA_GENERAL,...DIRECTORAS,...VOCES];
+  g.innerHTML=all.map(n=>{
+    const isPriv=needsPin(n);
+    const isSpecial=n===DIRECTORA_GENERAL;
+    return `<button class="lbtn ${isSpecial?'special':''} ${isPriv?'privileged':''}" onclick="selectUser('${n}')">${n}</button>`;
+  }).join('');
+}
+
+function selectUser(name){
+  if(needsPin(name)){
+    openPinPad(name);
+  } else {
+    doLogin(name);
+  }
+}
+
+function doLogin(name){
+  loggedUser=name;
+  localStorage.setItem('alabanza_user',name);
+  const ov=document.getElementById('loginOv');
   ov.classList.add('gone');
-  document.getElementById('mainApp').style.display = '';
-  setTimeout(()=>ov.style.display='none', 450);
+  document.getElementById('mainApp').style.display='';
+  setTimeout(()=>ov.style.display='none',450);
   initApp();
 }
 
-function logout() {
-  if (!confirm('¿Cambiar de usuario?')) return;
+function logout(){
+  if(!confirm('¿Cambiar de usuario?')) return;
   localStorage.removeItem('alabanza_user');
   location.reload();
 }
 
 buildLogin();
-if (loggedUser) {
-  document.getElementById('loginOv').style.display = 'none';
-  document.getElementById('mainApp').style.display = '';
+if(loggedUser){
+  document.getElementById('loginOv').style.display='none';
+  document.getElementById('mainApp').style.display='';
   initApp();
 }
 
-// ══════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════
-function initApp() {
-  document.getElementById('userBadge').textContent =
-    '👤 ' + (loggedUser === DIRECTORA_GENERAL ? '✝ Pra. Mary' : loggedUser);
-
-  // Apply saved theme
-  const t = localStorage.getItem('alabanza_theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', t);
-  document.getElementById('themeBtn').textContent = t==='dark'?'🌙':'🌞';
-
-  showInicio(1, document.querySelector('#inicioPills .pill'));
-  buildCal(2026, 4, 'calAbr');
-  buildCal(2026, 5, 'calMay');
+// ══ INIT ══════════════════════════════════════════════
+function initApp(){
+  document.getElementById('userBadge').textContent='👤 '+loggedUser;
+  const t=localStorage.getItem('alabanza_theme')||'dark';
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').textContent=t==='dark'?'🌙':'🌞';
+  showInicio(1,document.querySelector('#inicioPills .pill'));
+  buildCal(2026,4,'calAbr');
+  buildCal(2026,5,'calMay');
   checkReminders();
   requestNotif();
-
-  // Repertorio permissions
-  const canRep = canEditRep(loggedUser);
-  document.getElementById('repForm').style.display     = canRep ? '' : 'none';
-  document.getElementById('repReadOnly').style.display = canRep ? 'none' : '';
-
+  const canRep=canEditRep(loggedUser);
+  document.getElementById('repForm').style.display=canRep?'':'none';
+  document.getElementById('repReadOnly').style.display=canRep?'none':'';
   listenRep(1);
   listenDevo();
 }
 
-// ══════════════════════════════════════════════
-// THEME
-// ══════════════════════════════════════════════
-function toggleTheme() {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const nxt = cur==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme', nxt);
-  localStorage.setItem('alabanza_theme', nxt);
-  document.getElementById('themeBtn').textContent = nxt==='dark'?'🌙':'🌞';
+// ══ THEME ══════════════════════════════════════════════
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme');
+  const nxt=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',nxt);
+  localStorage.setItem('alabanza_theme',nxt);
+  document.getElementById('themeBtn').textContent=nxt==='dark'?'🌙':'🌞';
 }
 
-// ══════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════
-function goNav(id, btn) {
+// ══ NAVIGATION ════════════════════════════════════════
+function goNav(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
-  document.querySelector('.scr').scrollTop = 0;
+  document.querySelector('.scr').scrollTop=0;
 }
 
-// ══════════════════════════════════════════════
-// INICIO
-// ══════════════════════════════════════════════
-function showInicio(n, btn) {
+// ══ INICIO ════════════════════════════════════════════
+function showInicio(n,btn){
   document.querySelectorAll('#inicioPills .pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('inicioDetail').innerHTML = buildWeekHTML(weeks[n-1]);
+  document.getElementById('inicioDetail').innerHTML=buildWeekHTML(weeks[n-1]);
 }
 
-function buildWeekHTML(w) {
-  const s12 = [{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.flot,role:'flotante',cls:'df'}];
-  const s3  = [{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.s3, role:'solo S3',cls:'d3'}];
-  const rs  = arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
-  return `
-    <div class="wh"><div class="wd">${w.date}</div><div class="wn">Semana ${w.n}</div></div>
-    <div class="brow">
-      <span class="b b-dir">★ ${w.dir}</span>
-      ${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}
-      <span class="b b-flt">▲ ${w.flot} — Flotante</span>
-      <span class="b b-s3">○ ${w.s3} — Solo S3</span>
-      <span class="b b-rst">Descanso: ${w.desc.join(' · ')}</span>
-    </div>
-    <div class="card" style="padding:10px">
-      <div class="svcs">
-        <div class="svc"><div class="slbl">Serv. 1</div>${rs(s12)}</div>
-        <div class="svc"><div class="slbl">Serv. 2</div>${rs(s12)}</div>
-        <div class="svc"><div class="slbl">Serv. 3</div>${rs(s3)}</div>
-      </div>
-    </div>`;
+function buildWeekHTML(w){
+  const s12=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.flot,role:'flotante',cls:'df'}];
+  const s3=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.s3,role:'solo S3',cls:'d3'}];
+  const rs=arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
+  return `<div class="wh"><div class="wd">${w.date}</div><div class="wn">Semana ${w.n}</div></div>
+    <div class="brow"><span class="b b-dir">★ ${w.dir}</span>${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}<span class="b b-flt">▲ ${w.flot} — Flotante</span><span class="b b-s3">○ ${w.s3} — Solo S3</span><span class="b b-rst">Descanso: ${w.desc.join(' · ')}</span></div>
+    <div class="card" style="padding:10px"><div class="svcs"><div class="svc"><div class="slbl">Serv. 1</div>${rs(s12)}</div><div class="svc"><div class="slbl">Serv. 2</div>${rs(s12)}</div><div class="svc"><div class="slbl">Serv. 3</div>${rs(s3)}</div></div></div>`;
 }
 
-// ══════════════════════════════════════════════
-// CALENDAR
-// ══════════════════════════════════════════════
+// ══ CALENDAR ══════════════════════════════════════════
 function pad(n){return String(n).padStart(2,'0')}
-function buildCal(yr, mo, cid) {
+function buildCal(yr,mo,cid){
   const DOWS=['D','L','M','X','J','V','S'];
-  let h = DOWS.map(d=>`<div class="cdow">${d}</div>`).join('');
-  const first=new Date(yr,mo-1,1).getDay(), total=new Date(yr,mo,0).getDate();
+  let h=DOWS.map(d=>`<div class="cdow">${d}</div>`).join('');
+  const first=new Date(yr,mo-1,1).getDay(),total=new Date(yr,mo,0).getDate();
   for(let i=0;i<first;i++) h+=`<div class="cd"></div>`;
   for(let d=1;d<=total;d++){
-    const key=`${yr}-${pad(mo)}-${pad(d)}`, ev=CAL[key];
+    const key=`${yr}-${pad(mo)}-${pad(d)}`,ev=CAL[key];
     if(!ev){h+=`<div class="cd"><div class="cdn" style="color:var(--mut);font-weight:400">${d}</div></div>`;continue;}
     if(ev.t==='sun'){
       const c=ev.dir==='v'?'ev-v':ev.dir==='d'?'ev-d':'ev-i';
       h+=`<div class="cd tap ${c}" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6"></div><div class="cdl">S${ev.wn}</div></div>`;
-    } else if(ev.t==='wed'){
+    }else if(ev.t==='wed'){
       h+=`<div class="cd tap ev-w" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6"></div><div class="cdl">Mié</div></div>`;
-    } else {
+    }else{
       h+=`<div class="cd tap ev-f" onclick="openSheet('${key}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl" style="color:var(--mut)">Ens.</div></div>`;
     }
   }
-  document.getElementById(cid).innerHTML = h;
+  document.getElementById(cid).innerHTML=h;
 }
 
-// ══════════════════════════════════════════════
-// DAY SHEET
-// ══════════════════════════════════════════════
+// ══ DAY SHEET ═════════════════════════════════════════
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-
-function openSheet(key) {
+function openSheet(key){
   const [yr,mo,dy]=key.split('-').map(Number);
   const dt=new Date(yr,mo-1,dy);
   document.getElementById('shDate').textContent=`${DIAS[dt.getDay()]}, ${dy} de ${MES[mo-1]} ${yr}`;
-  const ev=CAL[key], w=weeks[ev.wn-1];
-  let title='', body='';
-
+  const ev=CAL[key],w=weeks[ev.wn-1];
+  let title='',body='';
   if(ev.t==='sun'){
-    title=`Semana ${ev.wn} · Domingo`;
-    body=buildWeekHTML(w);
-  } else if(ev.t==='wed'){
-    // Wednesday: director + voces only, no flotante
+    title=`Semana ${ev.wn} · Domingo`;body=buildWeekHTML(w);
+  }else if(ev.t==='wed'){
     const team=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'}))];
     const rs=arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
     title=`Semana ${ev.wn} · Miércoles`;
-    body=`
-      <div class="wh"><div class="wd">Servicio de miércoles</div><div class="wn">Semana ${w.n} · igual que S1</div></div>
-      <div class="brow"><span class="b b-dir">★ ${w.dir}</span>${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div>
-      <div class="card" style="padding:10px;max-width:150px"><div class="svc">${rs(team)}</div></div>`;
-  } else {
+    body=`<div class="wh"><div class="wd">Servicio de miércoles</div><div class="wn">Semana ${w.n} · igual que S1</div></div><div class="brow"><span class="b b-dir">★ ${w.dir}</span>${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div><div class="card" style="padding:10px;max-width:150px"><div class="svc">${rs(team)}</div></div>`;
+  }else{
     title=`Semana ${ev.wn} · Ensayo Viernes`;
     const all=[w.dir,...w.voces,w.flot,w.s3].filter(Boolean);
-    body=`
-      <div class="wh"><div class="wd">Ensayo previo al domingo ${w.short}</div><div class="wn">Equipo completo</div></div>
-      <div class="brow">${all.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div>`;
+    body=`<div class="wh"><div class="wd">Ensayo previo al domingo ${w.short}</div><div class="wn">Equipo completo</div></div><div class="brow">${all.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div>`;
   }
   document.getElementById('shTitle').textContent=title;
   document.getElementById('shBody').innerHTML=body;
@@ -619,24 +727,22 @@ function closeSheet(){
   document.getElementById('sh').classList.remove('open');
 }
 
-// ══════════════════════════════════════════════
-// REMINDERS
-// ══════════════════════════════════════════════
-function checkReminders() {
+// ══ REMINDERS ═════════════════════════════════════════
+function checkReminders(){
   if(!loggedUser) return;
-  const today=new Date(); today.setHours(0,0,0,0);
+  const today=new Date();today.setHours(0,0,0,0);
   const upcoming=[];
   Object.entries(CAL).forEach(([dateStr,ev])=>{
     const [yr,mo,dy]=dateStr.split('-').map(Number);
     const evDate=new Date(yr,mo-1,dy);
-    const diff=Math.round((evDate-today)/(864e5));
+    const diff=Math.round((evDate-today)/864e5);
     if(diff<0||diff>3) return;
     if(!userInWeek(loggedUser,ev.wn)) return;
     const dl=diff===0?'Hoy':diff===1?'Mañana':`En ${diff} días`;
     const w=weeks[ev.wn-1];
-    if(ev.t==='sun')      upcoming.push({i:'⛪',m:`${dl} — Domingo S${ev.wn} (${w.short})`});
-    else if(ev.t==='wed') upcoming.push({i:'🎤',m:`${dl} — Servicio miércoles S${ev.wn}`});
-    else                  upcoming.push({i:'🎸',m:`${dl} — Ensayo viernes S${ev.wn}`});
+    if(ev.t==='sun')       upcoming.push({i:'⛪',m:`${dl} — Domingo S${ev.wn} (${w.short})`});
+    else if(ev.t==='wed')  upcoming.push({i:'🎤',m:`${dl} — Servicio miércoles S${ev.wn}`});
+    else                   upcoming.push({i:'🎸',m:`${dl} — Ensayo viernes S${ev.wn}`});
   });
   if(upcoming.length){
     document.getElementById('remBanner').classList.add('show');
@@ -650,45 +756,38 @@ function checkReminders() {
     }
   }
 }
-
-function requestNotif() {
-  if('Notification' in window && Notification.permission==='default'){
+function requestNotif(){
+  if('Notification' in window&&Notification.permission==='default'){
     setTimeout(()=>Notification.requestPermission().then(p=>{
       if(p==='granted') showToast('🔔 Recordatorios activados',false);
     }),3000);
   }
 }
 
-// ══════════════════════════════════════════════
-// REPERTORIO — Firebase Realtime
-// ══════════════════════════════════════════════
-let curRepWeek=1, repRef=null;
-
-function selRepWeek(n, btn) {
+// ══ REPERTORIO ════════════════════════════════════════
+let curRepWeek=1,repRef=null;
+function selRepWeek(n,btn){
   document.querySelectorAll('#repPills .pill').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  curRepWeek=n;
+  btn.classList.add('active'); curRepWeek=n;
   const w=weeks[n-1];
   document.getElementById('repDirName').textContent=w.dir;
   document.getElementById('repDirSub').textContent=`Directora · Semana ${n} · ${w.short}`;
   listenRep(n);
 }
-
-function listenRep(n) {
+function listenRep(n){
   if(!db){document.getElementById('repErr').classList.add('show');return;}
   if(repRef) repRef.off();
   repRef=db.ref(`/alabanza/repertorio/week${n}`);
   document.getElementById('songList').innerHTML='<div class="lmsg">Cargando…</div>';
   document.getElementById('songCount').textContent='—';
-  repRef.on('value', snap=>{
+  repRef.on('value',snap=>{
     document.getElementById('repErr').classList.remove('show');
     const raw=snap.val();
-    const songs=raw ? Object.entries(raw).map(([k,v])=>({...v,_fbKey:k})) : [];
+    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_fbKey:k})):[];
     renderSongs(songs);
-  }, ()=>document.getElementById('repErr').classList.add('show'));
+  },()=>document.getElementById('repErr').classList.add('show'));
 }
-
-function renderSongs(songs) {
+function renderSongs(songs){
   document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
   if(!songs.length){
     document.getElementById('songList').innerHTML=`<div class="empty"><div class="ei">🎶</div><p>Sin canciones todavía.<br>${canEditRep(loggedUser)?'¡Agrega el repertorio!':'Pronto la directora lo agregará.'}</p></div>`;
@@ -702,83 +801,72 @@ function renderSongs(songs) {
     return `<div class="si"><div class="snum">${i+1}</div><div class="si-i"><div class="sti">${esc(s.title)}</div>${s.artist?`<div class="sar">${esc(s.artist)}</div>`:''}${lk}${s.note?`<div class="sno">📝 ${esc(s.note)}</div>`:''}</div>${del}</div>`;
   }).join('');
 }
-
-async function addSong() {
+async function addSong(){
   const tEl=document.getElementById('iTitle'),aEl=document.getElementById('iArtist'),
-        uEl=document.getElementById('iUrl'),  nEl=document.getElementById('iNote'),
+        uEl=document.getElementById('iUrl'),nEl=document.getElementById('iNote'),
         btn=document.getElementById('btnAdd');
   const title=tEl.value.trim();
   if(!title){tEl.classList.add('err');tEl.focus();return;}
   tEl.classList.remove('err');
-  btn.disabled=true; btn.textContent='Guardando…';
+  btn.disabled=true;btn.textContent='Guardando…';
   try{
     await db.ref(`/alabanza/repertorio/week${curRepWeek}`).push({
-      title, artist:aEl.value.trim(), url:uEl.value.trim(), note:nEl.value.trim(),
-      addedBy:loggedUser, addedAt:new Date().toISOString()
+      title,artist:aEl.value.trim(),url:uEl.value.trim(),note:nEl.value.trim(),
+      addedBy:loggedUser,addedAt:new Date().toISOString()
     });
     tEl.value='';aEl.value='';uEl.value='';nEl.value='';
     showToast('✓ Canción guardada — visible para el equipo',false);
-  } catch(e){showToast('❌ Error al guardar',true);}
+  }catch(e){showToast('❌ Error al guardar',true);}
   finally{btn.disabled=false;btn.textContent='Guardar canción';}
 }
-
-async function delSong(fbKey) {
+async function delSong(fbKey){
   if(!confirm('¿Eliminar esta canción?')) return;
-  try{
-    await db.ref(`/alabanza/repertorio/week${curRepWeek}/${fbKey}`).remove();
-    showToast('Canción eliminada',false);
-  } catch(e){showToast('❌ Error al eliminar',true);}
+  try{ await db.ref(`/alabanza/repertorio/week${curRepWeek}/${fbKey}`).remove(); showToast('Canción eliminada',false); }
+  catch(e){showToast('❌ Error al eliminar',true);}
 }
 
-// ══════════════════════════════════════════════
-// DEVOCIONAL — Firebase Realtime
-// ══════════════════════════════════════════════
-function listenDevo() {
+// ══ DEVOCIONAL ════════════════════════════════════════
+function listenDevo(){
   if(!db){document.getElementById('devoErr').classList.add('show');return;}
   const canEdit=canEditDevo(loggedUser);
   document.getElementById('devoReadOnly').style.display=canEdit?'none':'';
   document.getElementById('devoEdBadge').style.display=canEdit?'block':'none';
   document.getElementById('devoEditToggle').style.display=canEdit?'block':'none';
-
-  db.ref('/alabanza/devocional').on('value', snap=>{
+  db.ref('/alabanza/devocional').on('value',snap=>{
     document.getElementById('devoErr').classList.remove('show');
     const data=snap.val()||{};
-    const txt=data.text||'', by=data.updatedBy||'', at=data.updatedAt;
+    const txt=data.text||'',by=data.updatedBy||'',at=data.updatedAt;
     document.getElementById('devoText').textContent=txt||'';
     if(!txt) document.getElementById('devoText').innerHTML=`<span class="dempty">Pra. Mary no ha publicado devocional aún.</span>`;
     const dated=at?new Date(at).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}):'';
     document.getElementById('devoMeta').textContent=by&&dated?`Publicado por ${by} · ${dated}`:'Sin publicar';
     document.getElementById('devoTa').value=txt;
-  }, ()=>document.getElementById('devoErr').classList.add('show'));
+  },()=>document.getElementById('devoErr').classList.add('show'));
 }
-
-function openDevoEdit() {
+function openDevoEdit(){
   document.getElementById('devoRead').style.display='none';
   document.getElementById('devoEdit').style.display='block';
   document.getElementById('devoEditToggle').style.display='none';
 }
-function cancelDevo() {
+function cancelDevo(){
   document.getElementById('devoRead').style.display='block';
   document.getElementById('devoEdit').style.display='none';
   document.getElementById('devoEditToggle').style.display=canEditDevo(loggedUser)?'block':'none';
 }
-async function saveDevo() {
+async function saveDevo(){
   const text=document.getElementById('devoTa').value.trim();
   try{
     await db.ref('/alabanza/devocional').set({text,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
-    cancelDevo();
-    showToast('✓ Devocional publicado',false);
-  } catch(e){showToast('❌ Error al guardar',true);}
+    cancelDevo(); showToast('✓ Devocional publicado',false);
+  }catch(e){showToast('❌ Error al guardar',true);}
 }
 
-// ══════════════════════════════════════════════
-// UTILS
-// ══════════════════════════════════════════════
+// ══ UTILS ═════════════════════════════════════════════
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showToast(msg,isErr){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast'+(isErr?' err':'');
-  t.classList.add('show'); clearTimeout(t._t);
+  t.textContent=msg;t.className='toast'+(isErr?' err':'');
+  t.classList.add('show');clearTimeout(t._t);
   t._t=setTimeout(()=>t.classList.remove('show'),3200);
 }
 </script>
