@@ -1,0 +1,10 @@
+{
+  "timeZone":"America/Caracas",
+  "dependencies":{},
+  "exceptionLogging":"STACKDRIVER",
+  "runtimeVersion":"V8",
+  "oauthScopes":[
+    "https://www.googleapis.com/auth/firebase.messaging",
+    "https://www.googleapis.com/auth/script.external_request"
+  ]
+}
