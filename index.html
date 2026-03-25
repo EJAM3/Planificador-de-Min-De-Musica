@@ -2,836 +2,785 @@
 <html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Alabanza · Rotación</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Alabanza"/>
+<title>Alabanza · Grace</title>
+
+<!-- Firebase MUST load before any script — no async/defer -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-/* ═══ DARK THEME (default) ═══ */
+/* ═══ THEMES ═══ */
 [data-theme="dark"]{
-  --bg:        #0b0e15;
-  --surface:   #141921;
-  --surface2:  #0f1420;
-  --border:    #1e2535;
-  --text:      #e8edf8;
-  --muted:     #6b7a99;
-  --overlay:   rgba(0,0,0,.7);
-  --sheet-bg:  #141921;
+  --bg:#0b0e15;--surf:#141921;--surf2:#0f1320;--bdr:#1e2535;
+  --txt:#e8edf8;--mut:#6b7a99;--ov:rgba(0,0,0,.72);--sh:#141921;--inp:#0b0e15;
 }
-/* ═══ LIGHT THEME ═══ */
 [data-theme="light"]{
-  --bg:        #f2f4f8;
-  --surface:   #ffffff;
-  --surface2:  #e8ecf4;
-  --border:    #d0d8ea;
-  --text:      #1a2035;
-  --muted:     #7a8aaa;
-  --overlay:   rgba(0,0,0,.4);
-  --sheet-bg:  #ffffff;
+  --bg:#f0f3fa;--surf:#ffffff;--surf2:#e6eaf4;--bdr:#cdd5e8;
+  --txt:#1a2035;--mut:#7a8aaa;--ov:rgba(0,0,0,.4);--sh:#ffffff;--inp:#f0f3fa;
 }
-/* ═══ SHARED TOKENS ═══ */
 :root{
-  --gold:     #d4a843;
-  --gold-dim: #a07c28;
-  --gold-bg:  rgba(212,168,67,.1);
-  --blue:     #5b8fff;
-  --green:    #4ade80;
-  --red:      #f87171;
-  --violet:   #a78bfa;
-  --radius:   18px;
-  --nav-h:    66px;
+  --gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);
+  --blue:#5b8fff;--green:#4ade80;--red:#f87171;--vio:#a78bfa;
+  --r:17px;--nav:66px;
 }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
 
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;transition:background-color .25s,color .2s,border-color .2s}
-html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
+/* Shell */
+.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;overflow:hidden}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav)+22px)}
+.scr::-webkit-scrollbar{display:none}
 
-.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;position:relative;overflow:hidden}
-.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 0 calc(var(--nav-h) + 24px)}
-.screen::-webkit-scrollbar{display:none}
+/* Topbar */
+.topbar{padding:16px 16px 0;position:sticky;top:0;z-index:10;background:var(--bg)}
+.tr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.atitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:21px;color:var(--gold)}
+.asub{font-size:11px;color:var(--mut);padding-bottom:11px;border-bottom:1px solid var(--bdr)}
+.bsm{background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.bsm:active{opacity:.7}
 
-/* ── Topbar ── */
-.topbar{padding:18px 18px 0;position:sticky;top:0;z-index:10;background:var(--bg)}
-.topbar-inner{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.app-title{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;color:var(--gold);letter-spacing:-.3px}
-.app-sub{font-size:12px;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--border)}
-.btn-theme{background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:600;display:flex;align-items:center;gap:5px}
-.btn-theme:active{opacity:.75}
-
-/* ── Pages ── */
+/* Pages */
 .page{display:none;padding:14px 14px 0}
 .page.active{display:block}
 
-/* ── Bottom nav ── */
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav-h);background:var(--sheet-bg);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 2px 10px}
-.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 10px;border:none;background:none;color:var(--muted);cursor:pointer;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500}
-.nav-btn .ico{font-size:20px;line-height:1}
-.nav-btn.active{color:var(--gold)}
-.nav-btn.active .ico{filter:drop-shadow(0 0 6px rgba(212,168,67,.5))}
+/* Nav */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 2px 10px}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:500}
+.nb .ico{font-size:19px;line-height:1}
+.nb.active{color:var(--gold)}
+.nb.active .ico{filter:drop-shadow(0 0 5px rgba(212,168,67,.55))}
 
-/* ── Cards ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:13px}
+/* Cards / Pills */
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;padding:7px 14px;border-radius:999px;background:var(--surf);border:1px solid var(--bdr);color:var(--mut);font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif}
+.pill.active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
 
-/* ── Pills ── */
-.pills-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:13px;margin-bottom:2px}
-.pills-row::-webkit-scrollbar{display:none}
-.pill{flex:0 0 auto;padding:7px 15px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif}
-.pill.active{background:var(--gold-bg);border-color:var(--gold-dim);color:var(--gold)}
+/* Week hero */
+.wh{background:linear-gradient(135deg,rgba(212,168,67,.13),rgba(212,168,67,.03));border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:14px;margin-bottom:11px}
+.wd{font-size:12px;color:var(--gold);font-weight:500;margin-bottom:3px}
+.wn{font-family:'Outfit',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.5px}
 
-/* ── Week hero ── */
-.week-hero{background:linear-gradient(135deg,rgba(212,168,67,.14),rgba(212,168,67,.04));border:1px solid rgba(212,168,67,.22);border-radius:var(--radius);padding:15px;margin-bottom:12px}
-.week-date{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:3px}
-.week-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.5px}
+/* Badges */
+.brow{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0}
+.b{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;font-size:11.5px;font-weight:600;border:1px solid transparent}
+.b-dir{background:rgba(212,168,67,.12);color:#fde68a;border-color:rgba(212,168,67,.28)}
+.b-voz{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
+.b-flt{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
+.b-s3 {background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
+.b-rst{background:rgba(248,113,113,.08);color:#fecaca;border-color:rgba(248,113,113,.18)}
 
-/* ── Badges ── */
-.roles-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid transparent}
-.badge-dir {background:rgba(212,168,67,.12);color:#fde68a;border-color:rgba(212,168,67,.28)}
-.badge-full{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
-.badge-flot{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
-.badge-s3  {background:rgba(91,143,255,.10); color:#bfdbfe;border-color:rgba(91,143,255,.22)}
-.badge-rest{background:rgba(248,113,113,.08);color:#fecaca;border-color:rgba(248,113,113,.18)}
+/* Services */
+.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+.svc{background:var(--surf2);border:1px solid var(--bdr);border-radius:12px;padding:10px 9px}
+.slbl{font-size:10px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.sp{display:flex;align-items:center;gap:5px;margin-bottom:4px;font-size:12px}
+.sp:last-child{margin-bottom:0}
+.dot{width:6px;height:6px;border-radius:50%;flex:0 0 6px}
+.dd{background:var(--gold)}.dv{background:var(--green)}.df{background:var(--vio)}.d3{background:var(--blue)}
+.rn{font-size:9.5px;color:var(--mut);margin-top:.5px}
 
-/* ── Services grid ── */
-.services{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
-.svc{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:11px 9px}
-.svc-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
-.svc-person{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:12.5px}
-.svc-person:last-child{margin-bottom:0}
-.dot{width:7px;height:7px;border-radius:50%;flex:0 0 7px}
-.dot-dir{background:var(--gold)} .dot-full{background:var(--green)}
-.dot-flot{background:var(--violet)} .dot-s3{background:var(--blue)}
-.role-note{font-size:10px;color:var(--muted);margin-top:1px}
+/* Calendar */
+.cm{margin-bottom:16px}
+.ct{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;margin-bottom:9px}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cdow{text-align:center;font-size:10px;font-weight:700;color:var(--mut);padding:3px 0;text-transform:uppercase}
+.cd{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;font-size:12px;font-weight:500}
+.cd.tap{cursor:pointer}.cd.tap:active{opacity:.65;transform:scale(.93)}
+.cdn{line-height:1;margin-bottom:1px}
+.cdl{font-size:8px;font-weight:800;text-transform:uppercase;opacity:.85;margin-top:1px}
+.ev-v{background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.38);color:var(--gold)}
+.ev-d{background:rgba(91,143,255,.13);border:1px solid rgba(91,143,255,.34);color:#7eb8ff}
+.ev-i{background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.34);color:#c4b5fd}
+.ev-w{background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.28);color:#6ee7a0}
+.ev-f{border:1px dashed var(--bdr);cursor:pointer}
+.leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}
+.li{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--mut)}
+.ld{width:9px;height:9px;border-radius:50%}
 
-/* ── Calendar ── */
-.cal-month{margin-bottom:18px}
-.cal-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin-bottom:10px}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cal-dow{text-align:center;font-size:10px;font-weight:700;color:var(--muted);padding:3px 0;text-transform:uppercase}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:12px;font-weight:500;cursor:default;user-select:none}
-.cal-day.clickable{cursor:pointer}
-.cal-day.clickable:active{opacity:.7;transform:scale(.94)}
-.cal-day .day-num{line-height:1;margin-bottom:1px}
-.cal-week-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;opacity:.85}
-/* event colors */
-.ev-sun-v{background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.38);color:var(--gold)}
-.ev-sun-d{background:rgba(91,143,255,.13); border:1px solid rgba(91,143,255,.35); color:#7eb8ff}
-.ev-sun-i{background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.35);color:#c4b5fd}
-.ev-wed  {background:rgba(74,222,128,.10); border:1px solid rgba(74,222,128,.28); color:#6ee7a0}
+/* Members */
+.mc{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;margin-bottom:9px}
+.mn{font-family:'Outfit',sans-serif;font-weight:700;font-size:14.5px;margin-bottom:7px}
+.mw{display:flex;gap:4px;flex-wrap:wrap}
+.wc{display:flex;flex-direction:column;align-items:center;padding:5px 7px;border-radius:9px;font-size:10.5px;font-weight:600;min-width:38px;border:1px solid transparent;gap:.5px}
+.wc .wnn{font-size:8.5px;opacity:.7}
+.cf{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
+.c3{background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
+.cl{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
+.cr{background:var(--surf2);color:var(--mut);border-color:var(--bdr)}
 
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
-.legend-dot{width:10px;height:10px;border-radius:50%}
+/* Labels / badges */
+.sec{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:13px 0 7px}
+.nbadge{display:inline-block;background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.3);border-radius:999px;font-size:11px;font-weight:700;padding:3px 10px;margin-bottom:9px;font-family:'Outfit',sans-serif}
+.rbanner{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));border:1px solid rgba(212,168,67,.32);border-radius:var(--r);padding:13px;margin-bottom:12px;display:none}
+.rbanner.show{display:block}
+.rt{font-family:'Outfit',sans-serif;font-weight:800;font-size:14.5px;color:var(--gold);margin-bottom:5px}
+.ri{font-size:13px;margin-bottom:3px;display:flex;align-items:center;gap:6px}
 
-/* ── Member cards (equipo) ── */
-.member-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
-.member-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;margin-bottom:8px}
-.member-weeks{display:flex;gap:5px;flex-wrap:wrap}
-.wk-chip{display:flex;flex-direction:column;align-items:center;padding:6px 7px;border-radius:10px;font-size:11px;font-weight:600;min-width:40px;border:1px solid transparent;gap:1px}
-.wk-chip .wk-n{font-size:9px;opacity:.7}
-.chip-full{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
-.chip-s3  {background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
-.chip-flot{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
-.chip-rest{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+/* Repertorio */
+.rf{background:var(--surf);border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:14px;margin-bottom:13px}
+.rft{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--gold);margin:0 0 12px}
+.ig{margin-bottom:10px}
+.il{font-size:10.5px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;display:block}
+.inp{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none}
+.inp:focus{border-color:var(--gd)}.inp::placeholder{color:var(--mut)}.inp.err{border-color:var(--red)!important}
+.bg{width:100%;padding:12px;border-radius:12px;border:none;background:var(--gold);color:#0b0e15;font-family:'Outfit',sans-serif;font-weight:800;font-size:14px;cursor:pointer}
+.bg:active{opacity:.8}.bg:disabled{opacity:.4;cursor:default}
+.rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.rh h3{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;margin:0}
+.sc{font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 9px}
+.si{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:11px 12px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;animation:fu .3s}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1}}
+.snum{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;color:rgba(212,168,67,.28);min-width:18px;padding-top:1px}
+.si-i{flex:1;min-width:0}
+.sti{font-weight:600;font-size:13px;margin-bottom:1px}
+.sar{font-size:11.5px;color:var(--mut);margin-bottom:3px}
+.sl{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;text-decoration:none;border:1px solid;padding:2px 8px;border-radius:999px}
+.sl-y{color:#ff6b6b;border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.08)}
+.sl-w{color:var(--blue);border-color:rgba(91,143,255,.25);background:rgba(91,143,255,.08)}
+.sno{font-size:11px;color:var(--mut);margin-top:3px;font-style:italic}
+.bdl{width:27px;height:27px;border-radius:50%;border:1px solid var(--bdr);background:rgba(248,113,113,.07);color:var(--red);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.bdl:active{background:rgba(248,113,113,.2)}
+.db{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:11px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.18);margin-bottom:12px}
+.dbn{font-weight:700;color:var(--gold);font-size:13.5px}
+.dbs{font-size:11px;color:var(--mut)}
+.empty{text-align:center;padding:30px 14px;color:var(--mut)}
+.empty .ei{font-size:34px;opacity:.4;margin-bottom:8px}
+.empty p{font-size:12.5px;margin:0;line-height:1.6}
+.lmsg{text-align:center;padding:22px;color:var(--mut);font-size:13px}
 
-/* ── Labels ── */
-.section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 7px;padding:0 2px}
-.next-badge{display:inline-block;background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.3);border-radius:999px;font-size:11px;font-weight:700;padding:3px 10px;margin-bottom:10px;font-family:'Outfit',sans-serif}
+/* Read-only notice */
+.ro-notice{display:flex;align-items:center;gap:8px;background:rgba(107,122,153,.09);border:1px solid rgba(107,122,153,.2);border-radius:12px;padding:10px 13px;margin-bottom:13px;font-size:12.5px;color:var(--mut)}
 
-/* ── Dir band ── */
-.dir-band{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:12px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.18);margin-bottom:13px}
-.dir-band .db-name{font-weight:700;color:var(--gold);font-size:14px}
-.dir-band .db-sub{font-size:11px;color:var(--muted)}
+/* Devocional */
+.dcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:13px}
+.dhdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.dtitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;color:var(--gold)}
+.dmeta{font-size:11px;color:var(--mut);margin-top:2px}
+.dtext{font-size:14px;line-height:1.78;color:var(--txt);white-space:pre-wrap;min-height:60px}
+.dempty{font-size:13px;color:var(--mut);font-style:italic}
+.dta{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:12px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px;outline:none;resize:vertical;min-height:180px;line-height:1.75}
+.dta:focus{border-color:var(--gd)}.dta::placeholder{color:var(--mut)}
+.debadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#fde68a;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);border-radius:999px;padding:3px 9px}
+.bo{padding:10px 18px;border-radius:12px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;cursor:pointer}
+.bo:active{opacity:.75}
 
-/* ── Repertorio form ── */
-.rep-form{background:var(--surface);border:1px solid rgba(212,168,67,.22);border-radius:var(--radius);padding:15px;margin-bottom:15px}
-.rep-form-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;color:var(--gold);margin:0 0 13px;display:flex;align-items:center;gap:7px}
-.inp-group{margin-bottom:11px}
-.inp-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;display:block}
-.inp{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 13px;outline:none}
-.inp:focus{border-color:var(--gold-dim)}
-.inp::placeholder{color:var(--muted)}
-.inp.err{border-color:var(--red)!important}
-.btn-save{width:100%;padding:13px;border-radius:13px;border:none;background:var(--gold);color:#0b0e15;font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;cursor:pointer;margin-top:3px}
-.btn-save:active{opacity:.8}
-.btn-save:disabled{opacity:.4;cursor:default}
+/* Sheet */
+.shov{position:fixed;inset:0;background:var(--ov);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
+.shov.open{opacity:1;pointer-events:all}
+.sh{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(102%);width:100%;max-width:430px;background:var(--sh);border-radius:22px 22px 0 0;border:1px solid var(--bdr);border-bottom:none;z-index:201;transition:transform .3s cubic-bezier(.32,1,.36,1);max-height:87dvh;overflow-y:auto;padding-bottom:40px}
+.sh::-webkit-scrollbar{display:none}
+.sh.open{transform:translateX(-50%) translateY(0)}
+.shh{width:34px;height:4px;background:var(--bdr);border-radius:2px;margin:11px auto 0}
+.shhd{padding:14px 16px 11px;border-bottom:1px solid var(--bdr)}
+.shd{font-size:11.5px;color:var(--mut);margin-bottom:3px}
+.sht{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px}
+.shb{padding:13px 14px 0}
+.shx{position:absolute;top:12px;right:14px;width:28px;height:28px;border-radius:50%;border:1px solid var(--bdr);background:var(--surf2);color:var(--mut);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* ── Song list ── */
-.rep-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
-.rep-header h3{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin:0}
-.song-count{font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:3px 10px}
-.song-item{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:12px 13px;margin-bottom:8px;display:flex;align-items:flex-start;gap:11px;animation:fadeUp .3s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.song-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;color:rgba(212,168,67,.3);min-width:20px;padding-top:1px}
-.song-info{flex:1;min-width:0}
-.song-title{font-weight:600;font-size:14px;margin-bottom:2px}
-.song-artist{font-size:12px;color:var(--muted);margin-bottom:4px}
-.song-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;text-decoration:none;border:1px solid;padding:3px 9px;border-radius:999px}
-.song-yt  {color:#ff6b6b;border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.08)}
-.song-web {color:var(--blue);border-color:rgba(91,143,255,.25);background:rgba(91,143,255,.08)}
-.song-note{font-size:11px;color:var(--muted);margin-top:4px;font-style:italic}
-.btn-del{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:rgba(248,113,113,.07);color:var(--red);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.btn-del:active{background:rgba(248,113,113,.2)}
-.empty-state{text-align:center;padding:34px 14px;color:var(--muted)}
-.empty-state .eico{font-size:36px;margin-bottom:9px;opacity:.4}
-.empty-state p{font-size:13px;margin:0;line-height:1.6}
-.loading-msg{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+/* Login */
+.lov{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .4s}
+.lov.gone{opacity:0;pointer-events:none}
+.llogo{font-size:52px;margin-bottom:6px}
+.ltitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:26px;color:var(--gold);margin-bottom:4px;text-align:center}
+.lsub{font-size:13px;color:var(--mut);text-align:center;margin-bottom:28px;line-height:1.5}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;width:100%;max-width:340px}
+.lbtn{padding:14px 8px;border-radius:14px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
+.lbtn:active{transform:scale(.96);background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+.lbtn.special{border-color:rgba(212,168,67,.4);background:rgba(212,168,67,.07);color:var(--gold)}
 
-/* ── Day Sheet (bottom drawer) ── */
-.sheet-overlay{position:fixed;inset:0;background:var(--overlay);z-index:200;opacity:0;pointer-events:none;transition:opacity .28s}
-.sheet-overlay.open{opacity:1;pointer-events:all}
-.day-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:430px;background:var(--sheet-bg);border-radius:22px 22px 0 0;border:1px solid var(--border);border-bottom:none;z-index:201;transition:transform .3s cubic-bezier(.32,1,.36,1);padding:0 0 40px;max-height:88dvh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.day-sheet::-webkit-scrollbar{display:none}
-.day-sheet.open{transform:translateX(-50%) translateY(0)}
-.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
-.sheet-head{padding:16px 18px 12px;border-bottom:1px solid var(--border)}
-.sheet-date{font-size:12px;color:var(--muted);margin-bottom:3px}
-.sheet-title{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px}
-.sheet-body{padding:14px 16px 0}
-.sheet-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* Firebase error */
+.fberr{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.28);color:#fecaca;border-radius:12px;padding:10px 13px;font-size:12px;margin-bottom:11px;display:none}
+.fberr.show{display:block}
 
-/* ── Toast ── */
-.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-8px);background:#1a2d1a;border:1px solid #4ade80;color:#bbf7d0;padding:9px 20px;border-radius:999px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;max-width:90vw}
+/* Toast */
+.toast{position:fixed;top:78px;left:50%;transform:translateX(-50%) translateY(-8px);background:#1a2d1a;border:1px solid #4ade80;color:#bbf7d0;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;z-index:400;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.err{background:#2d1a1a;border-color:var(--red);color:#fecaca}
 
-/* ── Resumen table ── */
-.sum-table{width:100%;border-collapse:collapse;font-size:13px}
-.sum-table th,.sum-table td{padding:6px 4px;border-bottom:1px solid var(--border)}
-.sum-table th{color:var(--muted);font-weight:600}
+/* Summary table */
+.st{width:100%;border-collapse:collapse;font-size:12.5px}
+.st th,.st td{padding:5px 3px;border-bottom:1px solid var(--bdr)}
+.st th{color:var(--mut);font-weight:600}
 </style>
 </head>
 <body>
-<div class="app">
 
-  <!-- Topbar -->
+<!-- LOGIN -->
+<div class="lov" id="loginOv">
+  <div class="llogo">🎵</div>
+  <div class="ltitle">Alabanza · Grace</div>
+  <div class="lsub">Selecciona tu nombre para continuar</div>
+  <div class="lgrid" id="loginGrid"></div>
+</div>
+
+<!-- APP -->
+<div class="app" id="mainApp" style="display:none">
   <div class="topbar">
-    <div class="topbar-inner">
-      <span class="app-title">♪ Alabanza</span>
-      <button class="btn-theme" id="themeBtn" onclick="toggleTheme()">🌙 Oscuro</button>
+    <div class="tr">
+      <span class="atitle">♪ Alabanza</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="bsm" id="userBadge" onclick="logout()">👤 —</button>
+        <button class="bsm" onclick="toggleTheme()" id="themeBtn">🌙</button>
+      </div>
     </div>
-    <div class="app-sub">Equipo de alabanza · Abr – May 2026</div>
+    <div class="asub">Equipo de alabanza · Abr – May 2026</div>
   </div>
 
-  <div class="screen">
+  <div class="scr">
 
-    <!-- ════ INICIO ════ -->
+    <!-- INICIO -->
     <div id="page-inicio" class="page active">
-      <div class="next-badge">⬤ Próximo: Dom 5 abr</div>
-      <div class="week-hero">
-        <div class="week-date">Domingo, 5 de abril 2026</div>
-        <div class="week-num">Semana 1</div>
+      <div class="rbanner" id="remBanner">
+        <div class="rt">⏰ Próximos compromisos</div>
+        <div id="remItems"></div>
       </div>
-
-      <div class="section-label">Directora</div>
-      <div class="card" style="border-color:rgba(212,168,67,.28)">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="width:40px;height:40px;border-radius:50%;background:rgba(212,168,67,.14);border:2px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">★</div>
-          <div>
-            <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:17px">Veruzka</div>
-            <div style="font-size:12px;color:var(--muted)">Domingo completo · S1 S2 S3</div>
-          </div>
-        </div>
+      <div class="nbadge">⬤ Próximo: Dom 5 abr</div>
+      <div class="pills" id="inicioPills">
+        <button class="pill active" onclick="showInicio(1,this)">S1 · 5 abr</button>
+        <button class="pill" onclick="showInicio(2,this)">S2 · 12 abr</button>
+        <button class="pill" onclick="showInicio(3,this)">S3 · 19 abr</button>
+        <button class="pill" onclick="showInicio(4,this)">S4 · 26 abr</button>
+        <button class="pill" onclick="showInicio(5,this)">S5 · 3 may</button>
+        <button class="pill" onclick="showInicio(6,this)">S6 · 10 may</button>
       </div>
-
-      <div class="section-label">Equipo esta semana</div>
-      <div class="roles-row">
-        <span class="badge badge-full">● Joselyn — Voces S1 S2 S3</span>
-        <span class="badge badge-full">● Valeria — Voces S1 S2 S3</span>
-        <span class="badge badge-flot">▲ Zuisay — Flotante S1 S2</span>
-        <span class="badge badge-s3">○ Isamar — Solo S3</span>
-        <span class="badge badge-rest">Descanso: Diana · Ma Alex · Gelimar</span>
-      </div>
-
-      <div class="section-label">Por servicio</div>
-      <div class="card" style="padding:11px">
-        <div class="services">
-          <div class="svc">
-            <div class="svc-label">Serv. 1</div>
-            <div class="svc-person"><div class="dot dot-dir"></div><div><div>Veruzka</div><div class="role-note">dirige</div></div></div>
-            <div class="svc-person"><div class="dot dot-full"></div><div>Joselyn</div></div>
-            <div class="svc-person"><div class="dot dot-full"></div><div>Valeria</div></div>
-            <div class="svc-person"><div class="dot dot-flot"></div><div>Zuisay</div></div>
-          </div>
-          <div class="svc">
-            <div class="svc-label">Serv. 2</div>
-            <div class="svc-person"><div class="dot dot-dir"></div><div><div>Veruzka</div><div class="role-note">dirige</div></div></div>
-            <div class="svc-person"><div class="dot dot-full"></div><div>Joselyn</div></div>
-            <div class="svc-person"><div class="dot dot-full"></div><div>Valeria</div></div>
-            <div class="svc-person"><div class="dot dot-flot"></div><div>Zuisay</div></div>
-          </div>
-          <div class="svc">
-            <div class="svc-label">Serv. 3</div>
-            <div class="svc-person"><div class="dot dot-dir"></div><div><div>Veruzka</div><div class="role-note">dirige</div></div></div>
-            <div class="svc-person"><div class="dot dot-full"></div><div>Joselyn</div></div>
-            <div class="svc-person"><div class="dot dot-full"></div><div>Valeria</div></div>
-            <div class="svc-person"><div class="dot dot-s3"></div><div><div>Isamar</div><div class="role-note">apoyo S3</div></div></div>
-          </div>
-        </div>
-      </div>
+      <div id="inicioDetail"></div>
     </div>
 
-    <!-- ════ SEMANAS ════ -->
-    <div id="page-semanas" class="page">
-      <div class="pills-row" id="weekPills">
-        <button class="pill active" onclick="showWeek(1,this)">S1 · 5 abr</button>
-        <button class="pill" onclick="showWeek(2,this)">S2 · 12 abr</button>
-        <button class="pill" onclick="showWeek(3,this)">S3 · 19 abr</button>
-        <button class="pill" onclick="showWeek(4,this)">S4 · 26 abr</button>
-        <button class="pill" onclick="showWeek(5,this)">S5 · 3 may</button>
-        <button class="pill" onclick="showWeek(6,this)">S6 · 10 may</button>
-      </div>
-      <div id="week-detail"></div>
-    </div>
-
-    <!-- ════ CALENDARIO ════ -->
+    <!-- CALENDARIO -->
     <div id="page-calendario" class="page">
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Veruzka</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#7eb8ff"></div>Diana</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#c4b5fd"></div>Isamar</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#6ee7a0"></div>Miércoles</div>
+      <div class="leg">
+        <div class="li"><div class="ld" style="background:var(--gold)"></div>Veruzka</div>
+        <div class="li"><div class="ld" style="background:#7eb8ff"></div>Diana</div>
+        <div class="li"><div class="ld" style="background:#c4b5fd"></div>Isamar</div>
+        <div class="li"><div class="ld" style="background:#6ee7a0"></div>Miércoles</div>
+        <div class="li"><div class="ld" style="background:var(--mut)"></div>Ensayo</div>
       </div>
-      <div class="cal-month"><div class="cal-title">Abril 2026</div><div class="cal-grid" id="cal-abril"></div></div>
-      <div class="cal-month"><div class="cal-title">Mayo 2026</div><div class="cal-grid" id="cal-mayo"></div></div>
-      <div class="section-label">Resumen directoras</div>
-      <div class="card" style="padding:11px">
-        <table class="sum-table">
-          <thead><tr>
-            <th style="text-align:left">Directora</th>
-            <th style="text-align:center">S1</th><th style="text-align:center">S2</th>
-            <th style="text-align:center">S3</th><th style="text-align:center">S4</th>
-            <th style="text-align:center">S5</th><th style="text-align:center">S6</th>
-          </tr></thead>
+      <div class="cm"><div class="ct">Abril 2026</div><div class="cg" id="calAbr"></div></div>
+      <div class="cm"><div class="ct">Mayo 2026</div><div class="cg" id="calMay"></div></div>
+      <div class="sec">Resumen directoras</div>
+      <div class="card" style="padding:10px">
+        <table class="st">
+          <thead><tr><th style="text-align:left">Directora</th><th style="text-align:center">S1</th><th style="text-align:center">S2</th><th style="text-align:center">S3</th><th style="text-align:center">S4</th><th style="text-align:center">S5</th><th style="text-align:center">S6</th></tr></thead>
           <tbody>
-            <tr>
-              <td style="font-weight:700;color:var(--gold)">Veruzka</td>
-              <td style="text-align:center"><span style="color:#bbf7d0">★</span></td>
-              <td style="text-align:center"><span style="color:#bfdbfe;font-size:11px">S3</span></td>
-              <td style="text-align:center"><span style="color:var(--muted);font-size:11px">—</span></td>
-              <td style="text-align:center"><span style="color:#bbf7d0">★</span></td>
-              <td style="text-align:center"><span style="color:#bfdbfe;font-size:11px">S3</span></td>
-              <td style="text-align:center"><span style="color:var(--muted);font-size:11px">—</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight:700;color:#7eb8ff">Diana</td>
-              <td style="text-align:center"><span style="color:var(--muted);font-size:11px">—</span></td>
-              <td style="text-align:center"><span style="color:#bbf7d0">★</span></td>
-              <td style="text-align:center"><span style="color:#bfdbfe;font-size:11px">S3</span></td>
-              <td style="text-align:center"><span style="color:var(--muted);font-size:11px">—</span></td>
-              <td style="text-align:center"><span style="color:#bbf7d0">★</span></td>
-              <td style="text-align:center"><span style="color:#bfdbfe;font-size:11px">S3</span></td>
-            </tr>
-            <tr>
-              <td style="font-weight:700;color:#c4b5fd">Isamar</td>
-              <td style="text-align:center"><span style="color:#bfdbfe;font-size:11px">S3</span></td>
-              <td style="text-align:center"><span style="color:var(--muted);font-size:11px">—</span></td>
-              <td style="text-align:center"><span style="color:#bbf7d0">★</span></td>
-              <td style="text-align:center"><span style="color:#bfdbfe;font-size:11px">S3</span></td>
-              <td style="text-align:center"><span style="color:var(--muted);font-size:11px">—</span></td>
-              <td style="text-align:center"><span style="color:#bbf7d0">★</span></td>
-            </tr>
+            <tr><td style="font-weight:700;color:var(--gold)">Veruzka</td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td></tr>
+            <tr><td style="font-weight:700;color:#7eb8ff">Diana</td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td></tr>
+            <tr><td style="font-weight:700;color:#c4b5fd">Isamar</td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- ════ EQUIPO ════ -->
+    <!-- EQUIPO -->
     <div id="page-equipo" class="page">
-      <div class="section-label">Directoras</div>
-      <div class="member-card">
-        <div class="member-name" style="color:var(--gold)">Veruzka</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-      <div class="member-card">
-        <div class="member-name" style="color:#7eb8ff">Diana</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-      <div class="member-card">
-        <div class="member-name" style="color:#c4b5fd">Isamar</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-
-      <div class="section-label">Voces</div>
-      <div class="member-card">
-        <div class="member-name">Joselyn</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-flot"><div>Flot.</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-      <div class="member-card">
-        <div class="member-name">Valeria</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-flot"><div>Flot.</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-      <div class="member-card">
-        <div class="member-name">Zuisay</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-flot"><div>Flot.</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-      <div class="member-card">
-        <div class="member-name">Ma Alex</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-flot"><div>Flot.</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
-      <div class="member-card" style="margin-bottom:6px">
-        <div class="member-name">Gelimar</div>
-        <div class="member-weeks">
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S1</div></div>
-          <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S2</div></div>
-          <div class="wk-chip chip-flot"><div>Flot.</div><div class="wk-n">S3</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S4</div></div>
-          <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S5</div></div>
-          <div class="wk-chip chip-flot"><div>Flot.</div><div class="wk-n">S6</div></div>
-        </div>
-      </div>
+      <div class="sec">Pastora / Directora General</div>
+      <div class="mc"><div class="mn" style="color:var(--gold)">✝ Pra. Mary</div><div style="font-size:12px;color:var(--mut)">Directora General del Ministerio</div></div>
+      <div class="sec">Directoras</div>
+      <div class="mc"><div class="mn" style="color:var(--gold)">Veruzka</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc c3"><div>S3</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc c3"><div>S3</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
+      <div class="mc"><div class="mn" style="color:#7eb8ff">Diana</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc c3"><div>S3</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc c3"><div>S3</div><div class="wnn">S6</div></div></div></div>
+      <div class="mc"><div class="mn" style="color:#c4b5fd">Isamar</div><div class="mw"><div class="wc c3"><div>S3</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc c3"><div>S3</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div>
+      <div class="sec">Voces</div>
+      <div class="mc"><div class="mn">Joselyn</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div>
+      <div class="mc"><div class="mn">Valeria</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
+      <div class="mc"><div class="mn">Zuisay</div><div class="mw"><div class="wc cl"><div>Flot.</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div>
+      <div class="mc"><div class="mn">Ma Alex</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
+      <div class="mc" style="margin-bottom:6px"><div class="mn">Gelimar</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S6</div></div></div></div>
     </div>
 
-    <!-- ════ REPERTORIO ════ -->
+    <!-- REPERTORIO -->
     <div id="page-repertorio" class="page">
-      <div class="pills-row" id="repPills">
-        <button class="pill active" onclick="selectRepWeek(1,this)">S1 · 5 abr</button>
-        <button class="pill" onclick="selectRepWeek(2,this)">S2 · 12 abr</button>
-        <button class="pill" onclick="selectRepWeek(3,this)">S3 · 19 abr</button>
-        <button class="pill" onclick="selectRepWeek(4,this)">S4 · 26 abr</button>
-        <button class="pill" onclick="selectRepWeek(5,this)">S5 · 3 may</button>
-        <button class="pill" onclick="selectRepWeek(6,this)">S6 · 10 may</button>
+      <div class="fberr" id="repErr">⚠️ Error de conexión. Verifica las reglas de Firebase.</div>
+      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — solo las directoras pueden agregar canciones</div>
+      <div class="pills" id="repPills">
+        <button class="pill active" onclick="selRepWeek(1,this)">S1 · 5 abr</button>
+        <button class="pill" onclick="selRepWeek(2,this)">S2 · 12 abr</button>
+        <button class="pill" onclick="selRepWeek(3,this)">S3 · 19 abr</button>
+        <button class="pill" onclick="selRepWeek(4,this)">S4 · 26 abr</button>
+        <button class="pill" onclick="selRepWeek(5,this)">S5 · 3 may</button>
+        <button class="pill" onclick="selRepWeek(6,this)">S6 · 10 may</button>
       </div>
-      <div class="dir-band">
-        <div style="font-size:17px">★</div>
-        <div>
-          <div class="db-name" id="rep-dir-name">Veruzka</div>
-          <div class="db-sub" id="rep-dir-sub">Directora · Semana 1 · 5 abr</div>
-        </div>
+      <div class="db" id="repDirBand"><div style="font-size:16px">★</div><div><div class="dbn" id="repDirName">Veruzka</div><div class="dbs" id="repDirSub">Directora · Semana 1</div></div></div>
+      <!-- Form: only visible to directors + Pra.Mary -->
+      <div id="repForm" class="rf">
+        <div class="rft">🎵 Agregar canción</div>
+        <div class="ig"><label class="il">Título *</label><input id="iTitle" class="inp" type="text" placeholder="Ej: Grande y Poderoso" autocomplete="off"/></div>
+        <div class="ig"><label class="il">Artista / Ministerio</label><input id="iArtist" class="inp" type="text" placeholder="Ej: Generación 12" autocomplete="off"/></div>
+        <div class="ig"><label class="il">Enlace YouTube / Web</label><input id="iUrl" class="inp" type="url" placeholder="https://youtube.com/..."/></div>
+        <div class="ig"><label class="il">Tono / Nota</label><input id="iNote" class="inp" type="text" placeholder="Ej: Do mayor" autocomplete="off"/></div>
+        <button class="bg" id="btnAdd" onclick="addSong()">Guardar canción</button>
       </div>
-      <div class="rep-form">
-        <div class="rep-form-title">🎵 Agregar canción</div>
-        <div class="inp-group">
-          <label class="inp-label">Título *</label>
-          <input id="inp-title" class="inp" type="text" placeholder="Ej: Grande y Poderoso" autocomplete="off"/>
-        </div>
-        <div class="inp-group">
-          <label class="inp-label">Artista / Ministerio</label>
-          <input id="inp-artist" class="inp" type="text" placeholder="Ej: Generación 12" autocomplete="off"/>
-        </div>
-        <div class="inp-group">
-          <label class="inp-label">Enlace YouTube / Web</label>
-          <input id="inp-url" class="inp" type="url" placeholder="https://youtube.com/..."/>
-        </div>
-        <div class="inp-group">
-          <label class="inp-label">Tono / Nota</label>
-          <input id="inp-note" class="inp" type="text" placeholder="Ej: Do mayor, versión en vivo" autocomplete="off"/>
-        </div>
-        <button class="btn-save" id="btn-add" onclick="addSong()">Guardar canción</button>
-      </div>
-      <div class="rep-header">
-        <h3>Repertorio</h3>
-        <span class="song-count" id="song-count">—</span>
-      </div>
-      <div id="song-list"><div class="loading-msg">Cargando…</div></div>
+      <div class="rh"><h3>Repertorio</h3><span class="sc" id="songCount">—</span></div>
+      <div id="songList"><div class="lmsg">Cargando…</div></div>
     </div>
 
-  </div><!-- /screen -->
+    <!-- DEVOCIONAL -->
+    <div id="page-devocional" class="page">
+      <div class="fberr" id="devoErr">⚠️ Error de conexión. Verifica las reglas de Firebase.</div>
+      <div id="devoReadOnly" class="ro-notice" style="display:none">👁 Solo Pra. Mary puede publicar el devocional</div>
+      <div class="dcard">
+        <div class="dhdr">
+          <div>
+            <div class="dtitle">📖 Devocional</div>
+            <div class="dmeta" id="devoMeta">Cargando…</div>
+          </div>
+          <div id="devoEdBadge" style="display:none"><span class="debadge">✏️ Editor</span></div>
+        </div>
+        <div id="devoRead"><div class="dtext" id="devoText"></div></div>
+        <div id="devoEdit" style="display:none">
+          <textarea class="dta" id="devoTa" placeholder="Escribe aquí el devocional de la semana…"></textarea>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="bg" style="flex:1" onclick="saveDevo()">Publicar</button>
+            <button class="bo" onclick="cancelDevo()">Cancelar</button>
+          </div>
+        </div>
+        <div id="devoEditToggle" style="display:none;margin-top:12px">
+          <button class="bo" onclick="openDevoEdit()" style="width:100%">✏️ Editar devocional</button>
+        </div>
+      </div>
+    </div>
 
-  <!-- Bottom nav -->
+  </div><!-- /scr -->
+
   <nav class="nav">
-    <button class="nav-btn active" onclick="switchPage('inicio',this)"><span class="ico">🏠</span>Inicio</button>
-    <button class="nav-btn" onclick="switchPage('semanas',this)"><span class="ico">📋</span>Semanas</button>
-    <button class="nav-btn" onclick="switchPage('calendario',this)"><span class="ico">📅</span>Calend.</button>
-    <button class="nav-btn" onclick="switchPage('equipo',this)"><span class="ico">👥</span>Equipo</button>
-    <button class="nav-btn" onclick="switchPage('repertorio',this)"><span class="ico">🎵</span>Reperto.</button>
+    <button class="nb active" onclick="goNav('inicio',this)"><span class="ico">🏠</span>Inicio</button>
+    <button class="nb" onclick="goNav('calendario',this)"><span class="ico">📅</span>Calend.</button>
+    <button class="nb" onclick="goNav('equipo',this)"><span class="ico">👥</span>Equipo</button>
+    <button class="nb" onclick="goNav('repertorio',this)"><span class="ico">🎵</span>Reperto.</button>
+    <button class="nb" onclick="goNav('devocional',this)"><span class="ico">📖</span>Devoc.</button>
   </nav>
 </div>
 
-<!-- Day sheet overlay -->
-<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
-<div class="day-sheet" id="daySheet">
-  <div class="sheet-handle"></div>
-  <button class="sheet-close" onclick="closeSheet()">✕</button>
-  <div class="sheet-head">
-    <div class="sheet-date" id="sheetDate"></div>
-    <div class="sheet-title" id="sheetTitle"></div>
-  </div>
-  <div class="sheet-body" id="sheetBody"></div>
+<!-- Day sheet -->
+<div class="shov" id="shOv" onclick="closeSheet()"></div>
+<div class="sh" id="sh">
+  <div class="shh"></div>
+  <button class="shx" onclick="closeSheet()">✕</button>
+  <div class="shhd"><div class="shd" id="shDate"></div><div class="sht" id="shTitle"></div></div>
+  <div class="shb" id="shBody"></div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════════
-const weeks = [
-  {n:1,date:'Domingo, 5 de abril 2026',   short:'5 abr',  dir:'Veruzka', voces:['Joselyn','Valeria'], flotante:'Zuisay',  s3only:'Isamar',  descanso:['Diana','Ma Alex','Gelimar']},
-  {n:2,date:'Domingo, 12 de abril 2026',  short:'12 abr', dir:'Diana',   voces:['Valeria','Zuisay'],  flotante:'Ma Alex', s3only:'Veruzka', descanso:['Isamar','Joselyn','Gelimar']},
-  {n:3,date:'Domingo, 19 de abril 2026',  short:'19 abr', dir:'Isamar',  voces:['Zuisay','Ma Alex'],  flotante:'Gelimar', s3only:'Diana',   descanso:['Veruzka','Joselyn','Valeria']},
-  {n:4,date:'Domingo, 26 de abril 2026',  short:'26 abr', dir:'Veruzka', voces:['Ma Alex','Gelimar'], flotante:'Joselyn', s3only:'Isamar',  descanso:['Diana','Valeria','Zuisay']},
-  {n:5,date:'Domingo, 3 de mayo 2026',    short:'3 may',  dir:'Diana',   voces:['Gelimar','Joselyn'], flotante:'Valeria', s3only:'Veruzka', descanso:['Isamar','Zuisay','Ma Alex']},
-  {n:6,date:'Domingo, 10 de mayo 2026',   short:'10 may', dir:'Isamar',  voces:['Joselyn','Zuisay'],  flotante:'Gelimar', s3only:'Diana',   descanso:['Veruzka','Valeria','Ma Alex']}
-];
+// ══════════════════════════════════════════════
+// FIREBASE INIT
+// ══════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyBuKRoh9gZeYcCMgJv8p6iHDuEcraqd-dk",
+  authDomain: "asistentegrace-e750c.firebaseapp.com",
+  databaseURL: "https://asistentegrace-e750c-default-rtdb.firebaseio.com",
+  projectId: "asistentegrace-e750c",
+  storageBucket: "asistentegrace-e750c.firebasestorage.app",
+  messagingSenderId: "446240076504",
+  appId: "1:446240076504:web:90e26c8360fc8aa26c9dad"
+};
 
-// Wednesday = same team as S1 of the Sunday of the SAME week (the previous Sunday)
-// Wed Apr 8  → S1 of Sun Apr 5  (week 1)
-// Wed Apr 15 → S1 of Sun Apr 12 (week 2)  … etc.
-const weds = [
-  {date:'Miércoles, 8 de abril 2026',   weekRef:1},
-  {date:'Miércoles, 15 de abril 2026',  weekRef:2},
-  {date:'Miércoles, 22 de abril 2026',  weekRef:3},
-  {date:'Miércoles, 29 de abril 2026',  weekRef:4},
-  {date:'Miércoles, 6 de mayo 2026',    weekRef:5},
-  {date:'Miércoles, 13 de mayo 2026',   weekRef:6},
-];
-
-// ═══════════════════════════════════════════════════
-// THEME
-// ═══════════════════════════════════════════════════
-function toggleTheme(){
-  const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('themeBtn').textContent = isDark ? '🌞 Claro' : '🌙 Oscuro';
+let db;
+try {
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+} catch(e) {
+  console.error('Firebase init error:', e);
 }
 
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════
+// ROLES
+// ══════════════════════════════════════════════
+// Pra. Mary: can write devocional + repertorio
+// Directoras: can write repertorio
+// Voces: read-only
+const DIRECTORA_GENERAL = 'Pra. Mary';
+const DIRECTORAS = ['Veruzka','Diana','Isamar'];
+const VOCES      = ['Joselyn','Valeria','Zuisay','Ma Alex','Gelimar'];
+const ALL_TEAM   = [DIRECTORA_GENERAL, ...DIRECTORAS, ...VOCES];
+
+function canEditRep(user)  { return user === DIRECTORA_GENERAL || DIRECTORAS.includes(user); }
+function canEditDevo(user) { return user === DIRECTORA_GENERAL; }
+
+// ══════════════════════════════════════════════
+// SCHEDULE DATA
+// ══════════════════════════════════════════════
+const weeks = [
+  {n:1,date:'Domingo, 5 de abril 2026',  short:'5 abr',  dir:'Veruzka',voces:['Joselyn','Valeria'],flot:'Zuisay', s3:'Isamar', desc:['Diana','Ma Alex','Gelimar']},
+  {n:2,date:'Domingo, 12 de abril 2026', short:'12 abr', dir:'Diana',  voces:['Valeria','Zuisay'], flot:'Ma Alex',s3:'Veruzka',desc:['Isamar','Joselyn','Gelimar']},
+  {n:3,date:'Domingo, 19 de abril 2026', short:'19 abr', dir:'Isamar', voces:['Zuisay','Ma Alex'], flot:'Gelimar',s3:'Diana',  desc:['Veruzka','Joselyn','Valeria']},
+  {n:4,date:'Domingo, 26 de abril 2026', short:'26 abr', dir:'Veruzka',voces:['Ma Alex','Gelimar'],flot:'Joselyn',s3:'Isamar', desc:['Diana','Valeria','Zuisay']},
+  {n:5,date:'Domingo, 3 de mayo 2026',   short:'3 may',  dir:'Diana',  voces:['Gelimar','Joselyn'],flot:'Valeria',s3:'Veruzka',desc:['Isamar','Zuisay','Ma Alex']},
+  {n:6,date:'Domingo, 10 de mayo 2026',  short:'10 may', dir:'Isamar', voces:['Joselyn','Zuisay'], flot:'Gelimar',s3:'Diana',  desc:['Veruzka','Valeria','Ma Alex']}
+];
+
+const CAL = {
+  '2026-04-03':{t:'fri',wn:1},'2026-04-05':{t:'sun',wn:1,dir:'v'},
+  '2026-04-08':{t:'wed',wn:1},
+  '2026-04-10':{t:'fri',wn:2},'2026-04-12':{t:'sun',wn:2,dir:'d'},
+  '2026-04-15':{t:'wed',wn:2},
+  '2026-04-17':{t:'fri',wn:3},'2026-04-19':{t:'sun',wn:3,dir:'i'},
+  '2026-04-22':{t:'wed',wn:3},
+  '2026-04-24':{t:'fri',wn:4},'2026-04-26':{t:'sun',wn:4,dir:'v'},
+  '2026-04-29':{t:'wed',wn:4},
+  '2026-05-01':{t:'fri',wn:5},'2026-05-03':{t:'sun',wn:5,dir:'d'},
+  '2026-05-06':{t:'wed',wn:5},
+  '2026-05-08':{t:'fri',wn:6},'2026-05-10':{t:'sun',wn:6,dir:'i'},
+  '2026-05-13':{t:'wed',wn:6}
+};
+
+function userInWeek(user, wn) {
+  if (user === DIRECTORA_GENERAL) return true; // Pra. Mary always involved
+  const w = weeks[wn-1];
+  return w.dir===user || w.voces.includes(user) || w.flot===user || w.s3===user;
+}
+
+// ══════════════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════════════
+let loggedUser = localStorage.getItem('alabanza_user') || '';
+
+function buildLogin() {
+  const g = document.getElementById('loginGrid');
+  // Pra. Mary gets special styling
+  g.innerHTML = [DIRECTORA_GENERAL, ...DIRECTORAS, ...VOCES]
+    .map(n => `<button class="lbtn ${n===DIRECTORA_GENERAL?'special':''}" onclick="doLogin('${n}')">${n===DIRECTORA_GENERAL?'✝ '+n:n}</button>`)
+    .join('');
+}
+
+function doLogin(name) {
+  loggedUser = name;
+  localStorage.setItem('alabanza_user', name);
+  const ov = document.getElementById('loginOv');
+  ov.classList.add('gone');
+  document.getElementById('mainApp').style.display = '';
+  setTimeout(()=>ov.style.display='none', 450);
+  initApp();
+}
+
+function logout() {
+  if (!confirm('¿Cambiar de usuario?')) return;
+  localStorage.removeItem('alabanza_user');
+  location.reload();
+}
+
+buildLogin();
+if (loggedUser) {
+  document.getElementById('loginOv').style.display = 'none';
+  document.getElementById('mainApp').style.display = '';
+  initApp();
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+function initApp() {
+  document.getElementById('userBadge').textContent =
+    '👤 ' + (loggedUser === DIRECTORA_GENERAL ? '✝ Pra. Mary' : loggedUser);
+
+  // Apply saved theme
+  const t = localStorage.getItem('alabanza_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeBtn').textContent = t==='dark'?'🌙':'🌞';
+
+  showInicio(1, document.querySelector('#inicioPills .pill'));
+  buildCal(2026, 4, 'calAbr');
+  buildCal(2026, 5, 'calMay');
+  checkReminders();
+  requestNotif();
+
+  // Repertorio permissions
+  const canRep = canEditRep(loggedUser);
+  document.getElementById('repForm').style.display     = canRep ? '' : 'none';
+  document.getElementById('repReadOnly').style.display = canRep ? 'none' : '';
+
+  listenRep(1);
+  listenDevo();
+}
+
+// ══════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const nxt = cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme', nxt);
+  localStorage.setItem('alabanza_theme', nxt);
+  document.getElementById('themeBtn').textContent = nxt==='dark'?'🌙':'🌞';
+}
+
+// ══════════════════════════════════════════════
 // NAVIGATION
-// ═══════════════════════════════════════════════════
-function switchPage(id, btn){
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+// ══════════════════════════════════════════════
+function goNav(id, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
-  document.querySelector('.screen').scrollTop = 0;
-  if(id === 'repertorio') loadSongs(currentRepWeek);
+  document.querySelector('.scr').scrollTop = 0;
 }
 
-// ═══════════════════════════════════════════════════
-// SEMANAS – week detail
-// ═══════════════════════════════════════════════════
-function showWeek(n, btn){
-  document.querySelectorAll('#weekPills .pill').forEach(p => p.classList.remove('active'));
+// ══════════════════════════════════════════════
+// INICIO
+// ══════════════════════════════════════════════
+function showInicio(n, btn) {
+  document.querySelectorAll('#inicioPills .pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('week-detail').innerHTML = buildWeekHTML(weeks[n-1]);
+  document.getElementById('inicioDetail').innerHTML = buildWeekHTML(weeks[n-1]);
 }
 
-function buildWeekHTML(w){
-  const s12team = [
-    {name:w.dir,      role:'dirige',   cls:'dot-dir'},
-    ...w.voces.map(p => ({name:p, role:'', cls:'dot-full'})),
-    {name:w.flotante, role:'flotante', cls:'dot-flot'}
-  ];
-  const s3team = [
-    {name:w.dir,    role:'dirige',   cls:'dot-dir'},
-    ...w.voces.map(p => ({name:p, role:'', cls:'dot-full'})),
-    {name:w.s3only, role:'solo S3',  cls:'dot-s3'}
-  ];
-  const rs = arr => arr.map(p=>`
-    <div class="svc-person">
-      <div class="dot ${p.cls}"></div>
-      <div><div>${p.name}</div>${p.role?`<div class="role-note">${p.role}</div>`:''}</div>
-    </div>`).join('');
+function buildWeekHTML(w) {
+  const s12 = [{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.flot,role:'flotante',cls:'df'}];
+  const s3  = [{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.s3, role:'solo S3',cls:'d3'}];
+  const rs  = arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
   return `
-    <div class="week-hero">
-      <div class="week-date">${w.date}</div>
-      <div class="week-num">Semana ${w.n}</div>
+    <div class="wh"><div class="wd">${w.date}</div><div class="wn">Semana ${w.n}</div></div>
+    <div class="brow">
+      <span class="b b-dir">★ ${w.dir}</span>
+      ${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}
+      <span class="b b-flt">▲ ${w.flot} — Flotante</span>
+      <span class="b b-s3">○ ${w.s3} — Solo S3</span>
+      <span class="b b-rst">Descanso: ${w.desc.join(' · ')}</span>
     </div>
-    <div class="roles-row">
-      <span class="badge badge-dir">★ ${w.dir}</span>
-      ${w.voces.map(p=>`<span class="badge badge-full">● ${p}</span>`).join('')}
-      <span class="badge badge-flot">▲ ${w.flotante} — Flotante</span>
-      <span class="badge badge-s3">○ ${w.s3only} — Solo S3</span>
-      <span class="badge badge-rest">Descanso: ${w.descanso.join(' · ')}</span>
-    </div>
-    <div class="card" style="padding:11px">
-      <div class="services">
-        <div class="svc"><div class="svc-label">Serv. 1</div>${rs(s12team)}</div>
-        <div class="svc"><div class="svc-label">Serv. 2</div>${rs(s12team)}</div>
-        <div class="svc"><div class="svc-label">Serv. 3</div>${rs(s3team)}</div>
+    <div class="card" style="padding:10px">
+      <div class="svcs">
+        <div class="svc"><div class="slbl">Serv. 1</div>${rs(s12)}</div>
+        <div class="svc"><div class="slbl">Serv. 2</div>${rs(s12)}</div>
+        <div class="svc"><div class="slbl">Serv. 3</div>${rs(s3)}</div>
       </div>
     </div>`;
 }
 
-showWeek(1, document.querySelector('#weekPills .pill'));
-
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // CALENDAR
-// ═══════════════════════════════════════════════════
-function pad(n){ return String(n).padStart(2,'0'); }
-
-// Sunday events
-const sunEvents = {
-  '2026-04-05':{dir:'v',label:'S1',wn:1},
-  '2026-04-12':{dir:'d',label:'S2',wn:2},
-  '2026-04-19':{dir:'i',label:'S3',wn:3},
-  '2026-04-26':{dir:'v',label:'S4',wn:4},
-  '2026-05-03':{dir:'d',label:'S5',wn:5},
-  '2026-05-10':{dir:'i',label:'S6',wn:6},
-};
-// Wednesday events
-const wedEvents = {
-  '2026-04-08':{wn:1}, '2026-04-15':{wn:2},
-  '2026-04-22':{wn:3}, '2026-04-29':{wn:4},
-  '2026-05-06':{wn:5}, '2026-05-13':{wn:6},
-};
-
-function buildCal(year, month, cid){
-  const DAYS = ['D','L','M','X','J','V','S'];
-  let html = DAYS.map(d=>`<div class="cal-dow">${d}</div>`).join('');
-  const first = new Date(year, month-1, 1).getDay();
-  const total = new Date(year, month, 0).getDate();
-  for(let i=0;i<first;i++) html += `<div class="cal-day"></div>`;
+// ══════════════════════════════════════════════
+function pad(n){return String(n).padStart(2,'0')}
+function buildCal(yr, mo, cid) {
+  const DOWS=['D','L','M','X','J','V','S'];
+  let h = DOWS.map(d=>`<div class="cdow">${d}</div>`).join('');
+  const first=new Date(yr,mo-1,1).getDay(), total=new Date(yr,mo,0).getDate();
+  for(let i=0;i<first;i++) h+=`<div class="cd"></div>`;
   for(let d=1;d<=total;d++){
-    const key = `${year}-${pad(month)}-${pad(d)}`;
-    const sun = sunEvents[key];
-    const wed = wedEvents[key];
-    if(sun){
-      const cls = sun.dir==='v'?'ev-sun-v': sun.dir==='d'?'ev-sun-d':'ev-sun-i';
-      html += `<div class="cal-day clickable ${cls}" onclick="openDaySheet('${key}','sun')">
-        <div class="day-num">${d}</div>
-        <div style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.6"></div>
-        <div class="cal-week-label">${sun.label}</div>
-      </div>`;
-    } else if(wed){
-      html += `<div class="cal-day clickable ev-wed" onclick="openDaySheet('${key}','wed')">
-        <div class="day-num">${d}</div>
-        <div style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.6"></div>
-        <div class="cal-week-label">Mié</div>
-      </div>`;
+    const key=`${yr}-${pad(mo)}-${pad(d)}`, ev=CAL[key];
+    if(!ev){h+=`<div class="cd"><div class="cdn" style="color:var(--mut);font-weight:400">${d}</div></div>`;continue;}
+    if(ev.t==='sun'){
+      const c=ev.dir==='v'?'ev-v':ev.dir==='d'?'ev-d':'ev-i';
+      h+=`<div class="cd tap ${c}" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6"></div><div class="cdl">S${ev.wn}</div></div>`;
+    } else if(ev.t==='wed'){
+      h+=`<div class="cd tap ev-w" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6"></div><div class="cdl">Mié</div></div>`;
     } else {
-      html += `<div class="cal-day"><div class="day-num" style="color:var(--muted);font-weight:400">${d}</div></div>`;
+      h+=`<div class="cd tap ev-f" onclick="openSheet('${key}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl" style="color:var(--mut)">Ens.</div></div>`;
     }
   }
-  document.getElementById(cid).innerHTML = html;
+  document.getElementById(cid).innerHTML = h;
 }
-buildCal(2026, 4, 'cal-abril');
-buildCal(2026, 5, 'cal-mayo');
 
-// ═══════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // DAY SHEET
-// ═══════════════════════════════════════════════════
-const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const DAYS_ES   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+// ══════════════════════════════════════════════
+const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 
-function openDaySheet(dateKey, type){
-  const [yr, mo, dy] = dateKey.split('-').map(Number);
-  const dt = new Date(yr, mo-1, dy);
-  const dayName = DAYS_ES[dt.getDay()];
-  const dateStr = `${dy} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][mo-1]} ${yr}`;
-  document.getElementById('sheetDate').textContent = dayName + ', ' + dateStr;
+function openSheet(key) {
+  const [yr,mo,dy]=key.split('-').map(Number);
+  const dt=new Date(yr,mo-1,dy);
+  document.getElementById('shDate').textContent=`${DIAS[dt.getDay()]}, ${dy} de ${MES[mo-1]} ${yr}`;
+  const ev=CAL[key], w=weeks[ev.wn-1];
+  let title='', body='';
 
-  let title = '', body = '';
-
-  if(type === 'sun'){
-    const ev = sunEvents[dateKey];
-    const w  = weeks[ev.wn - 1];
-    title = `Semana ${ev.wn} · Domingo`;
-    body  = buildWeekHTML(w);
+  if(ev.t==='sun'){
+    title=`Semana ${ev.wn} · Domingo`;
+    body=buildWeekHTML(w);
+  } else if(ev.t==='wed'){
+    // Wednesday: director + voces only, no flotante
+    const team=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'}))];
+    const rs=arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
+    title=`Semana ${ev.wn} · Miércoles`;
+    body=`
+      <div class="wh"><div class="wd">Servicio de miércoles</div><div class="wn">Semana ${w.n} · igual que S1</div></div>
+      <div class="brow"><span class="b b-dir">★ ${w.dir}</span>${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div>
+      <div class="card" style="padding:10px;max-width:150px"><div class="svc">${rs(team)}</div></div>`;
   } else {
-    const ev = wedEvents[dateKey];
-    const w  = weeks[ev.wn - 1];
-    // Wednesday = same team as Sunday S1
-    const team = [
-      {name:w.dir,      role:'dirige',   cls:'dot-dir'},
-      ...w.voces.map(p => ({name:p, role:'', cls:'dot-full'})),
-      {name:w.flotante, role:'flotante', cls:'dot-flot'}
-    ];
-    const rs = arr => arr.map(p=>`
-      <div class="svc-person">
-        <div class="dot ${p.cls}"></div>
-        <div><div>${p.name}</div>${p.role?`<div class="role-note">${p.role}</div>`:''}</div>
-      </div>`).join('');
-    title = `Semana ${ev.wn} · Miércoles`;
-    body  = `
-      <div class="week-hero" style="margin-bottom:12px">
-        <div class="week-date">Servicio de miércoles</div>
-        <div class="week-num">Mismo equipo que S1 del domingo</div>
-      </div>
-      <div class="roles-row">
-        <span class="badge badge-dir">★ ${w.dir}</span>
-        ${w.voces.map(p=>`<span class="badge badge-full">● ${p}</span>`).join('')}
-        <span class="badge badge-flot">▲ ${w.flotante} — Flotante</span>
-      </div>
-      <div class="card" style="padding:11px">
-        <div class="svc" style="max-width:140px">${rs(team)}</div>
-      </div>`;
+    title=`Semana ${ev.wn} · Ensayo Viernes`;
+    const all=[w.dir,...w.voces,w.flot,w.s3].filter(Boolean);
+    body=`
+      <div class="wh"><div class="wd">Ensayo previo al domingo ${w.short}</div><div class="wn">Equipo completo</div></div>
+      <div class="brow">${all.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div>`;
   }
-
-  document.getElementById('sheetTitle').textContent = title;
-  document.getElementById('sheetBody').innerHTML = body;
-
-  document.getElementById('sheetOverlay').classList.add('open');
-  document.getElementById('daySheet').classList.add('open');
+  document.getElementById('shTitle').textContent=title;
+  document.getElementById('shBody').innerHTML=body;
+  document.getElementById('shOv').classList.add('open');
+  document.getElementById('sh').classList.add('open');
 }
-
 function closeSheet(){
-  document.getElementById('sheetOverlay').classList.remove('open');
-  document.getElementById('daySheet').classList.remove('open');
+  document.getElementById('shOv').classList.remove('open');
+  document.getElementById('sh').classList.remove('open');
 }
 
-// ═══════════════════════════════════════════════════
-// STORAGE  (window.storage → localStorage fallback)
-// ═══════════════════════════════════════════════════
-const Store = {
-  async get(key, shared){
-    if(window.storage){ try{ return await window.storage.get(key, shared); } catch(e){} }
-    const v = localStorage.getItem(key);
-    return v ? {value: v} : null;
-  },
-  async set(key, value, shared){
-    if(window.storage){ try{ return await window.storage.set(key, value, shared); } catch(e){} }
-    localStorage.setItem(key, value);
-    return {key, value};
+// ══════════════════════════════════════════════
+// REMINDERS
+// ══════════════════════════════════════════════
+function checkReminders() {
+  if(!loggedUser) return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const upcoming=[];
+  Object.entries(CAL).forEach(([dateStr,ev])=>{
+    const [yr,mo,dy]=dateStr.split('-').map(Number);
+    const evDate=new Date(yr,mo-1,dy);
+    const diff=Math.round((evDate-today)/(864e5));
+    if(diff<0||diff>3) return;
+    if(!userInWeek(loggedUser,ev.wn)) return;
+    const dl=diff===0?'Hoy':diff===1?'Mañana':`En ${diff} días`;
+    const w=weeks[ev.wn-1];
+    if(ev.t==='sun')      upcoming.push({i:'⛪',m:`${dl} — Domingo S${ev.wn} (${w.short})`});
+    else if(ev.t==='wed') upcoming.push({i:'🎤',m:`${dl} — Servicio miércoles S${ev.wn}`});
+    else                  upcoming.push({i:'🎸',m:`${dl} — Ensayo viernes S${ev.wn}`});
+  });
+  if(upcoming.length){
+    document.getElementById('remBanner').classList.add('show');
+    document.getElementById('remItems').innerHTML=upcoming.map(u=>`<div class="ri">${u.i} ${u.m}</div>`).join('');
+    if(Notification.permission==='granted'){
+      const tk=`notif_${today.toISOString().split('T')[0]}`;
+      if(!localStorage.getItem(tk)){
+        new Notification('♪ Alabanza · Grace',{body:upcoming.map(u=>u.m).join('\n')});
+        localStorage.setItem(tk,'1');
+      }
+    }
   }
-};
+}
 
-// ═══════════════════════════════════════════════════
-// REPERTORIO
-// ═══════════════════════════════════════════════════
-let currentRepWeek = 1;
-let songsCache = {};
+function requestNotif() {
+  if('Notification' in window && Notification.permission==='default'){
+    setTimeout(()=>Notification.requestPermission().then(p=>{
+      if(p==='granted') showToast('🔔 Recordatorios activados',false);
+    }),3000);
+  }
+}
 
-function sKey(w){ return `alabanza-rep-week${w}`; }
+// ══════════════════════════════════════════════
+// REPERTORIO — Firebase Realtime
+// ══════════════════════════════════════════════
+let curRepWeek=1, repRef=null;
 
-function selectRepWeek(n, btn){
-  document.querySelectorAll('#repPills .pill').forEach(p => p.classList.remove('active'));
+function selRepWeek(n, btn) {
+  document.querySelectorAll('#repPills .pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  currentRepWeek = n;
-  const w = weeks[n-1];
-  document.getElementById('rep-dir-name').textContent = w.dir;
-  document.getElementById('rep-dir-sub').textContent  = `Directora · Semana ${n} · ${w.short}`;
-  loadSongs(n);
+  curRepWeek=n;
+  const w=weeks[n-1];
+  document.getElementById('repDirName').textContent=w.dir;
+  document.getElementById('repDirSub').textContent=`Directora · Semana ${n} · ${w.short}`;
+  listenRep(n);
 }
 
-async function loadSongs(week){
-  document.getElementById('song-list').innerHTML  = '<div class="loading-msg">Cargando…</div>';
-  document.getElementById('song-count').textContent = '—';
-  try{
-    const res  = await Store.get(sKey(week), true);
-    const songs = res ? JSON.parse(res.value) : [];
-    songsCache[week] = songs;
+function listenRep(n) {
+  if(!db){document.getElementById('repErr').classList.add('show');return;}
+  if(repRef) repRef.off();
+  repRef=db.ref(`/alabanza/repertorio/week${n}`);
+  document.getElementById('songList').innerHTML='<div class="lmsg">Cargando…</div>';
+  document.getElementById('songCount').textContent='—';
+  repRef.on('value', snap=>{
+    document.getElementById('repErr').classList.remove('show');
+    const raw=snap.val();
+    const songs=raw ? Object.entries(raw).map(([k,v])=>({...v,_fbKey:k})) : [];
     renderSongs(songs);
-  } catch(_){
-    songsCache[week] = [];
-    renderSongs([]);
-  }
+  }, ()=>document.getElementById('repErr').classList.add('show'));
 }
 
-function renderSongs(songs){
-  document.getElementById('song-count').textContent = `${songs.length} canción${songs.length!==1?'es':''}`;
+function renderSongs(songs) {
+  document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
   if(!songs.length){
-    document.getElementById('song-list').innerHTML =
-      `<div class="empty-state"><div class="eico">🎶</div><p>Sin canciones todavía.<br>¡Agrega el repertorio de la semana!</p></div>`;
+    document.getElementById('songList').innerHTML=`<div class="empty"><div class="ei">🎶</div><p>Sin canciones todavía.<br>${canEditRep(loggedUser)?'¡Agrega el repertorio!':'Pronto la directora lo agregará.'}</p></div>`;
     return;
   }
-  document.getElementById('song-list').innerHTML = songs.map((s,i)=>{
-    const isYT  = s.url && (s.url.includes('youtube') || s.url.includes('youtu.be'));
-    const linkH = s.url
-      ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="song-link ${isYT?'song-yt':'song-web'}">${isYT?'▶ YouTube':'🔗 Enlace'}</a>`
-      : '';
-    return `
-      <div class="song-item">
-        <div class="song-num">${i+1}</div>
-        <div class="song-info">
-          <div class="song-title">${esc(s.title)}</div>
-          ${s.artist?`<div class="song-artist">${esc(s.artist)}</div>`:''}
-          ${linkH}
-          ${s.note?`<div class="song-note">📝 ${esc(s.note)}</div>`:''}
-        </div>
-        <button class="btn-del" onclick="deleteSong(${i})">✕</button>
-      </div>`;
+  const canDel=canEditRep(loggedUser);
+  document.getElementById('songList').innerHTML=songs.map((s,i)=>{
+    const isYT=s.url&&(s.url.includes('youtube')||s.url.includes('youtu.be'));
+    const lk=s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener" class="sl ${isYT?'sl-y':'sl-w'}">${isYT?'▶ YouTube':'🔗 Enlace'}</a>`:'';
+    const del=canDel?`<button class="bdl" onclick="delSong('${esc(s._fbKey)}')">✕</button>`:'';
+    return `<div class="si"><div class="snum">${i+1}</div><div class="si-i"><div class="sti">${esc(s.title)}</div>${s.artist?`<div class="sar">${esc(s.artist)}</div>`:''}${lk}${s.note?`<div class="sno">📝 ${esc(s.note)}</div>`:''}</div>${del}</div>`;
   }).join('');
 }
 
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-async function addSong(){
-  const titleEl  = document.getElementById('inp-title');
-  const artistEl = document.getElementById('inp-artist');
-  const urlEl    = document.getElementById('inp-url');
-  const noteEl   = document.getElementById('inp-note');
-  const btn      = document.getElementById('btn-add');
-  const title    = titleEl.value.trim();
-  if(!title){ titleEl.classList.add('err'); titleEl.focus(); return; }
-  titleEl.classList.remove('err');
-  btn.disabled = true; btn.textContent = 'Guardando…';
+async function addSong() {
+  const tEl=document.getElementById('iTitle'),aEl=document.getElementById('iArtist'),
+        uEl=document.getElementById('iUrl'),  nEl=document.getElementById('iNote'),
+        btn=document.getElementById('btnAdd');
+  const title=tEl.value.trim();
+  if(!title){tEl.classList.add('err');tEl.focus();return;}
+  tEl.classList.remove('err');
+  btn.disabled=true; btn.textContent='Guardando…';
   try{
-    const songs = [...(songsCache[currentRepWeek]||[])];
-    songs.push({title, artist:artistEl.value.trim(), url:urlEl.value.trim(), note:noteEl.value.trim()});
-    await Store.set(sKey(currentRepWeek), JSON.stringify(songs), true);
-    songsCache[currentRepWeek] = songs;
-    renderSongs(songs);
-    titleEl.value=''; artistEl.value=''; urlEl.value=''; noteEl.value='';
-    showToast('✓ Canción guardada — visible para el equipo', false);
-  } catch(e){
-    showToast('❌ Error al guardar', true);
-  } finally{
-    btn.disabled=false; btn.textContent='Guardar canción';
-  }
+    await db.ref(`/alabanza/repertorio/week${curRepWeek}`).push({
+      title, artist:aEl.value.trim(), url:uEl.value.trim(), note:nEl.value.trim(),
+      addedBy:loggedUser, addedAt:new Date().toISOString()
+    });
+    tEl.value='';aEl.value='';uEl.value='';nEl.value='';
+    showToast('✓ Canción guardada — visible para el equipo',false);
+  } catch(e){showToast('❌ Error al guardar',true);}
+  finally{btn.disabled=false;btn.textContent='Guardar canción';}
 }
 
-async function deleteSong(i){
-  const songs = [...(songsCache[currentRepWeek]||[])];
-  if(!confirm(`¿Eliminar "${songs[i].title}"?`)) return;
-  songs.splice(i,1);
+async function delSong(fbKey) {
+  if(!confirm('¿Eliminar esta canción?')) return;
   try{
-    await Store.set(sKey(currentRepWeek), JSON.stringify(songs), true);
-    songsCache[currentRepWeek]=songs; renderSongs(songs);
-    showToast('Canción eliminada', false);
-  } catch(e){ showToast('❌ Error al eliminar', true); }
+    await db.ref(`/alabanza/repertorio/week${curRepWeek}/${fbKey}`).remove();
+    showToast('Canción eliminada',false);
+  } catch(e){showToast('❌ Error al eliminar',true);}
 }
 
-function showToast(msg, isErr){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast'+(isErr?' err':'');
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(()=>t.classList.remove('show'), 3200);
+// ══════════════════════════════════════════════
+// DEVOCIONAL — Firebase Realtime
+// ══════════════════════════════════════════════
+function listenDevo() {
+  if(!db){document.getElementById('devoErr').classList.add('show');return;}
+  const canEdit=canEditDevo(loggedUser);
+  document.getElementById('devoReadOnly').style.display=canEdit?'none':'';
+  document.getElementById('devoEdBadge').style.display=canEdit?'block':'none';
+  document.getElementById('devoEditToggle').style.display=canEdit?'block':'none';
+
+  db.ref('/alabanza/devocional').on('value', snap=>{
+    document.getElementById('devoErr').classList.remove('show');
+    const data=snap.val()||{};
+    const txt=data.text||'', by=data.updatedBy||'', at=data.updatedAt;
+    document.getElementById('devoText').textContent=txt||'';
+    if(!txt) document.getElementById('devoText').innerHTML=`<span class="dempty">Pra. Mary no ha publicado devocional aún.</span>`;
+    const dated=at?new Date(at).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}):'';
+    document.getElementById('devoMeta').textContent=by&&dated?`Publicado por ${by} · ${dated}`:'Sin publicar';
+    document.getElementById('devoTa').value=txt;
+  }, ()=>document.getElementById('devoErr').classList.add('show'));
 }
 
-loadSongs(1);
+function openDevoEdit() {
+  document.getElementById('devoRead').style.display='none';
+  document.getElementById('devoEdit').style.display='block';
+  document.getElementById('devoEditToggle').style.display='none';
+}
+function cancelDevo() {
+  document.getElementById('devoRead').style.display='block';
+  document.getElementById('devoEdit').style.display='none';
+  document.getElementById('devoEditToggle').style.display=canEditDevo(loggedUser)?'block':'none';
+}
+async function saveDevo() {
+  const text=document.getElementById('devoTa').value.trim();
+  try{
+    await db.ref('/alabanza/devocional').set({text,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
+    cancelDevo();
+    showToast('✓ Devocional publicado',false);
+  } catch(e){showToast('❌ Error al guardar',true);}
+}
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showToast(msg,isErr){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(isErr?' err':'');
+  t.classList.add('show'); clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),3200);
+}
 </script>
 </body>
 </html>
