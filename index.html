@@ -12,15 +12,87 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-[data-theme="dark"]{--bg:#0b0e15;--surf:#141921;--surf2:#0f1320;--bdr:#1e2535;--txt:#e8edf8;--mut:#6b7a99;--ov:rgba(0,0,0,.78);--sh:#141921;--inp:#0b0e15}
-[data-theme="light"]{--bg:#f0f3fa;--surf:#ffffff;--surf2:#e6eaf4;--bdr:#cdd5e8;--txt:#1a2035;--mut:#7a8aaa;--ov:rgba(0,0,0,.45);--sh:#ffffff;--inp:#f0f3fa}
+[data-theme="dark"]{
+  --bg:#0b0e15;--surf:#141921;--surf2:#0f1320;--bdr:#1e2535;
+  --txt:#e8edf8;--txt2:#b0bbd4;--mut:#6b7a99;
+  --ov:rgba(0,0,0,.78);--sh:#141921;--inp:#0b0e15;
+  --card-shadow:0 2px 12px rgba(0,0,0,.35);
+  --gold-text:#d4a843;--blue-text:#7eb8ff;--vio-text:#c4b5fd;
+}
+[data-theme="light"]{
+  --bg:#f5f7fc;--surf:#ffffff;--surf2:#eef1f8;--bdr:#dde2f0;
+  --txt:#111827;--txt2:#4b5563;--mut:#8b97b5;
+  --ov:rgba(15,20,40,.45);--sh:#ffffff;--inp:#f0f3fa;
+  --card-shadow:0 2px 12px rgba(100,116,170,.12);
+  --gold-text:#b8860b;--blue-text:#2563eb;--vio-text:#7c3aed;
+}
 :root{--gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);--blue:#5b8fff;--green:#4ade80;--red:#f87171;--vio:#a78bfa;--r:17px;--nav:66px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
 
+/* Light mode text overrides */
+[data-theme="light"] .atitle{color:var(--gold-text)}
+[data-theme="light"] .b-dir{color:#92620a;background:rgba(180,120,0,.1);border-color:rgba(180,120,0,.25)}
+[data-theme="light"] .b-voz{color:#166534;background:rgba(22,101,52,.09);border-color:rgba(22,101,52,.22)}
+[data-theme="light"] .b-flt{color:#5b21b6;background:rgba(91,33,182,.08);border-color:rgba(91,33,182,.2)}
+[data-theme="light"] .b-s3{color:#1d4ed8;background:rgba(29,78,216,.08);border-color:rgba(29,78,216,.2)}
+[data-theme="light"] .b-rst{color:#991b1b;background:rgba(153,27,27,.07);border-color:rgba(153,27,27,.15)}
+[data-theme="light"] .wh{background:linear-gradient(135deg,rgba(180,130,0,.09),rgba(180,130,0,.03));border-color:rgba(180,130,0,.25)}
+[data-theme="light"] .wd{color:var(--gold-text)}
+[data-theme="light"] .pill.active{color:var(--gold-text);background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.35)}
+[data-theme="light"] .nbadge{color:var(--gold-text);background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.25)}
+[data-theme="light"] .rbanner{background:linear-gradient(135deg,rgba(180,130,0,.1),rgba(180,130,0,.03));border-color:rgba(180,130,0,.3)}
+[data-theme="light"] .rt{color:var(--gold-text)}
+[data-theme="light"] .nb.active{color:var(--gold-text)}
+[data-theme="light"] .nb.active .ico{filter:drop-shadow(0 0 5px rgba(180,130,0,.4))}
+[data-theme="light"] .cf{background:rgba(22,101,52,.1);color:#14532d;border-color:rgba(22,101,52,.2)}
+[data-theme="light"] .c3{background:rgba(29,78,216,.09);color:#1e3a8a;border-color:rgba(29,78,216,.2)}
+[data-theme="light"] .cl{background:rgba(91,33,182,.08);color:#4c1d95;border-color:rgba(91,33,182,.18)}
+[data-theme="light"] .cr{background:var(--surf2);color:var(--mut);border-color:var(--bdr)}
+[data-theme="light"] .ev-v{background:rgba(180,130,0,.12);border-color:rgba(180,130,0,.35);color:#92620a}
+[data-theme="light"] .ev-d{background:rgba(29,78,216,.1);border-color:rgba(29,78,216,.3);color:#1d4ed8}
+[data-theme="light"] .ev-i{background:rgba(91,33,182,.09);border-color:rgba(91,33,182,.28);color:#5b21b6}
+[data-theme="light"] .ev-w{background:rgba(22,101,52,.09);border-color:rgba(22,101,52,.25);color:#166534}
+[data-theme="light"] .dtitle{color:var(--gold-text)}
+[data-theme="light"] .rft{color:var(--gold-text)}
+[data-theme="light"] .dbn{color:var(--gold-text)}
+[data-theme="light"] .db{background:rgba(180,130,0,.06);border-color:rgba(180,130,0,.2)}
+[data-theme="light"] .debadge{color:#92620a;background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.25)}
+[data-theme="light"] .ro-notice{background:rgba(100,116,170,.07);border-color:rgba(100,116,170,.18)}
+[data-theme="light"] .fberr{background:rgba(153,27,27,.07);border-color:rgba(153,27,27,.2);color:#991b1b}
+[data-theme="light"] .toast{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+[data-theme="light"] .toast.err{background:#fff1f2;border-color:#dc2626;color:#991b1b}
+[data-theme="light"] .pin-key{background:var(--surf2);color:var(--txt)}
+[data-theme="light"] .pin-key:active{background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.3);color:var(--gold-text)}
+[data-theme="light"] .eq-avatar{background:var(--surf2);color:var(--mut)}
+[data-theme="light"] .eq-avatar--gold{background:rgba(180,130,0,.12);color:#92620a;border-color:rgba(180,130,0,.3)}
+[data-theme="light"] .eq-avatar--blue{background:rgba(29,78,216,.1);color:#1d4ed8;border-color:rgba(29,78,216,.25)}
+[data-theme="light"] .eq-avatar--vio{background:rgba(91,33,182,.09);color:#5b21b6;border-color:rgba(91,33,182,.22)}
+[data-theme="light"] .eq-card--pastor{background:rgba(180,130,0,.05);border-color:rgba(180,130,0,.18)}
+[data-theme="light"] .shov{background:var(--ov)}
+[data-theme="light"] .lbtn{background:var(--surf2);color:var(--txt)}
+[data-theme="light"] .lbtn.special{color:var(--gold-text);background:rgba(180,130,0,.08);border-color:rgba(180,130,0,.3)}
+[data-theme="light"] .bg{color:#fff}
+[data-theme="light"] .atitle{color:var(--gold-text)}
+[data-theme="light"] .sec{color:var(--mut)}
+[data-theme="light"] .card{box-shadow:var(--card-shadow)}
+[data-theme="light"] .mc,.member-card{box-shadow:var(--card-shadow)}
+
+/* Equipo cards */
+.eq-section-hdr{font-size:10.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;padding:0 2px}
+.eq-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:13px 14px;margin-bottom:9px;display:flex;align-items:flex-start;gap:13px;box-shadow:var(--card-shadow)}
+.eq-card--pastor{background:linear-gradient(135deg,rgba(212,168,67,.08),rgba(212,168,67,.02));border-color:rgba(212,168,67,.22)}
+.eq-avatar{width:38px;height:38px;border-radius:12px;background:var(--surf2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:16px;color:var(--mut);flex-shrink:0}
+.eq-avatar--gold{background:rgba(212,168,67,.14);border-color:rgba(212,168,67,.32);color:var(--gold)}
+.eq-avatar--blue{background:rgba(91,143,255,.12);border-color:rgba(91,143,255,.28);color:#7eb8ff}
+.eq-avatar--vio{background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.28);color:#c4b5fd}
+.eq-info{flex:1;min-width:0}
+.eq-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:14.5px;margin-bottom:2px}
+.eq-role{font-size:11px;color:var(--mut);margin-bottom:7px}
+
 /* Shell */
 .app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;overflow:hidden}
-.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav)+22px)}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav) + 52px)}
 .scr::-webkit-scrollbar{display:none}
 
 /* Topbar */
@@ -324,18 +396,87 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
     <!-- EQUIPO -->
     <div id="page-equipo" class="page">
-      <div class="sec">Pastora / Directora General</div>
-      <div class="mc"><div class="mn" style="color:var(--gold)">Pra. Mary</div><div style="font-size:12px;color:var(--mut)">Directora General del Ministerio</div></div>
-      <div class="sec">Directoras</div>
-      <div class="mc"><div class="mn" style="color:var(--gold)">Veruzka</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc c3"><div>S3</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc c3"><div>S3</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
-      <div class="mc"><div class="mn" style="color:#7eb8ff">Diana</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc c3"><div>S3</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc c3"><div>S3</div><div class="wnn">S6</div></div></div></div>
-      <div class="mc"><div class="mn" style="color:#c4b5fd">Isamar</div><div class="mw"><div class="wc c3"><div>S3</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc c3"><div>S3</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div>
-      <div class="sec">Voces</div>
-      <div class="mc"><div class="mn">Joselyn</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div>
-      <div class="mc"><div class="mn">Valeria</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
-      <div class="mc"><div class="mn">Zuisay</div><div class="mw"><div class="wc cl"><div>Flot.</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div>
-      <div class="mc"><div class="mn">Ma Alex</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div>
-      <div class="mc" style="margin-bottom:6px"><div class="mn">Gelimar</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S6</div></div></div></div>
+
+      <div class="eq-section-hdr">Pastora / Directora General</div>
+      <div class="eq-card eq-card--pastor">
+        <div class="eq-avatar eq-avatar--gold">P</div>
+        <div class="eq-info">
+          <div class="eq-name" style="color:var(--gold)">Pra. Mary</div>
+          <div class="eq-role">Directora General del Ministerio</div>
+        </div>
+      </div>
+
+      <div class="eq-section-hdr">Directoras</div>
+
+      <div class="eq-card">
+        <div class="eq-avatar eq-avatar--gold">V</div>
+        <div class="eq-info">
+          <div class="eq-name" style="color:var(--gold)">Veruzka</div>
+          <div class="eq-role">Directora</div>
+          <div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc c3"><div>S3</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc c3"><div>S3</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-card">
+        <div class="eq-avatar eq-avatar--blue">D</div>
+        <div class="eq-info">
+          <div class="eq-name" style="color:#7eb8ff">Diana</div>
+          <div class="eq-role">Directora</div>
+          <div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc c3"><div>S3</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc c3"><div>S3</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-card">
+        <div class="eq-avatar eq-avatar--vio">I</div>
+        <div class="eq-info">
+          <div class="eq-name" style="color:#c4b5fd">Isamar</div>
+          <div class="eq-role">Directora</div>
+          <div class="mw"><div class="wc c3"><div>S3</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc c3"><div>S3</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-section-hdr">Voces</div>
+
+      <div class="eq-card">
+        <div class="eq-avatar">J</div>
+        <div class="eq-info">
+          <div class="eq-name">Joselyn</div>
+          <div class="mw"><div class="wc cl"><div>Flot.</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-card">
+        <div class="eq-avatar">V</div>
+        <div class="eq-info">
+          <div class="eq-name">Valeria</div>
+          <div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-card">
+        <div class="eq-avatar">Z</div>
+        <div class="eq-info">
+          <div class="eq-name">Zuisay</div>
+          <div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-card">
+        <div class="eq-avatar">M</div>
+        <div class="eq-info">
+          <div class="eq-name">Ma Alex</div>
+          <div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
+      <div class="eq-card" style="margin-bottom:6px">
+        <div class="eq-avatar">G</div>
+        <div class="eq-info">
+          <div class="eq-name">Gelimar</div>
+          <div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div>
+        </div>
+      </div>
+
     </div>
 
     <!-- REPERTORIO -->
@@ -435,12 +576,12 @@ function canEditDevo(user){ return user===DIRECTORA_GENERAL; }
 
 // ══ SCHEDULE DATA ══════════════════════════════════════
 const weeks = [
-  {n:1,date:'Domingo, 5 de abril 2026',  short:'5 abr',  dir:'Veruzka',voces:['Joselyn','Valeria'],flot:'Zuisay', s3:'Isamar', desc:['Diana','Ma Alex','Gelimar']},
-  {n:2,date:'Domingo, 12 de abril 2026', short:'12 abr', dir:'Diana',  voces:['Valeria','Zuisay'], flot:'Ma Alex',s3:'Veruzka',desc:['Isamar','Joselyn','Gelimar']},
-  {n:3,date:'Domingo, 19 de abril 2026', short:'19 abr', dir:'Isamar', voces:['Zuisay','Ma Alex'], flot:'Gelimar',s3:'Diana',  desc:['Veruzka','Joselyn','Valeria']},
-  {n:4,date:'Domingo, 26 de abril 2026', short:'26 abr', dir:'Veruzka',voces:['Ma Alex','Gelimar'],flot:'Joselyn',s3:'Isamar', desc:['Diana','Valeria','Zuisay']},
-  {n:5,date:'Domingo, 3 de mayo 2026',   short:'3 may',  dir:'Diana',  voces:['Gelimar','Joselyn'],flot:'Valeria',s3:'Veruzka',desc:['Isamar','Zuisay','Ma Alex']},
-  {n:6,date:'Domingo, 10 de mayo 2026',  short:'10 may', dir:'Isamar', voces:['Joselyn','Zuisay'], flot:'Gelimar',s3:'Diana',  desc:['Veruzka','Valeria','Ma Alex']}
+  {n:1,date:'Domingo, 5 de abril 2026',  short:'5 abr',  dir:'Veruzka',voces:['Zuisay','Ma Alex'], flot:'Joselyn',s3:'Isamar', desc:['Diana','Valeria','Gelimar']},
+  {n:2,date:'Domingo, 12 de abril 2026', short:'12 abr', dir:'Diana',  voces:['Joselyn','Gelimar'], flot:'Valeria',s3:'Veruzka',desc:['Isamar','Zuisay','Ma Alex']},
+  {n:3,date:'Domingo, 19 de abril 2026', short:'19 abr', dir:'Isamar', voces:['Valeria','Ma Alex'], flot:'Zuisay', s3:'Diana',  desc:['Veruzka','Joselyn','Gelimar']},
+  {n:4,date:'Domingo, 26 de abril 2026', short:'26 abr', dir:'Veruzka',voces:['Zuisay','Gelimar'],  flot:'Joselyn',s3:'Isamar', desc:['Diana','Valeria','Ma Alex']},
+  {n:5,date:'Domingo, 3 de mayo 2026',   short:'3 may',  dir:'Diana',  voces:['Joselyn','Ma Alex'], flot:'Valeria',s3:'Veruzka',desc:['Isamar','Zuisay','Gelimar']},
+  {n:6,date:'Domingo, 10 de mayo 2026',  short:'10 may', dir:'Isamar', voces:['Valeria','Gelimar'],  flot:'Zuisay', s3:'Diana',  desc:['Veruzka','Joselyn','Ma Alex']}
 ];
 const CAL={
   '2026-04-03':{t:'fri',wn:1},'2026-04-05':{t:'sun',wn:1,dir:'v'},
@@ -545,9 +686,10 @@ async function checkPin(){
   if(pinMode==='check'){
     const snap = await db.ref(`/alabanza/pins/${pinUser.replace(/[^a-zA-Z0-9]/g,'_')}`).once('value');
     if(snap.val()===hash){
-      // Correct PIN
+      // Correct PIN — save name before closePinPad resets pinUser
+      const _name = pinUser;
       closePinPad();
-      doLogin(pinUser);
+      doLogin(_name);
     } else {
       pinAttempts++;
       if(pinAttempts>=3){
@@ -572,8 +714,9 @@ async function checkPin(){
     if(pinBuffer===pinFirstEntry){
       // Save hashed PIN to Firebase
       await db.ref(`/alabanza/pins/${pinUser.replace(/[^a-zA-Z0-9]/g,'_')}`).set(hash);
+      const _name2 = pinUser;
       closePinPad();
-      doLogin(pinUser);
+      doLogin(_name2);
       showToast('🔐 PIN creado correctamente',false);
     } else {
       pinFirstEntry='';
