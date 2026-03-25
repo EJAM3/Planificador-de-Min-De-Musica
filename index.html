@@ -500,7 +500,14 @@ function openPinPad(user){
 
 function closePinPad(){
   document.getElementById('pinOv').classList.remove('open');
-  pinBuffer=''; pinUser=''; pinMode='check';
+  pinBuffer=''; pinMode='check';
+  // If they had a saved session but cancelled PIN, clear and show login
+  if(pinUser){
+    localStorage.removeItem('alabanza_user');
+    pinUser='';
+    document.getElementById('loginOv').style.display='';
+    document.getElementById('loginOv').classList.remove('gone');
+  }
 }
 
 function pinKey(digit){
@@ -617,9 +624,15 @@ function logout(){
 
 buildLogin();
 if(loggedUser){
-  document.getElementById('loginOv').style.display='none';
-  document.getElementById('mainApp').style.display='';
-  initApp();
+  if(needsPin(loggedUser)){
+    // Always re-verify PIN on page load for privileged users
+    document.getElementById('loginOv').style.display='none';
+    openPinPad(loggedUser);
+  } else {
+    document.getElementById('loginOv').style.display='none';
+    document.getElementById('mainApp').style.display='';
+    initApp();
+  }
 }
 
 // ══ INIT ══════════════════════════════════════════════
@@ -871,4 +884,4 @@ function showToast(msg,isErr){
 }
 </script>
 </body>
-</html>
+</html>s
