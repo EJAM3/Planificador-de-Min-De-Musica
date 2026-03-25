@@ -25,44 +25,35 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
 
-/* ── Shell ── */
 .app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;position:relative;overflow:hidden}
 .screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 0 calc(var(--nav-h)+10px)}
 .screen::-webkit-scrollbar{display:none}
 
-/* ── Top bar ── */
 .topbar{padding:20px 20px 0;position:sticky;top:0;z-index:10;background:var(--bg)}
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .app-title{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;color:var(--gold);letter-spacing:-.3px}
 .app-sub{font-size:12px;color:var(--muted);padding-bottom:14px;border-bottom:1px solid var(--border)}
 
-/* ── Tab pages ── */
 .page{display:none;padding:16px 16px 0}
 .page.active{display:block}
 
-/* ── Bottom nav ── */
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav-h);background:rgba(14,18,27,.96);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 6px 10px}
-.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 18px;border:none;background:none;color:var(--muted);cursor:pointer;transition:color .2s;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav-h);background:rgba(14,18,27,.96);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 2px 10px}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 10px;border:none;background:none;color:var(--muted);cursor:pointer;transition:color .2s;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500}
 .nav-btn .ico{font-size:20px;line-height:1}
 .nav-btn.active{color:var(--gold)}
 .nav-btn.active .ico{filter:drop-shadow(0 0 6px rgba(212,168,67,.5))}
 
-/* ── Cards ── */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px}
-.card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;color:var(--gold);margin:0 0 12px}
 
-/* ── Week selector pill bar ── */
 .week-pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:14px;margin-bottom:2px}
 .week-pills::-webkit-scrollbar{display:none}
 .pill{flex:0 0 auto;padding:7px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
 .pill.active{background:var(--gold-bg);border-color:var(--gold-dim);color:var(--gold)}
 
-/* ── Week detail ── */
 .week-hero{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.04));border:1px solid rgba(212,168,67,.2);border-radius:var(--radius);padding:16px;margin-bottom:12px}
 .week-date{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:4px}
 .week-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.5px}
 
-/* ── Role badges ── */
 .roles-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid transparent}
 .badge-dir{background:rgba(212,168,67,.12);color:#fde68a;border-color:rgba(212,168,67,.25)}
@@ -71,27 +62,21 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
 .badge-s12{background:rgba(167,139,250,.1);color:#ddd6fe;border-color:rgba(167,139,250,.2)}
 .badge-rest{background:rgba(248,113,113,.08);color:#fecaca;border-color:rgba(248,113,113,.15)}
 
-/* ── Services grid ── */
 .services{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .svc{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:12px 10px}
 .svc-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .svc-person{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:13px}
 .svc-person:last-child{margin-bottom:0}
 .dot{width:7px;height:7px;border-radius:50%;flex:0 0 7px}
-.dot-dir{background:var(--gold)}
-.dot-full{background:var(--green)}
-.dot-s3{background:var(--blue)}
-.dot-s12{background:var(--violet)}
+.dot-dir{background:var(--gold)} .dot-full{background:var(--green)}
+.dot-s3{background:var(--blue)} .dot-s12{background:var(--violet)}
 .role-note{font-size:10px;color:var(--muted);margin-top:1px}
 
-/* ── Calendar ── */
 .cal-month{margin-bottom:18px}
 .cal-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;color:var(--text);margin-bottom:12px;padding:0 2px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .cal-dow{text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px 0;text-transform:uppercase}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:13px;font-weight:500;position:relative}
-.cal-day.empty{}
-.cal-day.sunday{font-weight:700}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:13px;font-weight:500}
 .cal-day.has-event{border-width:1px;border-style:solid}
 .cal-day .day-num{line-height:1;margin-bottom:2px}
 .cal-day .event-dot{width:5px;height:5px;border-radius:50%}
@@ -100,12 +85,10 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
 .ev-d{background:rgba(91,143,255,.12);border-color:rgba(91,143,255,.3);color:#7eb8ff}
 .ev-i{background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);color:#c4b5fd}
 
-/* ── Legend ── */
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)}
 .legend-dot{width:10px;height:10px;border-radius:50%}
 
-/* ── Team tab ── */
 .member-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
 .member-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px}
 .member-weeks{display:flex;gap:5px;flex-wrap:wrap}
@@ -116,11 +99,54 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
 .chip-rest{background:rgba(30,37,53,.6);color:var(--muted);border-color:var(--border)}
 .chip-s12{background:rgba(167,139,250,.1);color:#ddd6fe;border-color:rgba(167,139,250,.2)}
 
-/* ── Divider ── */
 .section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 8px;padding:0 2px}
-
-/* ── Today badge ── */
 .next-badge{display:inline-block;background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.3);border-radius:999px;font-size:11px;font-weight:700;padding:3px 10px;margin-bottom:10px;font-family:'Outfit',sans-serif}
+
+/* ── REPERTORIO ── */
+.rep-form{background:var(--surface);border:1px solid rgba(212,168,67,.2);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+.rep-form-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;color:var(--gold);margin:0 0 14px;display:flex;align-items:center;gap:7px}
+.inp-group{margin-bottom:12px}
+.inp-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;display:block}
+.inp{width:100%;background:#0b0e15;border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--gold-dim)}
+.inp::placeholder{color:var(--muted)}
+.inp.err{border-color:var(--red)}
+.btn-save{width:100%;padding:14px;border-radius:14px;border:none;background:var(--gold);color:#0b0e15;font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;cursor:pointer;letter-spacing:.3px;transition:opacity .2s;margin-top:4px}
+.btn-save:active{opacity:.8}
+.btn-save:disabled{opacity:.4;cursor:default}
+
+.song-list{margin-top:4px}
+.song-item{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.song-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;color:rgba(212,168,67,.3);min-width:22px;padding-top:1px}
+.song-info{flex:1;min-width:0}
+.song-title{font-weight:600;font-size:14px;margin-bottom:2px}
+.song-artist{font-size:12px;color:var(--muted);margin-bottom:4px}
+.song-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--blue);text-decoration:none;border:1px solid rgba(91,143,255,.25);padding:3px 9px;border-radius:999px;background:rgba(91,143,255,.08)}
+.song-link:hover{background:rgba(91,143,255,.18)}
+.song-yt{color:#ff6b6b;border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.08)}
+.song-note{font-size:11px;color:var(--muted);margin-top:4px;font-style:italic}
+.btn-del{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:rgba(248,113,113,.07);color:var(--red);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.btn-del:active{background:rgba(248,113,113,.2)}
+
+.empty-state{text-align:center;padding:36px 16px;color:var(--muted)}
+.empty-state .eico{font-size:38px;margin-bottom:10px;opacity:.45}
+.empty-state p{font-size:13px;margin:0;line-height:1.6}
+
+.rep-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.rep-header h3{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin:0}
+.song-count{font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+
+.dir-band{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:12px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.18);margin-bottom:14px}
+.dir-band .db-star{font-size:18px}
+.dir-band .db-name{font-weight:700;color:var(--gold);font-size:14px}
+.dir-band .db-sub{font-size:11px;color:var(--muted)}
+
+.toast{position:fixed;top:82px;left:50%;transform:translateX(-50%) translateY(-8px);background:#1a2d1a;border:1px solid #4ade80;color:#bbf7d0;padding:9px 20px;border-radius:999px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:#2d1a1a;border-color:var(--red);color:#fecaca}
+
+.loading-rep{text-align:center;padding:28px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -136,15 +162,13 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
 
   <div class="screen">
 
-    <!-- ════ PÁGINA: INICIO ════ -->
+    <!-- ════ INICIO ════ -->
     <div id="page-inicio" class="page active">
       <div class="next-badge">⬤ Próximo: Dom 5 abr</div>
-
       <div class="week-hero">
         <div class="week-date">Domingo, 5 de abril 2026</div>
         <div class="week-num">Semana 1</div>
       </div>
-
       <div class="section-label">Directora</div>
       <div class="card" style="border-color:rgba(212,168,67,.25)">
         <div style="display:flex;align-items:center;gap:10px">
@@ -155,7 +179,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           </div>
         </div>
       </div>
-
       <div class="section-label">Equipo esta semana</div>
       <div class="roles-row">
         <span class="badge badge-full">● Joselyn — S1 S2 S3</span>
@@ -164,7 +187,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
         <span class="badge badge-s3">○ Isamar — S3</span>
         <span class="badge badge-rest">Descanso: Diana · Ma Alex · Gelimar</span>
       </div>
-
       <div class="section-label">Por servicio</div>
       <div class="card" style="padding:12px">
         <div class="services">
@@ -193,7 +215,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
       </div>
     </div>
 
-    <!-- ════ PÁGINA: SEMANAS ════ -->
+    <!-- ════ SEMANAS ════ -->
     <div id="page-semanas" class="page">
       <div class="week-pills" id="weekPills">
         <button class="pill active" onclick="showWeek(1,this)">S1 · 5 abr</button>
@@ -203,43 +225,30 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
         <button class="pill" onclick="showWeek(5,this)">S5 · 3 may</button>
         <button class="pill" onclick="showWeek(6,this)">S6 · 10 may</button>
       </div>
-
       <div id="week-detail"></div>
     </div>
 
-    <!-- ════ PÁGINA: CALENDARIO ════ -->
+    <!-- ════ CALENDARIO ════ -->
     <div id="page-calendario" class="page">
-
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Veruzka</div>
         <div class="legend-item"><div class="legend-dot" style="background:#7eb8ff"></div> Diana</div>
         <div class="legend-item"><div class="legend-dot" style="background:#c4b5fd"></div> Isamar</div>
       </div>
-
-      <div class="cal-month">
-        <div class="cal-title">Abril 2026</div>
-        <div class="cal-grid" id="cal-abril"></div>
-      </div>
-
-      <div class="cal-month">
-        <div class="cal-title">Mayo 2026</div>
-        <div class="cal-grid" id="cal-mayo"></div>
-      </div>
-
+      <div class="cal-month"><div class="cal-title">Abril 2026</div><div class="cal-grid" id="cal-abril"></div></div>
+      <div class="cal-month"><div class="cal-title">Mayo 2026</div><div class="cal-grid" id="cal-mayo"></div></div>
       <div class="section-label">Resumen directoras</div>
       <div class="card" style="padding:12px">
         <table style="width:100%;border-collapse:collapse;font-size:13px">
-          <thead>
-            <tr>
-              <th style="text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border)">Directora</th>
-              <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S1</th>
-              <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S2</th>
-              <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S3</th>
-              <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S4</th>
-              <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S5</th>
-              <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S6</th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th style="text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border)">Directora</th>
+            <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S1</th>
+            <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S2</th>
+            <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S3</th>
+            <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S4</th>
+            <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S5</th>
+            <th style="text-align:center;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border)">S6</th>
+          </tr></thead>
           <tbody>
             <tr>
               <td style="padding:8px;font-weight:600;color:var(--gold)">Veruzka</td>
@@ -273,11 +282,9 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
       </div>
     </div>
 
-    <!-- ════ PÁGINA: EQUIPO ════ -->
+    <!-- ════ EQUIPO ════ -->
     <div id="page-equipo" class="page">
-
       <div class="section-label">Directoras</div>
-
       <div class="member-card">
         <div class="member-name" style="color:var(--gold)">Veruzka</div>
         <div class="member-weeks">
@@ -289,7 +296,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="member-card">
         <div class="member-name" style="color:#7eb8ff">Diana</div>
         <div class="member-weeks">
@@ -301,7 +307,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-s3"><div>S3</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="member-card">
         <div class="member-name" style="color:#c4b5fd">Isamar</div>
         <div class="member-weeks">
@@ -313,9 +318,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="section-label">Apoyo</div>
-
       <div class="member-card">
         <div class="member-name">Joselyn</div>
         <div class="member-weeks">
@@ -327,7 +330,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="member-card">
         <div class="member-name">Valeria</div>
         <div class="member-weeks">
@@ -339,7 +341,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="member-card">
         <div class="member-name">Zuisay</div>
         <div class="member-weeks">
@@ -351,7 +352,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-full"><div>Full</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="member-card">
         <div class="member-name">Ma Alex</div>
         <div class="member-weeks">
@@ -363,7 +363,6 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-rest"><div>—</div><div class="wk-n">S6</div></div>
         </div>
       </div>
-
       <div class="member-card">
         <div class="member-name">Gelimar</div>
         <div class="member-weeks">
@@ -375,97 +374,108 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);
           <div class="wk-chip chip-s12"><div>S1·2</div><div class="wk-n">S6</div></div>
         </div>
       </div>
+    </div>
+
+    <!-- ════ REPERTORIO ════ -->
+    <div id="page-repertorio" class="page">
+
+      <div class="week-pills" id="repPills">
+        <button class="pill active" onclick="selectRepWeek(1,this)">S1 · 5 abr</button>
+        <button class="pill" onclick="selectRepWeek(2,this)">S2 · 12 abr</button>
+        <button class="pill" onclick="selectRepWeek(3,this)">S3 · 19 abr</button>
+        <button class="pill" onclick="selectRepWeek(4,this)">S4 · 26 abr</button>
+        <button class="pill" onclick="selectRepWeek(5,this)">S5 · 3 may</button>
+        <button class="pill" onclick="selectRepWeek(6,this)">S6 · 10 may</button>
+      </div>
+
+      <!-- Banner directora -->
+      <div class="dir-band">
+        <div class="db-star">★</div>
+        <div>
+          <div class="db-name" id="rep-dir-name">Veruzka</div>
+          <div class="db-sub" id="rep-dir-sub">Directora · Semana 1 · 5 abr</div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="rep-form">
+        <div class="rep-form-title">🎵 Agregar canción</div>
+        <div class="inp-group">
+          <label class="inp-label">Título *</label>
+          <input id="inp-title" class="inp" type="text" placeholder="Ej: Grande y Poderoso" autocomplete="off"/>
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">Artista / Ministerio</label>
+          <input id="inp-artist" class="inp" type="text" placeholder="Ej: Generación 12" autocomplete="off"/>
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">Enlace YouTube / Web</label>
+          <input id="inp-url" class="inp" type="url" placeholder="https://youtube.com/..."/>
+        </div>
+        <div class="inp-group">
+          <label class="inp-label">Tono / Nota</label>
+          <input id="inp-note" class="inp" type="text" placeholder="Ej: Do mayor, versión en vivo" autocomplete="off"/>
+        </div>
+        <button class="btn-save" id="btn-add" onclick="addSong()">Guardar canción</button>
+      </div>
+
+      <!-- Lista -->
+      <div class="rep-header">
+        <h3>Repertorio</h3>
+        <span class="song-count" id="song-count">—</span>
+      </div>
+      <div id="song-list" class="song-list">
+        <div class="loading-rep">Cargando…</div>
+      </div>
 
     </div>
+
   </div><!-- /screen -->
 
-  <!-- Bottom nav -->
   <nav class="nav">
-    <button class="nav-btn active" onclick="switchPage('inicio',this)">
-      <span class="ico">🏠</span>Inicio
-    </button>
-    <button class="nav-btn" onclick="switchPage('semanas',this)">
-      <span class="ico">📋</span>Semanas
-    </button>
-    <button class="nav-btn" onclick="switchPage('calendario',this)">
-      <span class="ico">📅</span>Calendario
-    </button>
-    <button class="nav-btn" onclick="switchPage('equipo',this)">
-      <span class="ico">👥</span>Equipo
-    </button>
+    <button class="nav-btn active" onclick="switchPage('inicio',this)"><span class="ico">🏠</span>Inicio</button>
+    <button class="nav-btn" onclick="switchPage('semanas',this)"><span class="ico">📋</span>Semanas</button>
+    <button class="nav-btn" onclick="switchPage('calendario',this)"><span class="ico">📅</span>Calend.</button>
+    <button class="nav-btn" onclick="switchPage('equipo',this)"><span class="ico">👥</span>Equipo</button>
+    <button class="nav-btn" onclick="switchPage('repertorio',this)"><span class="ico">🎵</span>Reperto.</button>
   </nav>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ── Data ──────────────────────────────────────────────────────────────────
 const weeks = [
-  {
-    n:1, date:'Domingo, 5 de abril 2026',
-    dir:'Veruzka', apoyo_full:['Joselyn','Valeria'], s12:'Zuisay', s3_dir:'Isamar',
-    descanso:['Diana','Ma Alex','Gelimar']
-  },
-  {
-    n:2, date:'Domingo, 12 de abril 2026',
-    dir:'Diana', apoyo_full:['Valeria','Zuisay'], s12:'Ma Alex', s3_dir:'Veruzka',
-    descanso:['Isamar','Joselyn','Gelimar']
-  },
-  {
-    n:3, date:'Domingo, 19 de abril 2026',
-    dir:'Isamar', apoyo_full:['Zuisay','Ma Alex'], s12:'Gelimar', s3_dir:'Diana',
-    descanso:['Veruzka','Joselyn','Valeria']
-  },
-  {
-    n:4, date:'Domingo, 26 de abril 2026',
-    dir:'Veruzka', apoyo_full:['Ma Alex','Gelimar'], s12:'Joselyn', s3_dir:'Isamar',
-    descanso:['Diana','Valeria','Zuisay']
-  },
-  {
-    n:5, date:'Domingo, 3 de mayo 2026',
-    dir:'Diana', apoyo_full:['Gelimar','Joselyn'], s12:'Valeria', s3_dir:'Veruzka',
-    descanso:['Isamar','Zuisay','Ma Alex']
-  },
-  {
-    n:6, date:'Domingo, 10 de mayo 2026',
-    dir:'Isamar', apoyo_full:['Joselyn','Zuisay'], s12:'Gelimar', s3_dir:'Diana',
-    descanso:['Veruzka','Valeria','Ma Alex']
-  }
+  {n:1,date:'Domingo, 5 de abril 2026',  shortDate:'5 abr',  dir:'Veruzka', apoyo_full:['Joselyn','Valeria'], s12:'Zuisay',  s3_dir:'Isamar',  descanso:['Diana','Ma Alex','Gelimar']},
+  {n:2,date:'Domingo, 12 de abril 2026', shortDate:'12 abr', dir:'Diana',   apoyo_full:['Valeria','Zuisay'],  s12:'Ma Alex', s3_dir:'Veruzka', descanso:['Isamar','Joselyn','Gelimar']},
+  {n:3,date:'Domingo, 19 de abril 2026', shortDate:'19 abr', dir:'Isamar',  apoyo_full:['Zuisay','Ma Alex'],  s12:'Gelimar', s3_dir:'Diana',   descanso:['Veruzka','Joselyn','Valeria']},
+  {n:4,date:'Domingo, 26 de abril 2026', shortDate:'26 abr', dir:'Veruzka', apoyo_full:['Ma Alex','Gelimar'], s12:'Joselyn', s3_dir:'Isamar',  descanso:['Diana','Valeria','Zuisay']},
+  {n:5,date:'Domingo, 3 de mayo 2026',   shortDate:'3 may',  dir:'Diana',   apoyo_full:['Gelimar','Joselyn'], s12:'Valeria', s3_dir:'Veruzka', descanso:['Isamar','Zuisay','Ma Alex']},
+  {n:6,date:'Domingo, 10 de mayo 2026',  shortDate:'10 may', dir:'Isamar',  apoyo_full:['Joselyn','Zuisay'],  s12:'Gelimar', s3_dir:'Diana',   descanso:['Veruzka','Valeria','Ma Alex']}
 ];
 
-// ── Tab switching ─────────────────────────────────────────────────────────
+let currentRepWeek = 1;
+let songsCache = {};
+
+// ── Navigation ───────────────────────────────────────────────────────────
 function switchPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
   document.querySelector('.screen').scrollTop = 0;
+  if (id === 'repertorio') loadSongs(currentRepWeek);
 }
 
-// ── Week detail renderer ──────────────────────────────────────────────────
+// ── Weeks ────────────────────────────────────────────────────────────────
 function showWeek(n, btn) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#weekPills .pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   const w = weeks[n-1];
-  const svc1 = [
-    {name:w.dir,   role:'dirige', cls:'dot-dir'},
-    ...w.apoyo_full.map(p=>({name:p, role:'', cls:'dot-full'})),
-    {name:w.s12,   role:'', cls:'dot-s12'}
-  ];
-  const svc3 = [
-    {name:w.dir,    role:'dirige', cls:'dot-dir'},
-    ...w.apoyo_full.map(p=>({name:p, role:'', cls:'dot-full'})),
-    {name:w.s3_dir, role:'apoyo S3', cls:'dot-s3'}
-  ];
-  const renderSvc = (arr) => arr.map(p=>`
-    <div class="svc-person">
-      <div class="dot ${p.cls}"></div>
-      <div><div>${p.name}</div>${p.role?`<div class="role-note">${p.role}</div>`:''}</div>
-    </div>`).join('');
-
+  const svc1 = [{name:w.dir,role:'dirige',cls:'dot-dir'},...w.apoyo_full.map(p=>({name:p,role:'',cls:'dot-full'})),{name:w.s12,role:'',cls:'dot-s12'}];
+  const svc3 = [{name:w.dir,role:'dirige',cls:'dot-dir'},...w.apoyo_full.map(p=>({name:p,role:'',cls:'dot-full'})),{name:w.s3_dir,role:'apoyo S3',cls:'dot-s3'}];
+  const rs = arr => arr.map(p=>`<div class="svc-person"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="role-note">${p.role}</div>`:''}</div></div>`).join('');
   document.getElementById('week-detail').innerHTML = `
-    <div class="week-hero">
-      <div class="week-date">${w.date}</div>
-      <div class="week-num">Semana ${w.n}</div>
-    </div>
+    <div class="week-hero"><div class="week-date">${w.date}</div><div class="week-num">Semana ${w.n}</div></div>
     <div class="roles-row">
       <span class="badge badge-dir">★ ${w.dir}</span>
       ${w.apoyo_full.map(p=>`<span class="badge badge-full">● ${p}</span>`).join('')}
@@ -475,66 +485,158 @@ function showWeek(n, btn) {
     </div>
     <div class="card" style="padding:12px">
       <div class="services">
-        <div class="svc">
-          <div class="svc-label">Serv. 1</div>
-          ${renderSvc(svc1)}
-        </div>
-        <div class="svc">
-          <div class="svc-label">Serv. 2</div>
-          ${renderSvc(svc1)}
-        </div>
-        <div class="svc">
-          <div class="svc-label">Serv. 3</div>
-          ${renderSvc(svc3)}
-        </div>
+        <div class="svc"><div class="svc-label">Serv. 1</div>${rs(svc1)}</div>
+        <div class="svc"><div class="svc-label">Serv. 2</div>${rs(svc1)}</div>
+        <div class="svc"><div class="svc-label">Serv. 3</div>${rs(svc3)}</div>
       </div>
     </div>`;
 }
-showWeek(1, document.querySelector('.pill'));
+showWeek(1, document.querySelector('#weekPills .pill'));
 
-// ── Calendar builder ──────────────────────────────────────────────────────
-const events = {
-  // April 2026: sundays
-  '2026-04-05': {w:1, dir:'v', label:'S1'},
-  '2026-04-12': {w:2, dir:'d', label:'S2'},
-  '2026-04-19': {w:3, dir:'i', label:'S3'},
-  '2026-04-26': {w:4, dir:'v', label:'S4'},
-  // May 2026
-  '2026-05-03': {w:5, dir:'d', label:'S5'},
-  '2026-05-10': {w:6, dir:'i', label:'S6'},
+// ── Calendar ─────────────────────────────────────────────────────────────
+const calEvents = {
+  '2026-04-05':{dir:'v',label:'S1'},'2026-04-12':{dir:'d',label:'S2'},
+  '2026-04-19':{dir:'i',label:'S3'},'2026-04-26':{dir:'v',label:'S4'},
+  '2026-05-03':{dir:'d',label:'S5'},'2026-05-10':{dir:'i',label:'S6'}
 };
-
-function pad(n){ return String(n).padStart(2,'0'); }
-function buildCal(year, month, containerId) {
-  const DAYS = ['D','L','M','X','J','V','S'];
-  const container = document.getElementById(containerId);
+function pad(n){return String(n).padStart(2,'0')}
+function buildCal(year, month, cid) {
+  const DAYS=['D','L','M','X','J','V','S'];
   let html = DAYS.map(d=>`<div class="cal-dow">${d}</div>`).join('');
-  const first = new Date(year, month-1, 1).getDay(); // 0=Sun
-  const total = new Date(year, month, 0).getDate();
-  for(let i=0;i<first;i++) html += `<div class="cal-day empty"></div>`;
+  const first = new Date(year,month-1,1).getDay();
+  const total = new Date(year,month,0).getDate();
+  for(let i=0;i<first;i++) html+=`<div class="cal-day empty"></div>`;
   for(let d=1;d<=total;d++){
-    const key = `${year}-${pad(month)}-${pad(d)}`;
-    const ev = events[key];
-    const isSun = new Date(year,month-1,d).getDay()===0;
-    let cls = 'cal-day';
-    let inner = `<div class="day-num">${d}</div>`;
+    const key=`${year}-${pad(month)}-${pad(d)}`;
+    const ev=calEvents[key];
     if(ev){
-      const evCls = ev.dir==='v'?'ev-v': ev.dir==='d'?'ev-d':'ev-i';
-      cls += ` has-event ${evCls}`;
-      inner += `<div class="event-dot" style="background:currentColor;opacity:.6"></div>`;
-      inner += `<div class="cal-week-label">${ev.label}</div>`;
-    } else if(isSun){
-      cls += ' sunday';
-      inner = `<div class="day-num" style="color:var(--muted)">${d}</div>`;
+      const c=ev.dir==='v'?'ev-v':ev.dir==='d'?'ev-d':'ev-i';
+      html+=`<div class="cal-day has-event ${c}"><div class="day-num">${d}</div><div class="event-dot" style="background:currentColor;opacity:.6"></div><div class="cal-week-label">${ev.label}</div></div>`;
     } else {
-      inner = `<div class="day-num" style="color:var(--muted);font-weight:400">${d}</div>`;
+      html+=`<div class="cal-day"><div class="day-num" style="color:var(--muted);font-weight:400">${d}</div></div>`;
     }
-    html += `<div class="${cls}">${inner}</div>`;
   }
-  container.innerHTML = html;
+  document.getElementById(cid).innerHTML = html;
 }
-buildCal(2026, 4, 'cal-abril');
-buildCal(2026, 5, 'cal-mayo');
+buildCal(2026,4,'cal-abril');
+buildCal(2026,5,'cal-mayo');
+
+// ════════════════════════════════════════════════════════════
+// REPERTORIO — shared storage, visible to the whole team
+// ════════════════════════════════════════════════════════════
+
+function sKey(week){ return `alabanza-rep-week${week}`; }
+
+function selectRepWeek(n, btn) {
+  document.querySelectorAll('#repPills .pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  currentRepWeek = n;
+  const w = weeks[n-1];
+  document.getElementById('rep-dir-name').textContent = w.dir;
+  document.getElementById('rep-dir-sub').textContent = `Directora · Semana ${n} · ${w.shortDate}`;
+  loadSongs(n);
+}
+
+async function loadSongs(week) {
+  document.getElementById('song-list').innerHTML = '<div class="loading-rep">Cargando…</div>';
+  document.getElementById('song-count').textContent = '—';
+  try {
+    const res = await window.storage.get(sKey(week), true);
+    const songs = res ? JSON.parse(res.value) : [];
+    songsCache[week] = songs;
+    renderSongs(songs);
+  } catch(_) {
+    songsCache[week] = [];
+    renderSongs([]);
+  }
+}
+
+function renderSongs(songs) {
+  const list  = document.getElementById('song-list');
+  const count = document.getElementById('song-count');
+  count.textContent = `${songs.length} canción${songs.length !== 1 ? 'es' : ''}`;
+
+  if (!songs.length) {
+    list.innerHTML = `<div class="empty-state"><div class="eico">🎶</div><p>Sin canciones todavía.<br>¡Agrega el repertorio de la semana!</p></div>`;
+    return;
+  }
+
+  list.innerHTML = songs.map((s,i) => {
+    const isYT = s.url && (s.url.includes('youtube') || s.url.includes('youtu.be'));
+    const linkHtml = s.url
+      ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="song-link ${isYT?'song-yt':''}">${isYT?'▶ YouTube':'🔗 Enlace'}</a>`
+      : '';
+    return `
+      <div class="song-item">
+        <div class="song-num">${i+1}</div>
+        <div class="song-info">
+          <div class="song-title">${esc(s.title)}</div>
+          ${s.artist?`<div class="song-artist">${esc(s.artist)}</div>`:''}
+          ${linkHtml}
+          ${s.note?`<div class="song-note">📝 ${esc(s.note)}</div>`:''}
+        </div>
+        <button class="btn-del" onclick="deleteSong(${i})" title="Eliminar">✕</button>
+      </div>`;
+  }).join('');
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function addSong() {
+  const titleEl  = document.getElementById('inp-title');
+  const artistEl = document.getElementById('inp-artist');
+  const urlEl    = document.getElementById('inp-url');
+  const noteEl   = document.getElementById('inp-note');
+  const btn      = document.getElementById('btn-add');
+
+  const title = titleEl.value.trim();
+  if (!title) { titleEl.classList.add('err'); titleEl.focus(); return; }
+  titleEl.classList.remove('err');
+
+  btn.disabled = true;
+  btn.textContent = 'Guardando…';
+
+  try {
+    const songs = [...(songsCache[currentRepWeek] || [])];
+    songs.push({ title, artist: artistEl.value.trim(), url: urlEl.value.trim(), note: noteEl.value.trim() });
+    await window.storage.set(sKey(currentRepWeek), JSON.stringify(songs), true);
+    songsCache[currentRepWeek] = songs;
+    renderSongs(songs);
+    titleEl.value = ''; artistEl.value = ''; urlEl.value = ''; noteEl.value = '';
+    showToast('✓ Canción guardada — visible para todo el equipo', false);
+  } catch(e) {
+    showToast('❌ Error al guardar', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Guardar canción';
+  }
+}
+
+async function deleteSong(index) {
+  const songs = [...(songsCache[currentRepWeek] || [])];
+  if (!confirm(`¿Eliminar "${songs[index].title}"?`)) return;
+  songs.splice(index, 1);
+  try {
+    await window.storage.set(sKey(currentRepWeek), JSON.stringify(songs), true);
+    songsCache[currentRepWeek] = songs;
+    renderSongs(songs);
+    showToast('Canción eliminada', false);
+  } catch(e) {
+    showToast('❌ Error al eliminar', true);
+  }
+}
+
+function showToast(msg, isErr) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isErr ? ' err' : '');
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Preload rep week 1
+loadSongs(1);
 </script>
 </body>
 </html>
