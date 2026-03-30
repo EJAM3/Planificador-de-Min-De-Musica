@@ -6,193 +6,150 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="Alabanza"/>
-<title>Alabanza · Grace</title>
-<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png"/>
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
-<link rel="manifest" href="manifest.webmanifest"/>
-<meta name="theme-color" content="#0b0e15"/>
-
+<meta name="apple-mobile-web-app-title" content="Ministerio 50/50"/>
+<title>Ministerio 50/50 · Grace</title>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
 /* ═══ THEMES ═══ */
 [data-theme="dark"]{
-  --bg:#0b0e15;--surf:#141921;--surf2:#0f1320;--bdr:#1e2535;
-  --txt:#e8edf8;--txt2:#b0bbd4;--mut:#6b7a99;
-  --ov:rgba(0,0,0,.78);--sh:#141921;--inp:#0b0e15;
-  --card-shadow:0 2px 12px rgba(0,0,0,.35);
-  --gold-text:#d4a843;--blue-text:#7eb8ff;--vio-text:#c4b5fd;
+  --bg:#09090f;--surf:#12141e;--surf2:#0e1018;--surf3:#1a1d2e;
+  --bdr:#1f2235;--txt:#eef0fb;--txt2:#9ba3c4;--mut:#6b7499;
+  --ov:rgba(0,0,0,.82);--sh:#12141e;--inp:#09090f;
+  --cs:0 2px 14px rgba(0,0,0,.4);
+  --g1c:#3b82f6;--g1bg:rgba(59,130,246,.12);--g1bdr:rgba(59,130,246,.28);
+  --g2c:#a78bfa;--g2bg:rgba(167,139,250,.12);--g2bdr:rgba(167,139,250,.28);
+  --gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);
 }
 [data-theme="light"]{
-  --bg:#f5f7fc;--surf:#ffffff;--surf2:#eef1f8;--bdr:#dde2f0;
-  --txt:#111827;--txt2:#4b5563;--mut:#8b97b5;
-  --ov:rgba(15,20,40,.45);--sh:#ffffff;--inp:#f0f3fa;
-  --card-shadow:0 2px 12px rgba(100,116,170,.12);
-  --gold-text:#b8860b;--blue-text:#2563eb;--vio-text:#7c3aed;
+  --bg:#f4f5fc;--surf:#ffffff;--surf2:#eef0f9;--surf3:#e6e9f5;
+  --bdr:#dce0f0;--txt:#111827;--txt2:#4b5568;--mut:#8b97b5;
+  --ov:rgba(10,15,40,.45);--sh:#ffffff;--inp:#eef0f9;
+  --cs:0 2px 14px rgba(100,116,170,.13);
+  --g1c:#2563eb;--g1bg:rgba(37,99,235,.09);--g1bdr:rgba(37,99,235,.28);
+  --g2c:#7c3aed;--g2bg:rgba(124,58,237,.09);--g2bdr:rgba(124,58,237,.28);
+  --gold:#b8860b;--gd:#92620a;--gbg:rgba(184,134,11,.1);
 }
 :root{
-  --gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);
-  --blue:#5b8fff;--green:#4ade80;--red:#f87171;--vio:#a78bfa;
+  --green:#4ade80;--red:#f87171;--teal:#2dd4bf;
   --r:17px;--nav:66px;
-  --app-max:430px;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;transition:background-color .2s,color .18s,border-color .18s}
 html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
 
-/* Light overrides */
-[data-theme="light"] .b-dir{color:#92620a;background:rgba(180,120,0,.1);border-color:rgba(180,120,0,.25)}
-[data-theme="light"] .b-voz{color:#166534;background:rgba(22,101,52,.09);border-color:rgba(22,101,52,.22)}
-[data-theme="light"] .b-flt{color:#5b21b6;background:rgba(91,33,182,.08);border-color:rgba(91,33,182,.2)}
-[data-theme="light"] .b-s3{color:#1d4ed8;background:rgba(29,78,216,.08);border-color:rgba(29,78,216,.2)}
-[data-theme="light"] .b-rst{color:#991b1b;background:rgba(153,27,27,.07);border-color:rgba(153,27,27,.15)}
-[data-theme="light"] .wh{background:linear-gradient(135deg,rgba(180,130,0,.09),rgba(180,130,0,.03));border-color:rgba(180,130,0,.25)}
-[data-theme="light"] .wd,[data-theme="light"] .atitle,[data-theme="light"] .rft,[data-theme="light"] .dbn,[data-theme="light"] .dtitle{color:var(--gold-text)}
-[data-theme="light"] .pill.active{color:var(--gold-text);background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.35)}
-[data-theme="light"] .nbadge,.rbanner[data-theme="light"]{color:var(--gold-text);background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.25)}
-[data-theme="light"] .nbadge{color:var(--gold-text);background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.25)}
-[data-theme="light"] .rb{background:linear-gradient(135deg,rgba(180,130,0,.1),rgba(180,130,0,.03));border-color:rgba(180,130,0,.3)}
-[data-theme="light"] .rt{color:var(--gold-text)}
-[data-theme="light"] .nb.active{color:var(--gold-text)}
-[data-theme="light"] .nb.active .ico{filter:drop-shadow(0 0 5px rgba(180,130,0,.4))}
-[data-theme="light"] .cf{background:rgba(22,101,52,.1);color:#14532d;border-color:rgba(22,101,52,.2)}
-[data-theme="light"] .c3{background:rgba(29,78,216,.09);color:#1e3a8a;border-color:rgba(29,78,216,.2)}
-[data-theme="light"] .cl{background:rgba(91,33,182,.08);color:#4c1d95;border-color:rgba(91,33,182,.18)}
-[data-theme="light"] .cr{background:var(--surf2);color:var(--mut);border-color:var(--bdr)}
-[data-theme="light"] .ev-v{background:rgba(180,130,0,.12);border-color:rgba(180,130,0,.35);color:#92620a}
-[data-theme="light"] .ev-d{background:rgba(29,78,216,.1);border-color:rgba(29,78,216,.3);color:#1d4ed8}
-[data-theme="light"] .ev-i{background:rgba(91,33,182,.09);border-color:rgba(91,33,182,.28);color:#5b21b6}
-[data-theme="light"] .ev-w{background:rgba(22,101,52,.09);border-color:rgba(22,101,52,.25);color:#166534}
-[data-theme="light"] .db{background:rgba(180,130,0,.06);border-color:rgba(180,130,0,.2)}
-[data-theme="light"] .debadge{color:#92620a;background:rgba(180,130,0,.1);border-color:rgba(180,130,0,.25)}
-[data-theme="light"] .ro-notice{background:rgba(100,116,170,.07);border-color:rgba(100,116,170,.18)}
-[data-theme="light"] .fberr{background:rgba(153,27,27,.07);border-color:rgba(153,27,27,.2);color:#991b1b}
-[data-theme="light"] .toast{background:#f0fdf4;border-color:#16a34a;color:#14532d}
-[data-theme="light"] .toast.err{background:#fff1f2;border-color:#dc2626;color:#991b1b}
-[data-theme="light"] .pin-key{background:var(--surf2);color:var(--txt)}
-[data-theme="light"] .eq-avatar--gold{background:rgba(180,130,0,.12);color:#92620a;border-color:rgba(180,130,0,.3)}
-[data-theme="light"] .eq-avatar--blue{background:rgba(29,78,216,.1);color:#1d4ed8;border-color:rgba(29,78,216,.25)}
-[data-theme="light"] .eq-avatar--vio{background:rgba(91,33,182,.09);color:#5b21b6;border-color:rgba(91,33,182,.22)}
-[data-theme="light"] .eq-card--pastor{background:rgba(180,130,0,.05);border-color:rgba(180,130,0,.18)}
-[data-theme="light"] .lbtn{background:var(--surf2);color:var(--txt)}
-[data-theme="light"] .lbtn.special{color:var(--gold-text);background:rgba(180,130,0,.08);border-color:rgba(180,130,0,.3)}
-[data-theme="light"] .bg{color:#fff}
-[data-theme="light"] .sec{color:var(--mut)}
-[data-theme="light"] .notif-banner{background:rgba(180,130,0,.08);border-color:rgba(180,130,0,.22)}
-[data-theme="light"] .notif-banner .nt{color:var(--gold-text)}
-
-/* Equipo cards */
-.eq-section-hdr{font-size:10.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;padding:0 2px}
-.eq-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:13px 14px;margin-bottom:9px;display:flex;align-items:flex-start;gap:13px;box-shadow:var(--card-shadow)}
-.eq-card--pastor{background:linear-gradient(135deg,rgba(212,168,67,.08),rgba(212,168,67,.02));border-color:rgba(212,168,67,.22)}
-.eq-avatar{width:38px;height:38px;border-radius:12px;background:var(--surf2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:16px;color:var(--mut);flex-shrink:0}
-.eq-avatar--gold{background:rgba(212,168,67,.14);border-color:rgba(212,168,67,.32);color:var(--gold)}
-.eq-avatar--blue{background:rgba(91,143,255,.12);border-color:rgba(91,143,255,.28);color:#7eb8ff}
-.eq-avatar--vio{background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.28);color:#c4b5fd}
-.eq-info{flex:1;min-width:0}
-.eq-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:14.5px;margin-bottom:2px}
-.eq-role{font-size:11px;color:var(--mut);margin-bottom:7px}
-
-/* Shell */
-.app{display:flex;flex-direction:column;height:100dvh;max-width:var(--app-max);margin:0 auto;overflow:hidden}
-.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav) + 52px)}
+/* ── Shell ── */
+.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;overflow:hidden}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav)+52px)}
 .scr::-webkit-scrollbar{display:none}
 
-/* Topbar */
+/* ── Topbar ── */
 .topbar{padding:16px 16px 0;position:sticky;top:0;z-index:10;background:var(--bg)}
-.tr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.atitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:21px;color:var(--gold)}
+.toprow{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.atitle{font-family:'Outfit',sans-serif;font-weight:900;font-size:20px;color:var(--gold);letter-spacing:-.3px}
 .asub{font-size:11px;color:var(--mut);padding-bottom:11px;border-bottom:1px solid var(--bdr)}
 .bsm{background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:600;display:inline-flex;align-items:center;gap:4px}
 .bsm:active{opacity:.7}
 
-/* Pages */
+/* ── Pages ── */
 .page{display:none;padding:14px 14px 0}
 .page.active{display:block}
 
-/* Nav */
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:var(--app-max);height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 2px 10px}
-.nb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:500}
+/* ── Nav ── */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 2px 10px}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500}
 .nb .ico{font-size:19px;line-height:1}
 .nb.active{color:var(--gold)}
 .nb.active .ico{filter:drop-shadow(0 0 5px rgba(212,168,67,.55))}
 
-/* Cards / Pills */
-.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:12px}
+/* ── Cards ── */
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:12px;box-shadow:var(--cs)}
 .pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px}
 .pills::-webkit-scrollbar{display:none}
 .pill{flex:0 0 auto;padding:7px 14px;border-radius:999px;background:var(--surf);border:1px solid var(--bdr);color:var(--mut);font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif}
 .pill.active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
 
-/* Week hero */
+/* ── ADORAR 2026 banner ── */
+.adorar-banner{border-radius:var(--r);padding:16px;margin-bottom:14px;position:relative;overflow:hidden;border:1px solid rgba(212,168,67,.3);background:linear-gradient(135deg,#1a1208 0%,#241a08 40%,#1a1208 100%)}
+[data-theme="light"] .adorar-banner{background:linear-gradient(135deg,#fef9e7 0%,#fef3c7 40%,#fef9e7 100%)}
+.adorar-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(212,168,67,.08),transparent);animation:shimmer 3s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.adorar-star{position:absolute;top:10px;right:14px;font-size:32px;opacity:.25}
+.adorar-label{font-size:10.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;opacity:.8}
+.adorar-title{font-family:'Outfit',sans-serif;font-weight:900;font-size:22px;color:var(--gold);letter-spacing:-.3px;margin-bottom:4px}
+.adorar-sub{font-size:12.5px;color:rgba(212,168,67,.75);line-height:1.4}
+.adorar-coord{display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.25);border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700;color:var(--gold)}
+
+/* ── Week hero ── */
 .wh{background:linear-gradient(135deg,rgba(212,168,67,.13),rgba(212,168,67,.03));border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:14px;margin-bottom:11px}
 .wd{font-size:12px;color:var(--gold);font-weight:500;margin-bottom:3px}
-.wn{font-family:'Outfit',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.5px}
+.wn{font-family:'Outfit',sans-serif;font-weight:900;font-size:24px;letter-spacing:-.5px}
+.wbadge{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid transparent}
+.wb-comunion{background:rgba(212,168,67,.15);color:var(--gold);border-color:rgba(212,168,67,.3)}
 
-/* Badges */
-.brow{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0}
-.b{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;font-size:11.5px;font-weight:600;border:1px solid transparent}
-.b-dir{background:rgba(212,168,67,.12);color:#fde68a;border-color:rgba(212,168,67,.28)}
-.b-voz{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
-.b-flt{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
-.b-s3{background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
-.b-rst{background:rgba(248,113,113,.08);color:#fecaca;border-color:rgba(248,113,113,.18)}
+/* ── Group cards ── */
+.grupo-card{border-radius:var(--r);padding:15px;margin-bottom:12px;border:1px solid;box-shadow:var(--cs)}
+.grupo-card.g1{background:var(--g1bg);border-color:var(--g1bdr)}
+.grupo-card.g2{background:var(--g2bg);border-color:var(--g2bdr)}
+.grupo-card.resting{opacity:.65;filter:saturate(.5)}
+.grupo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.grupo-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px}
+.g1 .grupo-name{color:var(--g1c)}
+.g2 .grupo-name{color:var(--g2c)}
+.grupo-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.gs-active{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+.gs-rest{background:var(--surf3);color:var(--mut);border:1px solid var(--bdr)}
+.grupo-coord{font-size:11.5px;color:var(--txt2);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.grupo-section{font-size:10px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin:8px 0 6px}
+.member-list{display:flex;flex-wrap:wrap;gap:5px}
+.member-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:999px;font-size:12.5px;font-weight:500;border:1px solid transparent}
+.mc-voz1{background:rgba(59,130,246,.12);color:var(--g1c);border-color:var(--g1bdr)}
+.mc-voz2{background:rgba(167,139,250,.12);color:var(--g2c);border-color:var(--g2bdr)}
+.mc-band1{background:rgba(45,212,191,.1);color:#2dd4bf;border-color:rgba(45,212,191,.25)}
+.mc-band2{background:rgba(251,146,60,.1);color:#fb923c;border-color:rgba(251,146,60,.25)}
+.mc-inst{font-size:10px;opacity:.65;margin-left:2px}
 
-/* Services */
-.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
-.svc{background:var(--surf2);border:1px solid var(--bdr);border-radius:12px;padding:10px 9px}
-.slbl{font-size:10px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
-.sp{display:flex;align-items:center;gap:5px;margin-bottom:4px;font-size:12px}
-.sp:last-child{margin-bottom:0}
-.dot{width:6px;height:6px;border-radius:50%;flex:0 0 6px}
-.dd{background:var(--gold)}.dv{background:var(--green)}.df{background:var(--vio)}.d3{background:var(--blue)}
-.rn{font-size:9.5px;color:var(--mut);margin-top:.5px}
+/* ── Service timeline ── */
+.timeline{margin-top:10px}
+.tl-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:11px;top:22px;bottom:-9px;width:1px;background:var(--bdr)}
+.tl-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;border:1px solid}
+.tl-dot.fri{background:rgba(45,212,191,.12);border-color:rgba(45,212,191,.3);color:#2dd4bf}
+.tl-dot.sun{background:rgba(212,168,67,.12);border-color:rgba(212,168,67,.3);color:var(--gold)}
+.tl-dot.wed{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.25);color:#4ade80}
+.tl-info{flex:1;padding-top:2px}
+.tl-day{font-weight:600;font-size:13px}
+.tl-detail{font-size:11.5px;color:var(--txt2);margin-top:1px}
+.tl-times{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+.tl-time{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--surf3);color:var(--mut);border:1px solid var(--bdr)}
 
-/* Calendar */
+/* ── Recarga card ── */
+.recarga-card{background:var(--surf3);border:1px solid var(--bdr);border-radius:var(--r);padding:13px;margin-bottom:12px}
+.recarga-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--txt2);margin-bottom:3px;display:flex;align-items:center;gap:7px}
+.recarga-sub{font-size:12.5px;color:var(--mut);line-height:1.5}
+
+/* ── Calendar ── */
 .cm{margin-bottom:16px}
 .ct{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;margin-bottom:9px}
 .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .cdow{text-align:center;font-size:10px;font-weight:700;color:var(--mut);padding:3px 0;text-transform:uppercase}
-.cd{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;font-size:12px;font-weight:500}
-.cd.tap{cursor:pointer}.cd.tap:active{opacity:.65;transform:scale(.93)}
+.cd{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;font-size:12px;font-weight:500;position:relative}
+.cd.tap{cursor:pointer}.cd.tap:active{opacity:.65;transform:scale(.93);transition:none}
 .cdn{line-height:1;margin-bottom:1px}
-.cdl{font-size:8px;font-weight:800;text-transform:uppercase;opacity:.85;margin-top:1px}
-.ev-v{background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.38);color:var(--gold)}
-.ev-d{background:rgba(91,143,255,.13);border:1px solid rgba(91,143,255,.34);color:#7eb8ff}
-.ev-i{background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.34);color:#c4b5fd}
-.ev-w{background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.28);color:#6ee7a0}
-.ev-f{border:1px dashed var(--bdr)}
+.cdl{font-size:8px;font-weight:800;text-transform:uppercase;opacity:.9;margin-top:1px}
+.ev-g1{background:var(--g1bg);border:1px solid var(--g1bdr);color:var(--g1c)}
+.ev-g2{background:var(--g2bg);border:1px solid var(--g2bdr);color:var(--g2c)}
+.ev-fri{background:rgba(45,212,191,.1);border:1px dashed rgba(45,212,191,.3);color:#2dd4bf}
+.ev-wed{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:#4ade80}
+.ev-com{outline:2px solid var(--gold);outline-offset:1px}
 .leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}
 .li{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--mut)}
 .ld{width:9px;height:9px;border-radius:50%}
 
-/* Member chips */
-.mw{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
-.wc{display:flex;flex-direction:column;align-items:center;padding:5px 7px;border-radius:9px;font-size:10.5px;font-weight:600;min-width:38px;border:1px solid transparent;gap:.5px}
-.wc .wnn{font-size:8.5px;opacity:.7}
-.cf{background:rgba(74,222,128,.10);color:#bbf7d0;border-color:rgba(74,222,128,.22)}
-.c3{background:rgba(91,143,255,.10);color:#bfdbfe;border-color:rgba(91,143,255,.22)}
-.cl{background:rgba(167,139,250,.10);color:#ddd6fe;border-color:rgba(167,139,250,.25)}
-.cr{background:var(--surf2);color:var(--mut);border-color:var(--bdr)}
-
-/* Labels */
-.sec{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:13px 0 7px}
-.nbadge{display:inline-block;background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.3);border-radius:999px;font-size:11px;font-weight:700;padding:3px 10px;margin-bottom:9px;font-family:'Outfit',sans-serif}
-.rb{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));border:1px solid rgba(212,168,67,.32);border-radius:var(--r);padding:13px;margin-bottom:12px;display:none}
-.rb.show{display:block}
-.rt{font-family:'Outfit',sans-serif;font-weight:800;font-size:14.5px;color:var(--gold);margin-bottom:5px}
-.ri{font-size:13px;margin-bottom:3px;display:flex;align-items:center;gap:6px}
-
-/* Dir band */
-.db{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:11px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.18);margin-bottom:12px}
-.dbn{font-weight:700;color:var(--gold);font-size:13.5px}
-.dbs{font-size:11px;color:var(--mut)}
-
-/* Forms */
-.rf{background:var(--surf);border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:14px;margin-bottom:13px}
-.rft{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--gold);margin:0 0 12px}
+/* ── Repertorio ── */
+.rf{background:var(--surf);border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:14px;margin-bottom:13px;box-shadow:var(--cs)}
+.rft{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--gold);margin:0 0 12px;display:flex;align-items:center;gap:7px}
 .ig{margin-bottom:10px}
 .il{font-size:10.5px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;display:block}
 .inp{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none}
@@ -201,67 +158,80 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .bg:active{opacity:.8}.bg:disabled{opacity:.4;cursor:default}
 .rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
 .rh h3{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;margin:0}
-.sc{font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 9px}
-.si{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:11px 12px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;animation:fu .3s}
-@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1}}
-.snum{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;color:rgba(212,168,67,.28);min-width:18px;padding-top:1px}
+.sc-badge{font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 9px}
+.si{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:11px 12px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;animation:fu .3s;box-shadow:var(--cs)}
+@keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.snum{font-family:'Outfit',sans-serif;font-weight:900;font-size:17px;color:rgba(212,168,67,.28);min-width:18px;padding-top:1px}
 .si-i{flex:1;min-width:0}
 .sti{font-weight:600;font-size:13px;margin-bottom:1px}
 .sar{font-size:11.5px;color:var(--mut);margin-bottom:3px}
 .sl{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;text-decoration:none;border:1px solid;padding:2px 8px;border-radius:999px}
 .sl-y{color:#ff6b6b;border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.08)}
-.sl-w{color:var(--blue);border-color:rgba(91,143,255,.25);background:rgba(91,143,255,.08)}
+.sl-w{color:var(--g1c);border-color:var(--g1bdr);background:var(--g1bg)}
 .sno{font-size:11px;color:var(--mut);margin-top:3px;font-style:italic}
 .bdl{width:27px;height:27px;border-radius:50%;border:1px solid var(--bdr);background:rgba(248,113,113,.07);color:var(--red);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .bdl:active{background:rgba(248,113,113,.2)}
+.ro-notice{display:flex;align-items:center;gap:8px;background:var(--surf3);border:1px solid var(--bdr);border-radius:12px;padding:10px 13px;margin-bottom:13px;font-size:12.5px;color:var(--mut)}
 .empty{text-align:center;padding:30px 14px;color:var(--mut)}
 .empty .ei{font-size:34px;opacity:.4;margin-bottom:8px}
 .empty p{font-size:12.5px;margin:0;line-height:1.6}
 .lmsg{text-align:center;padding:22px;color:var(--mut);font-size:13px}
-.ro-notice{display:flex;align-items:center;gap:8px;background:rgba(107,122,153,.09);border:1px solid rgba(107,122,153,.2);border-radius:12px;padding:10px 13px;margin-bottom:13px;font-size:12.5px;color:var(--mut)}
 
-/* Devocional */
-.dcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:13px}
-.dhdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
-.dtitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;color:var(--gold)}
-.dmeta{font-size:11px;color:var(--mut);margin-top:2px}
+/* ── Admin Panel ── */
+.panel-section{margin-bottom:18px}
+.panel-hdr{font-family:'Outfit',sans-serif;font-weight:800;font-size:14px;color:var(--gold);margin:0 0 11px;padding-bottom:9px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:7px}
+.grupo-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.gt-btn{padding:12px 8px;border-radius:13px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt2);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:center;transition:all .2s}
+.gt-btn.g1-sel{background:var(--g1bg);border-color:var(--g1bdr);color:var(--g1c)}
+.gt-btn.g2-sel{background:var(--g2bg);border-color:var(--g2bdr);color:var(--g2c)}
+.week-rows{display:flex;flex-direction:column;gap:7px}
+.week-row{display:flex;align-items:center;justify-content:space-between;background:var(--surf2);border:1px solid var(--bdr);border-radius:11px;padding:10px 12px}
+.wr-label{font-size:13px;font-weight:600}
+.wr-btns{display:flex;gap:6px}
+.wr-btn{padding:5px 12px;border-radius:999px;border:1px solid var(--bdr);background:transparent;color:var(--mut);font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif}
+.wr-btn.g1-a{background:var(--g1bg);border-color:var(--g1bdr);color:var(--g1c)}
+.wr-btn.g2-a{background:var(--g2bg);border-color:var(--g2bdr);color:var(--g2c)}
+.member-edit-grid{display:flex;flex-direction:column;gap:7px}
+.me-row{display:flex;align-items:center;gap:8px}
+.me-label{font-size:11.5px;color:var(--mut);min-width:75px;flex-shrink:0}
+.me-input{flex:1;background:var(--inp);border:1px solid var(--bdr);border-radius:9px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 10px;outline:none}
+.me-input:focus{border-color:var(--gd)}
+.bo{padding:10px 18px;border-radius:12px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;cursor:pointer}
+.bo:active{opacity:.75}
+
+/* ── Devocional ── */
+.dcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:13px;box-shadow:var(--cs)}
+.dtitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;color:var(--gold);margin-bottom:2px}
+.dmeta{font-size:11px;color:var(--mut);margin-bottom:12px}
 .dtext{font-size:14px;line-height:1.78;color:var(--txt);white-space:pre-wrap;min-height:60px}
 .dempty{font-size:13px;color:var(--mut);font-style:italic}
 .dta{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:12px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px;outline:none;resize:vertical;min-height:180px;line-height:1.75}
 .dta:focus{border-color:var(--gd)}.dta::placeholder{color:var(--mut)}
-.debadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#fde68a;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);border-radius:999px;padding:3px 9px}
-.bo{padding:10px 18px;border-radius:12px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;cursor:pointer}
-.bo:active{opacity:.75}
+.debadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#fde68a;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);border-radius:999px;padding:3px 9px;margin-bottom:10px}
 
-/* ═══ NOTAS PANEL (Pra. Mary) ═══ */
-.notas-panel{background:var(--surf);border:1px solid rgba(212,168,67,.25);border-radius:var(--r);padding:15px;margin-bottom:14px}
-.notas-title{font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;color:var(--gold);margin:0 0 13px;display:flex;align-items:center;gap:7px}
-.dest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:12px}
-.dest-btn{padding:8px 6px;border-radius:10px;border:1px solid var(--bdr);background:var(--surf2);color:var(--mut);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .18s}
-.dest-btn.sel{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
-.dest-btn.dest-all{grid-column:1/-1;background:rgba(212,168,67,.08);border-color:rgba(212,168,67,.22);color:var(--gold)}
-.dest-btn.dest-all.sel{background:var(--gbg);border-color:var(--gd)}
-.nota-history{margin-top:14px}
-.nota-item{background:var(--surf2);border:1px solid var(--bdr);border-radius:11px;padding:10px 12px;margin-bottom:7px;font-size:13px}
-.nota-item-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
-.nota-item-titulo{font-weight:600;font-size:13px}
-.nota-item-meta{font-size:10.5px;color:var(--mut)}
-.nota-item-msg{font-size:12.5px;color:var(--txt2);line-height:1.55}
-.nota-status{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;margin-top:5px}
-.status-sent{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
-.status-pending{background:rgba(212,168,67,.1);color:var(--gold);border:1px solid rgba(212,168,67,.2)}
-
-/* ═══ NOTIFICATION BANNER ═══ */
-.notif-banner{display:none;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.25);border-radius:var(--r);padding:13px;margin-bottom:12px;align-items:center;gap:11px}
+/* ── Notas ── */
+.nota-item{background:var(--surf2);border:1px solid var(--bdr);border-radius:11px;padding:10px 12px;margin-bottom:7px}
+.nota-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px}
+.nota-titulo{font-weight:600;font-size:13px}
+.nota-fecha{font-size:10.5px;color:var(--mut)}
+.nota-msg{font-size:12.5px;color:var(--txt2);line-height:1.5}
+.nota-dest{font-size:10.5px;color:var(--mut);margin-top:3px}
+.nota-status{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;margin-top:4px}
+.ns-sent{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
+.ns-pend{background:rgba(212,168,67,.1);color:var(--gold);border:1px solid rgba(212,168,67,.2)}
+.dest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px}
+.dest-btn{padding:7px 6px;border-radius:9px;border:1px solid var(--bdr);background:var(--surf2);color:var(--mut);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center}
+.dest-btn.dsel{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+.dest-btn.dall{grid-column:1/-1;background:rgba(212,168,67,.07);border-color:rgba(212,168,67,.2);color:var(--gold)}
+.dest-btn.dall.dsel{background:var(--gbg);border-color:var(--gd)}
+.notif-banner{display:none;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.22);border-radius:var(--r);padding:12px;margin-bottom:12px;align-items:center;gap:10px}
 .notif-banner.show{display:flex}
-.nt{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;color:var(--gold);margin-bottom:3px}
-.ns{font-size:12px;color:var(--mut)}
 .nbtn{padding:8px 14px;border-radius:10px;border:none;background:var(--gold);color:#0b0e15;font-family:'Outfit',sans-serif;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 
-/* Day sheet */
+/* ── Day sheet ── */
 .shov{position:fixed;inset:0;background:var(--ov);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
 .shov.open{opacity:1;pointer-events:all}
-.sh{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(102%);width:100%;max-width:var(--app-max);background:var(--sh);border-radius:22px 22px 0 0;border:1px solid var(--bdr);border-bottom:none;z-index:201;transition:transform .3s cubic-bezier(.32,1,.36,1);max-height:87dvh;overflow-y:auto;padding-bottom:40px}
+.sh{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(102%);width:100%;max-width:430px;background:var(--sh);border-radius:22px 22px 0 0;border:1px solid var(--bdr);border-bottom:none;z-index:201;transition:transform .3s cubic-bezier(.32,1,.36,1);max-height:87dvh;overflow-y:auto;padding-bottom:40px}
 .sh::-webkit-scrollbar{display:none}
 .sh.open{transform:translateX(-50%) translateY(0)}
 .shh{width:34px;height:4px;background:var(--bdr);border-radius:2px;margin:11px auto 0}
@@ -271,91 +241,111 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .shb{padding:13px 14px 0}
 .shx{position:absolute;top:12px;right:14px;width:28px;height:28px;border-radius:50%;border:1px solid var(--bdr);background:var(--surf2);color:var(--mut);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* Login */
-.lov{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .4s}
+/* ── Login ── */
+.lov{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;padding:28px 20px;overflow-y:auto;transition:opacity .4s}
 .lov.gone{opacity:0;pointer-events:none}
-.llogo{font-size:52px;margin-bottom:6px}
-.ltitle{font-family:'Outfit',sans-serif;font-weight:800;font-size:26px;color:var(--gold);margin-bottom:4px;text-align:center}
-.lsub{font-size:13px;color:var(--mut);text-align:center;margin-bottom:24px;line-height:1.5}
-.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;width:100%;max-width:340px}
-.lbtn{padding:13px 8px;border-radius:14px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:center;transition:all .2s;line-height:1.3}
-.lbtn:active{transform:scale(.96);background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+.llogo{font-size:46px;margin-bottom:5px;margin-top:8px}
+.ltitle{font-family:'Outfit',sans-serif;font-weight:900;font-size:24px;color:var(--gold);margin-bottom:3px;text-align:center}
+.lsub{font-size:12.5px;color:var(--mut);text-align:center;margin-bottom:22px}
+.lgroup{width:100%;max-width:340px;margin-bottom:14px}
+.lgroup-label{font-size:10px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;padding:0 2px}
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;max-width:340px}
+.lbtn{padding:12px 8px;border-radius:13px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:center;transition:all .18s;line-height:1.3;width:100%}
+.lbtn:active{transform:scale(.96);border-color:var(--gd)}
 .lbtn.special{border-color:rgba(212,168,67,.4);background:rgba(212,168,67,.07);color:var(--gold)}
-.lbtn.privileged::after{content:'🔒';font-size:11px;display:block;margin-top:3px;opacity:.5}
+.lbtn.g1-btn{border-color:var(--g1bdr);background:var(--g1bg)}
+.lbtn.g2-btn{border-color:var(--g2bdr);background:var(--g2bg)}
+.lbtn.privileged::after{content:'🔒';font-size:10px;display:block;margin-top:2px;opacity:.5}
+.lbtn-full{grid-column:1/-1}
 
-/* PIN pad */
+/* ── PIN ── */
 .pin-ov{position:fixed;inset:0;background:var(--ov);z-index:600;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .pin-ov.open{opacity:1;pointer-events:all}
-.pin-sheet{background:var(--sh);border-radius:24px 24px 0 0;width:100%;max-width:var(--app-max);padding:28px 24px 40px;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,1,.36,1)}
+.pin-sheet{background:var(--sh);border-radius:24px 24px 0 0;width:100%;max-width:430px;padding:28px 24px 40px;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,1,.36,1)}
 .pin-ov.open .pin-sheet{transform:translateY(0)}
 .pin-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;text-align:center;margin-bottom:4px}
-.pin-label{font-size:13px;color:var(--mut);text-align:center;margin-bottom:24px}
-.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:28px}
+.pin-label{font-size:13px;color:var(--mut);text-align:center;margin-bottom:22px}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:26px}
 .pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--bdr);background:transparent;transition:all .15s}
 .pin-dot.filled{background:var(--gold);border-color:var(--gold)}
 .pin-dot.error{background:var(--red);border-color:var(--red)}
+.pin-hint{font-size:11.5px;color:var(--mut);text-align:center;margin-bottom:16px;padding:7px 12px;background:rgba(212,168,67,.06);border:1px solid rgba(212,168,67,.14);border-radius:9px;line-height:1.5}
 .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto}
 .pin-key{height:62px;border-radius:16px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;user-select:none}
-.pin-key:active{background:var(--gbg);border-color:var(--gd);color:var(--gold);transform:scale(.93)}
+.pin-key:active{background:var(--gbg);border-color:var(--gd);color:var(--gold);transform:scale(.93);transition:none}
 .pin-key.del{font-size:18px;color:var(--mut)}
 .pin-key.empty{background:transparent;border:none;pointer-events:none}
 .pin-err{text-align:center;color:var(--red);font-size:13px;font-weight:600;margin-top:12px;min-height:20px}
-.pin-first-time{font-size:12px;color:var(--mut);text-align:center;margin-bottom:16px;padding:8px 12px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.15);border-radius:10px;line-height:1.5}
 .pin-back{width:100%;padding:12px;border-radius:12px;border:1px solid var(--bdr);background:transparent;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;margin-top:14px}
 
-/* Firebase error */
+/* ── Firebase err / Toast ── */
 .fberr{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.28);color:#fecaca;border-radius:12px;padding:10px 13px;font-size:12px;margin-bottom:11px;display:none}
 .fberr.show{display:block}
-
-/* Toast */
 .toast{position:fixed;top:78px;left:50%;transform:translateX(-50%) translateY(-8px);background:#1a2d1a;border:1px solid #4ade80;color:#bbf7d0;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;z-index:400;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.err{background:#2d1a1a;border-color:var(--red);color:#fecaca}
+.sec{font-size:10.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 8px}
 
-/* Summary table */
-.stbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.stbl th,.stbl td{padding:5px 3px;border-bottom:1px solid var(--bdr)}
-.stbl th{color:var(--mut);font-weight:600}
-
-/* Tablet version */
-@media (min-width: 768px){
-  :root{ --app-max: 860px; }
-
-  html,body{
-    background:
-      radial-gradient(circle at top, rgba(212,168,67,.06), transparent 28%),
-      var(--bg);
-  }
-
-  .topbar{padding:20px 24px 0}
-  .page{padding:18px 24px 0}
-  .asub{font-size:12px}
-  .atitle{font-size:24px}
-  .card,.rf,.dcard,.notas-panel,.wh,.rb{padding:18px}
-  .eq-card{padding:15px 16px}
-  .eq-avatar{width:42px;height:42px;font-size:17px}
-  .pills{gap:8px}
-  .pill{font-size:13px;padding:8px 16px}
-  .svcs{grid-template-columns:repeat(3,1fr);gap:10px}
-  .dest-grid{grid-template-columns:repeat(3,1fr)}
-  .lgrid{max-width:520px;grid-template-columns:repeat(3,1fr)}
-  .nb{font-size:10.5px}
-  .nb .ico{font-size:20px}
-}
-
-@media (min-width: 1024px){
-  :root{ --app-max: 980px; }
-}
+/* ── Light mode overrides ── */
+[data-theme="light"] .adorar-banner{border-color:rgba(184,134,11,.35)}
+[data-theme="light"] .adorar-coord{background:rgba(184,134,11,.12);border-color:rgba(184,134,11,.25)}
+[data-theme="light"] .ev-g1{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.3);color:#1d4ed8}
+[data-theme="light"] .ev-g2{background:rgba(124,58,237,.09);border-color:rgba(124,58,237,.28);color:#6d28d9}
+[data-theme="light"] .gs-active{background:rgba(22,101,52,.12);color:#166534;border-color:rgba(22,101,52,.3)}
+[data-theme="light"] .mc-voz1{background:rgba(37,99,235,.09);color:#1d4ed8;border-color:rgba(37,99,235,.25)}
+[data-theme="light"] .mc-voz2{background:rgba(124,58,237,.08);color:#6d28d9;border-color:rgba(124,58,237,.22)}
+[data-theme="light"] .pill.active{color:var(--gold);background:rgba(184,134,11,.1);border-color:rgba(184,134,11,.3)}
+[data-theme="light"] .nb.active{color:var(--gold)}
+[data-theme="light"] .nb.active .ico{filter:drop-shadow(0 0 5px rgba(184,134,11,.4))}
+[data-theme="light"] .bg{color:#fff}
+[data-theme="light"] .lbtn.special{color:var(--gold)}
+[data-theme="light"] .wh{background:linear-gradient(135deg,rgba(184,134,11,.09),rgba(184,134,11,.03));border-color:rgba(184,134,11,.22)}
+[data-theme="light"] .wd,[data-theme="light"] .atitle,[data-theme="light"] .rft,[data-theme="light"] .dtitle{color:var(--gold)}
+[data-theme="light"] .debadge{color:var(--gold)}
+[data-theme="light"] .toast{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+[data-theme="light"] .toast.err{background:#fff1f2;border-color:#dc2626;color:#991b1b}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div class="lov" id="loginOv">
-  <div class="llogo">🎵</div>
-  <div class="ltitle">Alabanza · Grace</div>
+  <div class="llogo">🎶</div>
+  <div class="ltitle">Ministerio 50/50</div>
   <div class="lsub">Selecciona tu nombre para continuar</div>
-  <div class="lgrid" id="loginGrid"></div>
+
+  <div class="lgroup">
+    <div class="lgroup-label">Directora General</div>
+    <div class="lgrid">
+      <button class="lbtn special privileged lbtn-full" onclick="selectUser('Pra. Mary')">Pra. Mary</button>
+    </div>
+  </div>
+
+  <div class="lgroup">
+    <div class="lgroup-label">🔵 Grupo 1 — Coordina Diana</div>
+    <div class="lgrid">
+      <button class="lbtn g1-btn privileged" onclick="selectUser('Veruska')">Veruska</button>
+      <button class="lbtn g1-btn privileged" onclick="selectUser('Diana')">Diana</button>
+      <button class="lbtn g1-btn" onclick="selectUser('Joselyn')">Joselyn</button>
+      <button class="lbtn g1-btn" onclick="selectUser('Marialex')">Marialex</button>
+      <button class="lbtn g1-btn" onclick="selectUser('Manuel')">Manuel</button>
+      <button class="lbtn g1-btn" onclick="selectUser('Daniel')">Daniel</button>
+      <button class="lbtn g1-btn lbtn-full" onclick="selectUser('Luis Y.')">Luis Y.</button>
+    </div>
+  </div>
+
+  <div class="lgroup" style="margin-bottom:32px">
+    <div class="lgroup-label">🟣 Grupo 2 — Coordina Isamar</div>
+    <div class="lgrid">
+      <button class="lbtn g2-btn privileged" onclick="selectUser('Isamar')">Isamar</button>
+      <button class="lbtn g2-btn" onclick="selectUser('Valeria')">Valeria</button>
+      <button class="lbtn g2-btn" onclick="selectUser('Zuisay')">Zuisay</button>
+      <button class="lbtn g2-btn" onclick="selectUser('Gelimar')">Gelimar</button>
+      <button class="lbtn g2-btn" onclick="selectUser('Miguel')">Miguel</button>
+      <button class="lbtn g2-btn" onclick="selectUser('Leo')">Leo</button>
+      <button class="lbtn g2-btn lbtn-full" onclick="selectUser('Moisés')">Moisés</button>
+    </div>
+  </div>
 </div>
 
 <!-- PIN PAD -->
@@ -363,8 +353,8 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   <div class="pin-sheet">
     <div class="pin-name" id="pinName"></div>
     <div class="pin-label" id="pinLabel"></div>
-    <div class="pin-first-time" id="pinFirstTime" style="display:none">🔐 Primera vez — crea tu PIN de 4 dígitos. Solo tú lo sabrás.</div>
-    <div class="pin-dots" id="pinDots">
+    <div class="pin-hint" id="pinHint" style="display:none">🔐 Primera vez — crea tu PIN de 4 dígitos. Solo tú lo sabrás.</div>
+    <div class="pin-dots">
       <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
       <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
     </div>
@@ -382,33 +372,34 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <!-- APP -->
 <div class="app" id="mainApp" style="display:none">
   <div class="topbar">
-    <div class="tr">
-      <span class="atitle">♪ Alabanza</span>
-      <div style="display:flex;gap:6px;align-items:center">
+    <div class="toprow">
+      <span class="atitle">🎶 Ministerio 50/50</span>
+      <div style="display:flex;gap:6px">
         <button class="bsm" id="userBadge" onclick="logout()">👤 —</button>
         <button class="bsm" onclick="toggleTheme()" id="themeBtn">🌙</button>
       </div>
     </div>
-    <div class="asub">Equipo de alabanza · Abr – May 2026</div>
+    <div class="asub">Grace Church · Abr – May 2026</div>
   </div>
 
   <div class="scr">
 
-    <!-- INICIO -->
+    <!-- ══ INICIO ══ -->
     <div id="page-inicio" class="page active">
-      <!-- Notification permission banner -->
+      <!-- ADORAR 2026 banner -->
+      <div class="adorar-banner">
+        <div class="adorar-star">★</div>
+        <div class="adorar-label">Proyecto Especial</div>
+        <div class="adorar-title">ADORAR 2026</div>
+        <div class="adorar-sub">Ministerio de alabanza para el avivamiento</div>
+        <div class="adorar-coord">🎤 Coordinación de Voces: Veruska</div>
+      </div>
+      <!-- Notification banner -->
       <div class="notif-banner" id="notifBanner">
-        <div style="flex:1">
-          <div class="nt">🔔 Activa los recordatorios</div>
-          <div class="ns">Recibe avisos de ensayos y servicios</div>
-        </div>
+        <div style="flex:1"><div style="font-weight:700;color:var(--gold);font-size:13px">🔔 Activa los recordatorios</div><div style="font-size:11.5px;color:var(--mut)">Recibe avisos de ensayos y servicios</div></div>
         <button class="nbtn" onclick="solicitarNotif()">Activar</button>
       </div>
-      <div class="rb" id="remBanner">
-        <div class="rt">⏰ Próximos compromisos</div>
-        <div id="remItems"></div>
-      </div>
-      <div class="nbadge">⬤ Próximo: Dom 5 abr</div>
+      <!-- Week selector -->
       <div class="pills" id="inicioPills">
         <button class="pill active" onclick="showInicio(1,this)">S1 · 5 abr</button>
         <button class="pill" onclick="showInicio(2,this)">S2 · 12 abr</button>
@@ -420,53 +411,28 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <div id="inicioDetail"></div>
     </div>
 
-    <!-- CALENDARIO -->
+    <!-- ══ GRUPOS ══ -->
+    <div id="page-grupos" class="page">
+      <div id="gruposContent"></div>
+    </div>
+
+    <!-- ══ CALENDARIO ══ -->
     <div id="page-calendario" class="page">
       <div class="leg">
-        <div class="li"><div class="ld" style="background:var(--gold)"></div>Veruska</div>
-        <div class="li"><div class="ld" style="background:#7eb8ff"></div>Diana</div>
-        <div class="li"><div class="ld" style="background:#c4b5fd"></div>Isamar</div>
-        <div class="li"><div class="ld" style="background:#6ee7a0"></div>Miércoles</div>
-        <div class="li"><div class="ld" style="background:var(--mut)"></div>Ensayo</div>
+        <div class="li"><div class="ld" style="background:var(--g1c)"></div>Grupo 1</div>
+        <div class="li"><div class="ld" style="background:var(--g2c)"></div>Grupo 2</div>
+        <div class="li"><div class="ld" style="background:#2dd4bf"></div>Ensayo</div>
+        <div class="li"><div class="ld" style="background:#4ade80"></div>Miércoles</div>
+        <div class="li"><div class="ld" style="background:var(--gold)"></div>Comunión</div>
       </div>
       <div class="cm"><div class="ct">Abril 2026</div><div class="cg" id="calAbr"></div></div>
       <div class="cm"><div class="ct">Mayo 2026</div><div class="cg" id="calMay"></div></div>
-      <div class="sec">Resumen directoras</div>
-      <div class="card" style="padding:10px">
-        <table class="stbl">
-          <thead><tr><th style="text-align:left">Directora</th><th style="text-align:center">S1</th><th style="text-align:center">S2</th><th style="text-align:center">S3</th><th style="text-align:center">S4</th><th style="text-align:center">S5</th><th style="text-align:center">S6</th></tr></thead>
-          <tbody>
-            <tr><td style="font-weight:700;color:var(--gold)">Veruska</td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td></tr>
-            <tr><td style="font-weight:700;color:#7eb8ff">Diana</td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td></tr>
-            <tr><td style="font-weight:700;color:#c4b5fd">Isamar</td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td><td style="text-align:center"><span style="color:#bfdbfe;font-size:10px">S3</span></td><td style="text-align:center"><span style="color:var(--mut);font-size:10px">—</span></td><td style="text-align:center"><span style="color:#bbf7d0">★</span></td></tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
-    <!-- EQUIPO -->
-    <div id="page-equipo" class="page">
-      <div class="eq-section-hdr">Pastora / Directora General</div>
-      <div class="eq-card eq-card--pastor">
-        <div class="eq-avatar eq-avatar--gold">P</div>
-        <div class="eq-info"><div class="eq-name" style="color:var(--gold)">Pra. Mary</div><div class="eq-role">Directora General del Ministerio</div></div>
-      </div>
-      <div class="eq-section-hdr">Directoras</div>
-      <div class="eq-card"><div class="eq-avatar eq-avatar--gold">V</div><div class="eq-info"><div class="eq-name" style="color:var(--gold)">Veruska</div><div class="eq-role">Directora</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc c3"><div>S3</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc c3"><div>S3</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-card"><div class="eq-avatar eq-avatar--blue">D</div><div class="eq-info"><div class="eq-name" style="color:#7eb8ff">Diana</div><div class="eq-role">Directora</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc c3"><div>S3</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc c3"><div>S3</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-card"><div class="eq-avatar eq-avatar--vio">I</div><div class="eq-info"><div class="eq-name" style="color:#c4b5fd">Isamar</div><div class="eq-role">Directora</div><div class="mw"><div class="wc c3"><div>S3</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc c3"><div>S3</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-section-hdr">Voces</div>
-      <div class="eq-card"><div class="eq-avatar">J</div><div class="eq-info"><div class="eq-name">Joselyn</div><div class="mw"><div class="wc cl"><div>Flot.</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-card"><div class="eq-avatar">V</div><div class="eq-info"><div class="eq-name">Valeria</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-card"><div class="eq-avatar">Z</div><div class="eq-info"><div class="eq-name">Zuisay</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cl"><div>Flot.</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-card"><div class="eq-avatar">M</div><div class="eq-info"><div class="eq-name">Ma Alex</div><div class="mw"><div class="wc cf"><div>Full</div><div class="wnn">S1</div></div><div class="wc cr"><div>—</div><div class="wnn">S2</div></div><div class="wc cf"><div>Full</div><div class="wnn">S3</div></div><div class="wc cr"><div>—</div><div class="wnn">S4</div></div><div class="wc cf"><div>Full</div><div class="wnn">S5</div></div><div class="wc cr"><div>—</div><div class="wnn">S6</div></div></div></div></div>
-      <div class="eq-card" style="margin-bottom:6px"><div class="eq-avatar">G</div><div class="eq-info"><div class="eq-name">Gelimar</div><div class="mw"><div class="wc cr"><div>—</div><div class="wnn">S1</div></div><div class="wc cf"><div>Full</div><div class="wnn">S2</div></div><div class="wc cr"><div>—</div><div class="wnn">S3</div></div><div class="wc cf"><div>Full</div><div class="wnn">S4</div></div><div class="wc cr"><div>—</div><div class="wnn">S5</div></div><div class="wc cf"><div>Full</div><div class="wnn">S6</div></div></div></div></div>
-    </div>
-
-    <!-- REPERTORIO -->
+    <!-- ══ REPERTORIO ══ -->
     <div id="page-repertorio" class="page">
       <div class="fberr" id="repErr">⚠️ Error de conexión. Verifica las reglas de Firebase.</div>
-      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — las directoras gestionan el repertorio</div>
+      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — las coordinadoras gestionan el repertorio</div>
       <div class="pills" id="repPills">
         <button class="pill active" onclick="selRepWeek(1,this)">S1 · 5 abr</button>
         <button class="pill" onclick="selRepWeek(2,this)">S2 · 12 abr</button>
@@ -475,7 +441,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
         <button class="pill" onclick="selRepWeek(5,this)">S5 · 3 may</button>
         <button class="pill" onclick="selRepWeek(6,this)">S6 · 10 may</button>
       </div>
-      <div class="db"><div style="font-size:16px">★</div><div><div class="dbn" id="repDirName">Veruska</div><div class="dbs" id="repDirSub">Directora · Semana 1</div></div></div>
+      <div id="repWeekInfo" style="margin-bottom:12px"></div>
       <div id="repForm" class="rf">
         <div class="rft">🎵 Agregar canción</div>
         <div class="ig"><label class="il">Título *</label><input id="iTitle" class="inp" type="text" placeholder="Ej: Grande y Poderoso" autocomplete="off"/></div>
@@ -484,24 +450,24 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
         <div class="ig"><label class="il">Tono / Nota</label><input id="iNote" class="inp" type="text" placeholder="Ej: Do mayor" autocomplete="off"/></div>
         <button class="bg" id="btnAdd" onclick="addSong()">Guardar canción</button>
       </div>
-      <div class="rh"><h3>Repertorio</h3><span class="sc" id="songCount">—</span></div>
+      <div class="rh"><h3>Lista de canciones</h3><span class="sc-badge" id="songCount">—</span></div>
       <div id="songList"><div class="lmsg">Cargando…</div></div>
     </div>
 
-    <!-- DEVOCIONAL + NOTAS -->
-    <div id="page-devocional" class="page">
+    <!-- ══ PANEL / DEVOCIONAL ══ -->
+    <div id="page-panel" class="page">
       <div class="fberr" id="devoErr">⚠️ Error de conexión.</div>
-      <div id="devoReadOnly" class="ro-notice" style="display:none">👁 Solo Pra. Mary puede publicar el devocional</div>
 
-      <!-- Devocional card -->
+      <!-- ─ Devocional (todos ven) ─ -->
       <div class="dcard">
-        <div class="dhdr">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2px">
           <div><div class="dtitle">📖 Devocional</div><div class="dmeta" id="devoMeta">Cargando…</div></div>
           <div id="devoEdBadge" style="display:none"><span class="debadge">✏️ Editor</span></div>
         </div>
+        <div id="devoReadOnly2" class="ro-notice" style="display:none;margin-top:8px">👁 Solo Pra. Mary puede publicar</div>
         <div id="devoRead"><div class="dtext" id="devoText"></div></div>
         <div id="devoEdit" style="display:none">
-          <textarea class="dta" id="devoTa" placeholder="Escribe aquí el devocional de la semana…"></textarea>
+          <textarea class="dta" id="devoTa" placeholder="Escribe el devocional de la semana…"></textarea>
           <div style="display:flex;gap:8px;margin-top:10px">
             <button class="bg" style="flex:1" onclick="saveDevo()">Publicar devocional</button>
             <button class="bo" onclick="cancelDevo()">Cancelar</button>
@@ -512,33 +478,50 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
         </div>
       </div>
 
-      <!-- Notas de recordatorio (solo Pra. Mary) -->
-      <div id="notasPanel" style="display:none">
-        <div class="notas-panel">
-          <div class="notas-title">📋 Enviar nota al equipo</div>
-          <div class="ig"><label class="il">Título *</label><input id="notaTitulo" class="inp" type="text" placeholder="Ej: Recordatorio ensayo especial" autocomplete="off"/></div>
-          <div class="ig"><label class="il">Mensaje *</label><input id="notaMensaje" class="inp" type="text" placeholder="Ej: El ensayo del viernes es a las 6pm" autocomplete="off"/></div>
+      <!-- ─ Admin panel (solo Pra. Mary) ─ -->
+      <div id="adminPanel" style="display:none">
+
+        <!-- Asignación de grupos por semana -->
+        <div class="panel-section">
+          <div class="panel-hdr">⚙️ Asignación semanal de grupos</div>
+          <div class="week-rows" id="weekRows"></div>
+        </div>
+
+        <!-- Gestor de miembros -->
+        <div class="panel-section">
+          <div class="panel-hdr">👥 Gestor de miembros</div>
+          <div class="sec" style="color:var(--g1c)">🔵 Grupo 1</div>
+          <div class="member-edit-grid" id="meG1"></div>
+          <div class="sec" style="color:var(--g2c);margin-top:14px">🟣 Grupo 2</div>
+          <div class="member-edit-grid" id="meG2"></div>
+          <button class="bg" style="margin-top:12px" onclick="saveMiembros()">Guardar cambios de miembros</button>
+        </div>
+
+        <!-- Notas al equipo -->
+        <div class="panel-section">
+          <div class="panel-hdr">📋 Enviar nota al equipo</div>
+          <div class="ig"><label class="il">Título *</label><input id="notaTitulo" class="inp" type="text" placeholder="Ej: Cambio de ensayo" autocomplete="off"/></div>
+          <div class="ig"><label class="il">Mensaje *</label><input id="notaMensaje" class="inp" type="text" placeholder="Ej: El viernes es a las 7pm en el templo" autocomplete="off"/></div>
           <div class="ig">
             <label class="il">Destinatarios</label>
             <div class="dest-grid" id="destGrid"></div>
           </div>
           <button class="bg" onclick="enviarNota()">📤 Enviar notificación</button>
+          <div class="rh" style="margin-top:16px"><h3>Notas enviadas</h3></div>
+          <div id="notasHistory"><div class="lmsg">Cargando…</div></div>
         </div>
 
-        <!-- Historial de notas -->
-        <div class="rh" style="margin-top:4px"><h3>Notas enviadas</h3></div>
-        <div id="notasHistory"><div class="lmsg">Cargando…</div></div>
-      </div>
+      </div><!-- /adminPanel -->
     </div>
 
   </div><!-- /scr -->
 
   <nav class="nav">
     <button class="nb active" onclick="goNav('inicio',this)"><span class="ico">🏠</span>Inicio</button>
+    <button class="nb" onclick="goNav('grupos',this)"><span class="ico">👥</span>Grupos</button>
     <button class="nb" onclick="goNav('calendario',this)"><span class="ico">📅</span>Calend.</button>
-    <button class="nb" onclick="goNav('equipo',this)"><span class="ico">👥</span>Equipo</button>
     <button class="nb" onclick="goNav('repertorio',this)"><span class="ico">🎵</span>Reperto.</button>
-    <button class="nb" onclick="goNav('devocional',this)"><span class="ico">📖</span>Devoc.</button>
+    <button class="nb" id="lastNavBtn" onclick="goNav('panel',this)"><span class="ico">📖</span><span id="lastNavLabel">Devoc.</span></button>
   </nav>
 </div>
 
@@ -550,12 +533,11 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   <div class="shhd"><div class="shd" id="shDate"></div><div class="sht" id="shTitle"></div></div>
   <div class="shb" id="shBody"></div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
 // ══ FIREBASE ══════════════════════════════════════════════════
-const firebaseConfig = {
+const FB_CFG = {
   apiKey:"AIzaSyBuKRoh9gZeYcCMgJv8p6iHDuEcraqd-dk",
   authDomain:"asistentegrace-e750c.firebaseapp.com",
   databaseURL:"https://asistentegrace-e750c-default-rtdb.firebaseio.com",
@@ -564,210 +546,213 @@ const firebaseConfig = {
   messagingSenderId:"446240076504",
   appId:"1:446240076504:web:90e26c8360fc8aa26c9dad"
 };
+const VAPID = 'BHFB7e1bYcZDOw9uYArU3-Ky6bWoh3JchlIXAEH_NXibIdUUV8vyIFAM1ehei1zEs9DPp9UdSR-kEZen_o3Kjzs';
+const DB_PATH = '/ministerio5050';
 let db, messaging;
-try {
-  if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+try{
+  if(!firebase.apps.length) firebase.initializeApp(FB_CFG);
   db = firebase.database();
   messaging = firebase.messaging();
-} catch(e){ console.error('Firebase:',e); }
+}catch(e){console.error('FB:',e);}
 
-const VAPID_KEY = 'BHFB7e1bYcZDOw9uYArU3-Ky6bWoh3JchlIXAEH_NXibIdUUV8vyIFAM1ehei1zEs9DPp9UdSR-kEZen_o3Kjzs';
-
-// ══ ROLES ═════════════════════════════════════════════════════
+// ══ STATIC DATA ═══════════════════════════════════════════════
 const DG = 'Pra. Mary';
-const DIRS = ['Veruska','Diana','Isamar'];
-const VOCES = ['Joselyn','Valeria','Zuisay','Ma Alex','Gelimar'];
-const ALL = [DG,...DIRS,...VOCES];
+const COORDS = ['Veruska','Diana','Isamar'];
+const ALL_MEMBERS = [DG,'Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.',
+                     'Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés'];
 
-function needsPin(u){ return u===DG||DIRS.includes(u); }
-function canEditRep(u){ return u===DG||DIRS.includes(u); }
-function canEditDevo(u){ return u===DG; }
-function isAdmin(u){ return u===DG; }
-
-// ══ SCHEDULE DATA ═════════════════════════════════════════════
-const weeks = [
-  {n:1,date:'Domingo, 5 de abril 2026',  short:'5 abr',  dir:'Veruska',voces:['Zuisay','Ma Alex'], flot:'Joselyn',s3:'Isamar', desc:['Diana','Valeria','Gelimar']},
-  {n:2,date:'Domingo, 12 de abril 2026', short:'12 abr', dir:'Diana',  voces:['Joselyn','Gelimar'], flot:'Valeria',s3:'Veruska',desc:['Isamar','Zuisay','Ma Alex']},
-  {n:3,date:'Domingo, 19 de abril 2026', short:'19 abr', dir:'Isamar', voces:['Valeria','Ma Alex'], flot:'Zuisay', s3:'Diana',  desc:['Veruska','Joselyn','Gelimar']},
-  {n:4,date:'Domingo, 26 de abril 2026', short:'26 abr', dir:'Veruska',voces:['Zuisay','Gelimar'],  flot:'Joselyn',s3:'Isamar', desc:['Diana','Valeria','Ma Alex']},
-  {n:5,date:'Domingo, 3 de mayo 2026',   short:'3 may',  dir:'Diana',  voces:['Joselyn','Ma Alex'], flot:'Valeria',s3:'Veruska',desc:['Isamar','Zuisay','Gelimar']},
-  {n:6,date:'Domingo, 10 de mayo 2026',  short:'10 may', dir:'Isamar', voces:['Valeria','Gelimar'],  flot:'Zuisay', s3:'Diana',  desc:['Veruska','Joselyn','Ma Alex']}
-];
-
-const CAL={
-  '2026-04-03':{t:'fri',wn:1},'2026-04-05':{t:'sun',wn:1,dir:'v'},
-  '2026-04-08':{t:'wed',wn:1},'2026-04-10':{t:'fri',wn:2},
-  '2026-04-12':{t:'sun',wn:2,dir:'d'},'2026-04-15':{t:'wed',wn:2},
-  '2026-04-17':{t:'fri',wn:3},'2026-04-19':{t:'sun',wn:3,dir:'i'},
-  '2026-04-22':{t:'wed',wn:3},'2026-04-24':{t:'fri',wn:4},
-  '2026-04-26':{t:'sun',wn:4,dir:'v'},'2026-04-29':{t:'wed',wn:4},
-  '2026-05-01':{t:'fri',wn:5},'2026-05-03':{t:'sun',wn:5,dir:'d'},
-  '2026-05-06':{t:'wed',wn:5},'2026-05-08':{t:'fri',wn:6},
-  '2026-05-10':{t:'sun',wn:6,dir:'i'},'2026-05-13':{t:'wed',wn:6}
+// Default group data (editable via admin panel)
+const GRUPOS_DEFAULT = {
+  1:{
+    nombre:'Grupo 1', coord:'Diana', coordRole:'Coordinadora',
+    voces:['Veruska','Diana','Joselyn','Marialex'],
+    banda:[{n:'Manuel',i:'Batería'},{n:'Daniel',i:'Bajo'},{n:'Luis Y.',i:'Guitarra E.'}]
+  },
+  2:{
+    nombre:'Grupo 2', coord:'Isamar', coordRole:'Coordinadora',
+    voces:['Isamar','Valeria','Zuisay','Gelimar'],
+    banda:[{n:'Miguel',i:'Teclado'},{n:'Leo',i:'Batería'},{n:'Moisés',i:'Bajo'}]
+  }
 };
 
-function userInWeek(u,wn){
-  if(u===DG) return true;
-  const w=weeks[wn-1];
-  return w.dir===u||w.voces.includes(u)||w.flot===u||w.s3===u;
+// Live groups (can be updated by admin)
+let GRUPOS = JSON.parse(JSON.stringify(GRUPOS_DEFAULT));
+// Groups override per week (from Firebase)
+let gruposOverride = {};
+
+// Semanas — odd = G1, even = G2
+const SEMANAS = [
+  {n:1,label:'5 abr',   g:1, especial:'Comunión', fri:'2026-04-03',sun:'2026-04-05',wed:'2026-04-08'},
+  {n:2,label:'12 abr',  g:2, especial:null,        fri:'2026-04-10',sun:'2026-04-12',wed:'2026-04-15'},
+  {n:3,label:'19 abr',  g:1, especial:null,        fri:'2026-04-17',sun:'2026-04-19',wed:'2026-04-22'},
+  {n:4,label:'26 abr',  g:2, especial:null,        fri:'2026-04-24',sun:'2026-04-26',wed:'2026-04-29'},
+  {n:5,label:'3 may',   g:1, especial:'Comunión',  fri:'2026-05-01',sun:'2026-05-03',wed:'2026-05-06'},
+  {n:6,label:'10 may',  g:2, especial:null,        fri:'2026-05-08',sun:'2026-05-10',wed:'2026-05-13'},
+];
+
+// Calendar event map
+const CAL = {};
+SEMANAS.forEach(s=>{
+  CAL[s.fri]={t:'fri',wn:s.n,g:s.g};
+  CAL[s.sun]={t:'sun',wn:s.n,g:s.g,especial:s.especial};
+  CAL[s.wed]={t:'wed',wn:s.n,g:s.g};
+});
+
+function getActiveGroup(wn){
+  return gruposOverride[wn] || SEMANAS[wn-1].g;
+}
+function userInGroup(user, gNum){
+  if(user===DG) return true;
+  const g = GRUPOS[gNum];
+  return g.voces.includes(user) || g.banda.some(b=>b.n===user);
+}
+function userInWeek(user, wn){
+  if(user===DG) return true;
+  return userInGroup(user, getActiveGroup(wn));
 }
 
-// ══ PIN ════════════════════════════════════════════════════════
+// ══ ROLES ════════════════════════════════════════════════════
+function needsPin(u){ return u===DG||COORDS.includes(u); }
+function canEditRep(u){ return u===DG||COORDS.includes(u); }
+function canEditDevo(u){ return u===DG; }
+function isAdmin(u){ return u===DG; }
+function fbKey(n){ return n.replace(/[^a-zA-Z0-9]/g,'_'); }
+
+// ══ PIN SYSTEM ════════════════════════════════════════════════
 let pinUser='',pinBuf='',pinMode='check',pinFirst='',pinTries=0,pinLocked=false;
 
 async function sha256(t){
   const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
-function fbKey(n){ return n.replace(/[^a-zA-Z0-9]/g,'_'); }
-
 function openPinPad(user){
   pinUser=user; pinBuf=''; pinTries=0; pinLocked=false;
   document.getElementById('pinName').textContent=user;
   document.getElementById('pinErr').textContent='';
-  updateDots();
-  db.ref(`/alabanza/pins/${fbKey(user)}`).once('value').then(s=>{
+  updDots();
+  db.ref(`${DB_PATH}/pins/${fbKey(user)}`).once('value').then(s=>{
     if(s.val()){
       pinMode='check';
       document.getElementById('pinLabel').textContent='Ingresa tu PIN de 4 dígitos';
-      document.getElementById('pinFirstTime').style.display='none';
-    } else {
+      document.getElementById('pinHint').style.display='none';
+    }else{
       pinMode='set-first';
       document.getElementById('pinLabel').textContent='Crea tu PIN personal (4 dígitos)';
-      document.getElementById('pinFirstTime').style.display='block';
+      document.getElementById('pinHint').style.display='block';
     }
     document.getElementById('pinOv').classList.add('open');
-  }).catch(()=>{ doLogin(user); });
+  }).catch(()=>doLogin(user));
 }
-
 function closePinPad(){
   document.getElementById('pinOv').classList.remove('open');
   pinBuf=''; pinMode='check';
   if(pinUser){
-    localStorage.removeItem('alabanza_user');
+    localStorage.removeItem('m5050_user');
     pinUser='';
     const ov=document.getElementById('loginOv');
     ov.style.display=''; ov.classList.remove('gone');
   }
 }
-
 function pinKey(d){
   if(pinLocked||pinBuf.length>=4) return;
-  pinBuf+=d; updateDots();
-  if(pinBuf.length===4) setTimeout(checkPin,120);
+  pinBuf+=d; updDots();
+  if(pinBuf.length===4) setTimeout(checkPin,130);
 }
 function pinDel(){
   if(pinLocked) return;
-  pinBuf=pinBuf.slice(0,-1); updateDots();
+  pinBuf=pinBuf.slice(0,-1); updDots();
   document.getElementById('pinErr').textContent='';
 }
-function updateDots(){
+function updDots(){
   for(let i=0;i<4;i++){
     const d=document.getElementById('d'+i);
     d.classList.toggle('filled',i<pinBuf.length);
     d.classList.remove('error');
   }
 }
-function shakeErr(msg){
+function pinShake(msg){
   for(let i=0;i<4;i++) document.getElementById('d'+i).classList.add('error');
   document.getElementById('pinErr').textContent=msg;
-  setTimeout(()=>{ pinBuf=''; updateDots(); },800);
+  setTimeout(()=>{pinBuf='';updDots();},800);
 }
-
 async function checkPin(){
   const hash=await sha256(pinBuf);
   if(pinMode==='check'){
-    const s=await db.ref(`/alabanza/pins/${fbKey(pinUser)}`).once('value');
-    if(s.val()===hash){
-      const _n=pinUser; closePinPad(); doLogin(_n);
-    } else {
+    const s=await db.ref(`${DB_PATH}/pins/${fbKey(pinUser)}`).once('value');
+    if(s.val()===hash){ const n=pinUser; closePinPad(); doLogin(n); }
+    else{
       pinTries++;
-      if(pinTries>=3){
-        pinLocked=true; shakeErr('Demasiados intentos. Espera 30s.');
-        setTimeout(()=>{ pinLocked=false; pinTries=0; document.getElementById('pinErr').textContent=''; },30000);
-      } else shakeErr(`PIN incorrecto. Intento ${pinTries}/3`);
+      if(pinTries>=3){ pinLocked=true; pinShake('Demasiados intentos. Espera 30s.'); setTimeout(()=>{pinLocked=false;pinTries=0;document.getElementById('pinErr').textContent='';},30000); }
+      else pinShake(`PIN incorrecto. Intento ${pinTries}/3`);
     }
-  } else if(pinMode==='set-first'){
-    pinFirst=pinBuf; pinBuf=''; updateDots();
+  }else if(pinMode==='set-first'){
+    pinFirst=pinBuf; pinBuf=''; updDots();
     pinMode='set-confirm';
     document.getElementById('pinLabel').textContent='Confirma tu PIN';
-    document.getElementById('pinFirstTime').style.display='none';
+    document.getElementById('pinHint').style.display='none';
     document.getElementById('pinErr').textContent='';
-  } else if(pinMode==='set-confirm'){
+  }else if(pinMode==='set-confirm'){
     if(pinBuf===pinFirst){
-      await db.ref(`/alabanza/pins/${fbKey(pinUser)}`).set(hash);
-      const _n2=pinUser; closePinPad(); doLogin(_n2);
+      await db.ref(`${DB_PATH}/pins/${fbKey(pinUser)}`).set(hash);
+      const n=pinUser; closePinPad(); doLogin(n);
       showToast('🔐 PIN creado correctamente',false);
-    } else {
+    }else{
       pinFirst=''; pinMode='set-first';
       document.getElementById('pinLabel').textContent='Los PINs no coinciden. Inténtalo de nuevo.';
-      shakeErr('');
+      pinShake('');
     }
   }
 }
 
-// ══ LOGIN ═════════════════════════════════════════════════════
-let loggedUser=localStorage.getItem('alabanza_user')||'';
-
-function buildLogin(){
-  document.getElementById('loginGrid').innerHTML=ALL.map(n=>
-    `<button class="lbtn ${n===DG?'special':''} ${needsPin(n)?'privileged':''}" onclick="selectUser('${n}')">${n}</button>`
-  ).join('');
-}
-
+// ══ LOGIN ════════════════════════════════════════════════════
+let loggedUser = localStorage.getItem('m5050_user')||'';
 function selectUser(n){ needsPin(n)?openPinPad(n):doLogin(n); }
-
 function doLogin(n){
   loggedUser=n;
-  localStorage.setItem('alabanza_user',n);
+  localStorage.setItem('m5050_user',n);
   const ov=document.getElementById('loginOv');
   ov.classList.add('gone');
   document.getElementById('mainApp').style.display='';
   setTimeout(()=>ov.style.display='none',450);
   initApp();
 }
-
 function logout(){
   if(!confirm('¿Cambiar de usuario?')) return;
-  localStorage.removeItem('alabanza_user');
+  localStorage.removeItem('m5050_user');
   location.reload();
 }
-
-buildLogin();
 if(loggedUser){
   if(needsPin(loggedUser)){
     document.getElementById('loginOv').style.display='none';
     openPinPad(loggedUser);
-  } else {
+  }else{
     document.getElementById('loginOv').style.display='none';
     document.getElementById('mainApp').style.display='';
     initApp();
   }
 }
 
-// ══ INIT ══════════════════════════════════════════════════════
+// ══ INIT ════════════════════════════════════════════════════
 function initApp(){
   document.getElementById('userBadge').textContent='👤 '+loggedUser;
-  const t=localStorage.getItem('alabanza_theme')||'dark';
+  const t=localStorage.getItem('m5050_theme')||'dark';
   document.documentElement.setAttribute('data-theme',t);
   document.getElementById('themeBtn').textContent=t==='dark'?'🌙':'🌞';
 
-  showInicio(1,document.querySelector('#inicioPills .pill'));
-  buildCal(2026,4,'calAbr'); buildCal(2026,5,'calMay');
-  checkReminders();
-  initFCM();
-
-  const canRep=canEditRep(loggedUser);
-  document.getElementById('repForm').style.display=canRep?'':'none';
-  document.getElementById('repReadOnly').style.display=canRep?'none':'';
-
-  listenRep(1); listenDevo();
-
-  // Admin panel
   if(isAdmin(loggedUser)){
-    document.getElementById('notasPanel').style.display='';
-    buildDestGrid(); listenNotas();
+    document.getElementById('lastNavBtn').querySelector('.ico').textContent='🛠';
+    document.getElementById('lastNavLabel').textContent='Panel';
+    document.getElementById('adminPanel').style.display='';
+    buildWeekRows(); buildMemberEditors(); buildDestGrid(); listenNotas();
   }
+
+  loadGruposOverride();
+  loadMiembros();
+  buildCal(2026,4,'calAbr'); buildCal(2026,5,'calMay');
+  showInicio(1,document.querySelector('#inicioPills .pill'));
+  buildGruposPage();
+  listenRep(1); listenDevo();
+  initFCM(); checkReminders();
 }
 
 // ══ THEME ═════════════════════════════════════════════════════
@@ -775,75 +760,137 @@ function toggleTheme(){
   const c=document.documentElement.getAttribute('data-theme');
   const n=c==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',n);
-  localStorage.setItem('alabanza_theme',n);
+  localStorage.setItem('m5050_theme',n);
   document.getElementById('themeBtn').textContent=n==='dark'?'🌙':'🌞';
 }
 
-// ══ NAV ═══════════════════════════════════════════════════════
+// ══ NAV ══════════════════════════════════════════════════════
 function goNav(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
   document.querySelector('.scr').scrollTop=0;
+  if(id==='grupos') buildGruposPage();
 }
 
-// ══ FCM — Push notifications ══════════════════════════════════
-async function initFCM(){
-  if(!messaging||!('serviceWorker' in navigator)) return;
-  try {
-    const reg = await navigator.serviceWorker.register('/Planificador-de-Min-De-Musica/firebase-messaging-sw.js');
-    // Show permission banner if not decided yet
-    if(Notification.permission==='default'){
-      document.getElementById('notifBanner').classList.add('show');
-    } else if(Notification.permission==='granted'){
-      await registerFCMToken(reg);
-    }
-    // Handle foreground messages
-    messaging.onMessage(payload=>{
-      const n=payload.notification||{};
-      showToast((n.title||'')+(n.body?' — '+n.body:''),false);
-    });
-  } catch(e){ console.warn('FCM init:',e); }
-}
-
-async function solicitarNotif(){
-  document.getElementById('notifBanner').classList.remove('show');
-  const perm=await Notification.requestPermission();
-  if(perm==='granted'){
-    showToast('🔔 Notificaciones activadas',false);
-    const reg=await navigator.serviceWorker.ready;
-    await registerFCMToken(reg);
-  }
-}
-
-async function registerFCMToken(reg){
-  if(!messaging||!db) return;
-  try {
-    const token=await messaging.getToken({vapidKey:VAPID_KEY, serviceWorkerRegistration:reg});
-    if(token && loggedUser){
-      await db.ref(`/alabanza/tokens/${fbKey(loggedUser)}`).set(token);
-    }
-  } catch(e){ console.warn('FCM token:',e); }
-}
-
-// ══ INICIO ════════════════════════════════════════════════════
-function showInicio(n,btn){
+// ══ INICIO ══════════════════════════════════════════════════
+function showInicio(n, btn){
   document.querySelectorAll('#inicioPills .pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('inicioDetail').innerHTML=buildWeekHTML(weeks[n-1]);
+  const s=SEMANAS[n-1];
+  const ag=getActiveGroup(n);
+  const rg=ag===1?2:1;
+  const gA=GRUPOS[ag], gR=GRUPOS[rg];
+
+  const dt=new Date(s.sun);
+  const sunLabel=`${dt.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][dt.getMonth()]}`;
+  const wedDt=new Date(s.wed);
+  const wedLabel=`${wedDt.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][wedDt.getMonth()]}`;
+  const friDt=new Date(s.fri);
+  const friLabel=`${friDt.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][friDt.getMonth()]}`;
+
+  const gColor=ag===1?'g1c':'g2c';
+  document.getElementById('inicioDetail').innerHTML=`
+    <div class="wh">
+      <div class="wd">Semana ${n}</div>
+      <div class="wn" style="color:var(--${gColor})">${gA.nombre} — En Servicio</div>
+      ${s.especial?`<div class="wbadge wb-comunion">✨ Semana de ${s.especial}</div>`:''}
+    </div>
+
+    <!-- Active group -->
+    <div class="grupo-card g${ag}">
+      <div class="grupo-header">
+        <div class="grupo-name">${gA.nombre}</div>
+        <div class="grupo-status gs-active">⬤ En Servicio</div>
+      </div>
+      <div class="grupo-coord">🎤 Coordinadora: <strong>${gA.coord}</strong></div>
+      <div class="grupo-section">Voces</div>
+      <div class="member-list">${gA.voces.map(v=>`<span class="member-chip mc-voz${ag}">${v}</span>`).join('')}</div>
+      <div class="grupo-section">Banda</div>
+      <div class="member-list">${gA.banda.map(b=>`<span class="member-chip mc-band${ag}">${b.n}<span class="mc-inst">${b.i}</span></span>`).join('')}</div>
+    </div>
+
+    <!-- Services timeline -->
+    <div class="sec">📅 Agenda de la semana</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot fri">🎸</div>
+        <div class="tl-info">
+          <div class="tl-day">Ensayo — Viernes ${friLabel}</div>
+          <div class="tl-detail">Coordinador/a: ${gA.coord}</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot sun">⛪</div>
+        <div class="tl-info">
+          <div class="tl-day">Servicios — Domingo ${sunLabel}</div>
+          <div class="tl-times">
+            <span class="tl-time">8:00 am</span>
+            <span class="tl-time">10:00 am</span>
+            <span class="tl-time">12:00 m</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot wed">🎤</div>
+        <div class="tl-info">
+          <div class="tl-day">Servicio — Miércoles ${wedLabel}</div>
+          <div class="tl-detail">Continúa el ${gA.nombre}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resting group -->
+    <div class="recarga-card">
+      <div class="recarga-title" style="color:var(--${rg===1?'g1c':'g2c'})">
+        🌿 ${gR.nombre} — Semana de Recarga
+      </div>
+      <div class="recarga-sub">Tiempo para ser ministrados y renovar fuerzas. ¡El descanso también es parte del ministerio!</div>
+      <div class="member-list" style="margin-top:9px">
+        ${gR.voces.map(v=>`<span class="member-chip mc-voz${rg}">${v}</span>`).join('')}
+        ${gR.banda.map(b=>`<span class="member-chip mc-band${rg}">${b.n}</span>`).join('')}
+      </div>
+    </div>`;
 }
 
-function buildWeekHTML(w){
-  const s12=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.flot,role:'flotante',cls:'df'}];
-  const s3=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'})),{name:w.s3,role:'solo S3',cls:'d3'}];
-  const rs=arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
-  return `<div class="wh"><div class="wd">${w.date}</div><div class="wn">Semana ${w.n}</div></div>
-    <div class="brow"><span class="b b-dir">★ ${w.dir}</span>${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}<span class="b b-flt">▲ ${w.flot} — Flotante</span><span class="b b-s3">○ ${w.s3} — Solo S3</span><span class="b b-rst">Descanso: ${w.desc.join(' · ')}</span></div>
-    <div class="card" style="padding:10px"><div class="svcs"><div class="svc"><div class="slbl">Serv. 1</div>${rs(s12)}</div><div class="svc"><div class="slbl">Serv. 2</div>${rs(s12)}</div><div class="svc"><div class="slbl">Serv. 3</div>${rs(s3)}</div></div></div>`;
+// ══ GRUPOS PAGE ══════════════════════════════════════════════
+function buildGruposPage(){
+  document.getElementById('gruposContent').innerHTML=`
+    <div style="margin-bottom:14px">
+      <div class="adorar-coord" style="margin-bottom:12px;display:inline-flex">🌟 ADORAR 2026 · Coord. Voces: Veruska</div>
+    </div>
+    ${[1,2].map(gn=>{
+      const g=GRUPOS[gn];
+      return `<div class="grupo-card g${gn}" style="opacity:1;filter:none">
+        <div class="grupo-header">
+          <div class="grupo-name">${g.nombre}</div>
+          <div style="font-size:11px;color:var(--${gn===1?'g1c':'g2c'});font-weight:700;opacity:.8">Semanas ${gn===1?'1,3,5':'2,4,6'}</div>
+        </div>
+        <div class="grupo-coord">🎤 Coordinadora: <strong>${g.coord}</strong></div>
+        <div class="grupo-section">Voces</div>
+        <div class="member-list">${g.voces.map(v=>
+          `<span class="member-chip mc-voz${gn}">${v}${v==='Veruska'?' ⭐':''}</span>`
+        ).join('')}</div>
+        <div class="grupo-section">Banda</div>
+        <div class="member-list">${g.banda.map(b=>
+          `<span class="member-chip mc-band${gn}">${b.n}<span class="mc-inst"> · ${b.i}</span></span>`
+        ).join('')}</div>
+        <div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--bdr);font-size:11.5px;color:var(--mut)">
+          🎸 Ensayo: Viernes — Coord. ${g.coord}
+        </div>
+      </div>`;
+    }).join('')}
+    <div style="background:var(--surf3);border:1px solid var(--bdr);border-radius:var(--r);padding:13px;margin-bottom:12px;font-size:12.5px;color:var(--txt2);line-height:1.6">
+      <div style="font-weight:700;color:var(--txt);margin-bottom:5px">📋 Reglas del sistema 50/50</div>
+      • Semanas impares (1, 3, 5): Grupo 1 activo · Grupo 2 en recarga<br>
+      • Semanas pares (2, 4, 6): Grupo 2 activo · Grupo 1 en recarga<br>
+      • El grupo activo cubre: Ensayo viernes, 3 servicios domingo, servicio miércoles<br>
+      • Semanas 1 y 5: Santa Comunión (Grupo 1)
+    </div>`;
 }
 
-// ══ CALENDAR ══════════════════════════════════════════════════
+// ══ CALENDAR ════════════════════════════════════════════════
 function pad(n){return String(n).padStart(2,'0')}
 function buildCal(yr,mo,cid){
   const DOWS=['D','L','M','X','J','V','S'];
@@ -853,38 +900,61 @@ function buildCal(yr,mo,cid){
   for(let d=1;d<=total;d++){
     const key=`${yr}-${pad(mo)}-${pad(d)}`,ev=CAL[key];
     if(!ev){h+=`<div class="cd"><div class="cdn" style="color:var(--mut);font-weight:400">${d}</div></div>`;continue;}
+    const ag=getActiveGroup(ev.wn);
+    const isCom=ev.especial==='Comunión';
     if(ev.t==='sun'){
-      const c=ev.dir==='v'?'ev-v':ev.dir==='d'?'ev-d':'ev-i';
-      h+=`<div class="cd tap ${c}" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6"></div><div class="cdl">S${ev.wn}</div></div>`;
+      h+=`<div class="cd tap ev-g${ag}${isCom?' ev-com':''}" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.7"></div><div class="cdl">G${ag}</div></div>`;
     }else if(ev.t==='wed'){
-      h+=`<div class="cd tap ev-w" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.6"></div><div class="cdl">Mié</div></div>`;
+      h+=`<div class="cd tap ev-wed" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div style="width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.7"></div><div class="cdl">Mié</div></div>`;
     }else{
-      h+=`<div class="cd tap ev-f" onclick="openSheet('${key}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl" style="color:var(--mut)">Ens.</div></div>`;
+      h+=`<div class="cd tap ev-fri" onclick="openSheet('${key}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl">Ens.</div></div>`;
     }
   }
   document.getElementById(cid).innerHTML=h;
 }
 
-// ══ DAY SHEET ═════════════════════════════════════════════════
+// ══ DAY SHEET ═══════════════════════════════════════════════
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 function openSheet(key){
   const [yr,mo,dy]=key.split('-').map(Number);
   const dt=new Date(yr,mo-1,dy);
   document.getElementById('shDate').textContent=`${DIAS[dt.getDay()]}, ${dy} de ${MES[mo-1]} ${yr}`;
-  const ev=CAL[key],w=weeks[ev.wn-1];
-  let title='',body='';
+  const ev=CAL[key];
+  const ag=getActiveGroup(ev.wn);
+  const g=GRUPOS[ag];
+  const s=SEMANAS[ev.wn-1];
+  let title='', body='';
+
   if(ev.t==='sun'){
-    title=`Semana ${ev.wn} · Domingo`; body=buildWeekHTML(w);
+    title=`Semana ${ev.wn} · Domingo · ${g.nombre}`;
+    body=`<div class="grupo-card g${ag}" style="filter:none;opacity:1">
+      <div class="grupo-header"><div class="grupo-name">${g.nombre}</div><div class="grupo-status gs-active">⬤ En Servicio</div></div>
+      <div class="grupo-coord">🎤 Coord.: ${g.coord}</div>
+      <div class="grupo-section">Voces</div><div class="member-list">${g.voces.map(v=>`<span class="member-chip mc-voz${ag}">${v}</span>`).join('')}</div>
+      <div class="grupo-section">Banda</div><div class="member-list">${g.banda.map(b=>`<span class="member-chip mc-band${ag}">${b.n}<span class="mc-inst"> · ${b.i}</span></span>`).join('')}</div>
+      <div style="margin-top:10px;padding-top:9px;border-top:1px solid var(--bdr)">
+        <div style="font-size:11.5px;color:var(--mut)">Servicios:</div>
+        <div class="tl-times" style="margin-top:5px"><span class="tl-time">8:00 am</span><span class="tl-time">10:00 am</span><span class="tl-time">12:00 m</span></div>
+      </div>
+      ${ev.especial?`<div class="wbadge wb-comunion" style="margin-top:8px">✨ ${ev.especial}</div>`:''}
+    </div>`;
   }else if(ev.t==='wed'){
-    const team=[{name:w.dir,role:'dirige',cls:'dd'},...w.voces.map(p=>({name:p,role:'',cls:'dv'}))];
-    const rs=arr=>arr.map(p=>`<div class="sp"><div class="dot ${p.cls}"></div><div><div>${p.name}</div>${p.role?`<div class="rn">${p.role}</div>`:''}</div></div>`).join('');
-    title=`Semana ${ev.wn} · Miércoles`;
-    body=`<div class="wh"><div class="wd">Servicio de miércoles</div><div class="wn">Semana ${w.n} · igual que S1</div></div><div class="brow"><span class="b b-dir">★ ${w.dir}</span>${w.voces.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div><div class="card" style="padding:10px;max-width:150px"><div class="svc">${rs(team)}</div></div>`;
+    title=`Semana ${ev.wn} · Miércoles · ${g.nombre}`;
+    body=`<div class="grupo-card g${ag}" style="filter:none;opacity:1">
+      <div class="grupo-header"><div class="grupo-name">${g.nombre}</div><div class="grupo-status gs-active">🎤 Servicio</div></div>
+      <div class="grupo-coord">Coord.: ${g.coord}</div>
+      <div class="grupo-section">Voces</div><div class="member-list">${g.voces.map(v=>`<span class="member-chip mc-voz${ag}">${v}</span>`).join('')}</div>
+      <div class="grupo-section">Banda</div><div class="member-list">${g.banda.map(b=>`<span class="member-chip mc-band${ag}">${b.n}<span class="mc-inst"> · ${b.i}</span></span>`).join('')}</div>
+    </div>`;
   }else{
-    title=`Semana ${ev.wn} · Ensayo Viernes`;
-    const all=[w.dir,...w.voces,w.flot,w.s3].filter(Boolean);
-    body=`<div class="wh"><div class="wd">Ensayo previo al domingo ${w.short}</div><div class="wn">Equipo completo</div></div><div class="brow">${all.map(p=>`<span class="b b-voz">● ${p}</span>`).join('')}</div>`;
+    title=`Semana ${ev.wn} · Ensayo Viernes · ${g.nombre}`;
+    body=`<div class="grupo-card g${ag}" style="filter:none;opacity:1">
+      <div class="grupo-header"><div class="grupo-name">${g.nombre}</div><div class="grupo-status gs-active">🎸 Ensayo</div></div>
+      <div class="grupo-coord">Coordinador/a: ${g.coord}</div>
+      <div class="grupo-section">Todo el equipo</div>
+      <div class="member-list">${g.voces.map(v=>`<span class="member-chip mc-voz${ag}">${v}</span>`).join('')}${g.banda.map(b=>`<span class="member-chip mc-band${ag}">${b.n}<span class="mc-inst"> · ${b.i}</span></span>`).join('')}</div>
+    </div>`;
   }
   document.getElementById('shTitle').textContent=title;
   document.getElementById('shBody').innerHTML=body;
@@ -896,63 +966,66 @@ function closeSheet(){
   document.getElementById('sh').classList.remove('open');
 }
 
-// ══ REMINDERS ═════════════════════════════════════════════════
+// ══ REMINDERS ════════════════════════════════════════════════
 function checkReminders(){
   if(!loggedUser) return;
   const today=new Date(); today.setHours(0,0,0,0);
   const upcoming=[];
-  Object.entries(CAL).forEach(([ds,ev])=>{
-    const [yr,mo,dy]=ds.split('-').map(Number);
-    const evDate=new Date(yr,mo-1,dy);
-    const diff=Math.round((evDate-today)/864e5);
-    if(diff<0||diff>2) return;
-    if(!userInWeek(loggedUser,ev.wn)) return;
-    const dl=diff===0?'Hoy':diff===1?'Mañana':'En 2 días';
-    const w=weeks[ev.wn-1];
-    if(ev.t==='sun')      upcoming.push({i:'⛪',m:`${dl} — Domingo S${ev.wn} (${w.short})`});
-    else if(ev.t==='wed') upcoming.push({i:'🎤',m:`${dl} — Servicio miércoles S${ev.wn}`});
-    else                  upcoming.push({i:'🎸',m:`${dl} — Ensayo viernes S${ev.wn}`});
+  SEMANAS.forEach(s=>{
+    [[s.fri,'fri'],[s.sun,'sun'],[s.wed,'wed']].forEach(([ds,t])=>{
+      const [yr,mo,dy]=ds.split('-').map(Number);
+      const evDate=new Date(yr,mo-1,dy);
+      const diff=Math.round((evDate-today)/864e5);
+      if(diff<0||diff>2) return;
+      if(!userInWeek(loggedUser,s.n)) return;
+      const dl=diff===0?'Hoy':diff===1?'Mañana':'En 2 días';
+      if(t==='fri') upcoming.push(`🎸 ${dl} — Ensayo S${s.n}`);
+      else if(t==='sun') upcoming.push(`⛪ ${dl} — Servicios Domingo S${s.n}`);
+      else upcoming.push(`🎤 ${dl} — Servicio Miércoles S${s.n}`);
+    });
   });
   if(upcoming.length){
-    document.getElementById('remBanner').classList.add('show');
-    document.getElementById('remItems').innerHTML=upcoming.map(u=>`<div class="ri">${u.i} ${u.m}</div>`).join('');
+    const rb=document.createElement('div');
+    rb.style.cssText='background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));border:1px solid rgba(212,168,67,.32);border-radius:var(--r);padding:13px;margin-bottom:12px';
+    rb.innerHTML=`<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:14.5px;color:var(--gold);margin-bottom:5px">⏰ Próximos compromisos</div>`+upcoming.map(u=>`<div style="font-size:13px;margin-bottom:3px">${u}</div>`).join('');
+    document.getElementById('inicioDetail').before(rb);
   }
 }
 
-// ══ REPERTORIO ════════════════════════════════════════════════
-let curRepWeek=1,repRef=null;
+// ══ REPERTORIO — Firebase ════════════════════════════════════
+let curRepWeek=1, repRef=null;
 function selRepWeek(n,btn){
   document.querySelectorAll('#repPills .pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active'); curRepWeek=n;
-  const w=weeks[n-1];
-  document.getElementById('repDirName').textContent=w.dir;
-  document.getElementById('repDirSub').textContent=`Directora · Semana ${n} · ${w.short}`;
+  const ag=getActiveGroup(n);
+  const g=GRUPOS[ag];
+  document.getElementById('repWeekInfo').innerHTML=`<div class="grupo-card g${ag}" style="padding:10px 12px;margin-bottom:0"><div style="display:flex;align-items:center;gap:8px"><div class="grupo-status gs-active" style="font-size:10px">G${ag}</div><div style="font-size:13px;font-weight:600">Semana ${n} · ${g.nombre}</div><div style="font-size:11px;color:var(--mut)">Coord.: ${g.coord}</div></div></div>`;
   listenRep(n);
 }
 function listenRep(n){
   if(!db){document.getElementById('repErr').classList.add('show');return;}
   if(repRef) repRef.off();
-  repRef=db.ref(`/alabanza/repertorio/week${n}`);
+  repRef=db.ref(`${DB_PATH}/repertorio/week${n}`);
   document.getElementById('songList').innerHTML='<div class="lmsg">Cargando…</div>';
   document.getElementById('songCount').textContent='—';
   repRef.on('value',snap=>{
     document.getElementById('repErr').classList.remove('show');
     const raw=snap.val();
-    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_fbKey:k})):[];
+    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];
     renderSongs(songs);
   },()=>document.getElementById('repErr').classList.add('show'));
 }
 function renderSongs(songs){
   document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
   if(!songs.length){
-    document.getElementById('songList').innerHTML=`<div class="empty"><div class="ei">🎶</div><p>Sin canciones todavía.<br>${canEditRep(loggedUser)?'¡Agrega el repertorio!':'Pronto la directora lo agregará.'}</p></div>`;
+    document.getElementById('songList').innerHTML=`<div class="empty"><div class="ei">🎶</div><p>Sin canciones todavía.<br>${canEditRep(loggedUser)?'¡Agrega el repertorio!':'La coordinadora lo agregará pronto.'}</p></div>`;
     return;
   }
   const canDel=canEditRep(loggedUser);
   document.getElementById('songList').innerHTML=songs.map((s,i)=>{
     const isYT=s.url&&(s.url.includes('youtube')||s.url.includes('youtu.be'));
     const lk=s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener" class="sl ${isYT?'sl-y':'sl-w'}">${isYT?'▶ YouTube':'🔗 Enlace'}</a>`:'';
-    const del=canDel?`<button class="bdl" onclick="delSong('${esc(s._fbKey)}')">✕</button>`:'';
+    const del=canDel?`<button class="bdl" onclick="delSong('${esc(s._k)}')">✕</button>`:'';
     return `<div class="si"><div class="snum">${i+1}</div><div class="si-i"><div class="sti">${esc(s.title)}</div>${s.artist?`<div class="sar">${esc(s.artist)}</div>`:''}${lk}${s.note?`<div class="sno">📝 ${esc(s.note)}</div>`:''}</div>${del}</div>`;
   }).join('');
 }
@@ -965,7 +1038,7 @@ async function addSong(){
   tEl.classList.remove('err');
   btn.disabled=true;btn.textContent='Guardando…';
   try{
-    await db.ref(`/alabanza/repertorio/week${curRepWeek}`).push({
+    await db.ref(`${DB_PATH}/repertorio/week${curRepWeek}`).push({
       title,artist:aEl.value.trim(),url:uEl.value.trim(),note:nEl.value.trim(),
       addedBy:loggedUser,addedAt:new Date().toISOString()
     });
@@ -974,28 +1047,27 @@ async function addSong(){
   }catch(e){showToast('❌ Error al guardar',true);}
   finally{btn.disabled=false;btn.textContent='Guardar canción';}
 }
-async function delSong(fbKey){
+async function delSong(fk){
   if(!confirm('¿Eliminar esta canción?')) return;
-  try{ await db.ref(`/alabanza/repertorio/week${curRepWeek}/${fbKey}`).remove(); showToast('Canción eliminada',false); }
+  try{ await db.ref(`${DB_PATH}/repertorio/week${curRepWeek}/${fk}`).remove(); showToast('Canción eliminada',false); }
   catch(e){showToast('❌ Error al eliminar',true);}
 }
 
-// ══ DEVOCIONAL ════════════════════════════════════════════════
+// ══ DEVOCIONAL ══════════════════════════════════════════════
 function listenDevo(){
   if(!db){document.getElementById('devoErr').classList.add('show');return;}
   const canEdit=canEditDevo(loggedUser);
-  document.getElementById('devoReadOnly').style.display=canEdit?'none':'';
+  document.getElementById('devoReadOnly2').style.display=canEdit?'none':'';
   document.getElementById('devoEdBadge').style.display=canEdit?'block':'none';
   document.getElementById('devoEditToggle').style.display=canEdit?'block':'none';
-  db.ref('/alabanza/devocional').on('value',snap=>{
+  db.ref(`${DB_PATH}/devocional`).on('value',snap=>{
     document.getElementById('devoErr').classList.remove('show');
-    const data=snap.val()||{};
-    const txt=data.text||'',by=data.updatedBy||'',at=data.updatedAt;
-    document.getElementById('devoText').textContent=txt||'';
-    if(!txt) document.getElementById('devoText').innerHTML=`<span class="dempty">Pra. Mary no ha publicado devocional aún.</span>`;
-    const dated=at?new Date(at).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}):'';
-    document.getElementById('devoMeta').textContent=by&&dated?`Publicado por ${by} · ${dated}`:'Sin publicar';
-    document.getElementById('devoTa').value=txt;
+    const d=snap.val()||{};
+    document.getElementById('devoText').textContent=d.text||'';
+    if(!d.text) document.getElementById('devoText').innerHTML=`<span class="dempty">Pra. Mary no ha publicado devocional aún.</span>`;
+    const at=d.updatedAt?new Date(d.updatedAt).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}):'';
+    document.getElementById('devoMeta').textContent=d.updatedBy&&at?`Publicado por ${d.updatedBy} · ${at}`:'Sin publicar';
+    document.getElementById('devoTa').value=d.text||'';
   },()=>document.getElementById('devoErr').classList.add('show'));
 }
 function openDevoEdit(){
@@ -1011,92 +1083,180 @@ function cancelDevo(){
 async function saveDevo(){
   const text=document.getElementById('devoTa').value.trim();
   try{
-    await db.ref('/alabanza/devocional').set({text,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
+    await db.ref(`${DB_PATH}/devocional`).set({text,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
     cancelDevo(); showToast('✓ Devocional publicado — el equipo será notificado',false);
   }catch(e){showToast('❌ Error al guardar',true);}
 }
 
-// ══ NOTAS (Pra. Mary) ═════════════════════════════════════════
-let selectedDests = new Set();
-
-function buildDestGrid(){
-  const members=[...DIRS,...VOCES];
-  const grid=document.getElementById('destGrid');
-  grid.innerHTML=`<button class="dest-btn dest-all sel" id="dest-all" onclick="toggleAll()">📢 Todo el equipo</button>`+
-    members.map(n=>`<button class="dest-btn" id="dest-${fbKey(n)}" onclick="toggleDest('${n}')">${n}</button>`).join('');
-  selectedDests.clear(); // empty = all
+// ══ ADMIN: GRUPOS OVERRIDE ═══════════════════════════════════
+function loadGruposOverride(){
+  if(!db) return;
+  db.ref(`${DB_PATH}/gruposOverride`).on('value',snap=>{
+    gruposOverride=snap.val()||{};
+    // Re-render current week
+    const activePill=document.querySelector('#inicioPills .pill.active');
+    if(activePill) activePill.click();
+    buildWeekRows();
+    buildCal(2026,4,'calAbr'); buildCal(2026,5,'calMay');
+  });
+}
+function buildWeekRows(){
+  const el=document.getElementById('weekRows');
+  if(!el) return;
+  el.innerHTML=SEMANAS.map(s=>{
+    const ag=getActiveGroup(s.n);
+    return `<div class="week-row">
+      <div class="wr-label">S${s.n} · ${s.label}${s.especial?` ✨`:''}</div>
+      <div class="wr-btns">
+        <button class="wr-btn ${ag===1?'g1-a':''}" onclick="setGrupoOverride(${s.n},1)">G1</button>
+        <button class="wr-btn ${ag===2?'g2-a':''}" onclick="setGrupoOverride(${s.n},2)">G2</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function setGrupoOverride(wn, gn){
+  const auto=SEMANAS[wn-1].g;
+  if(gn===auto){
+    await db.ref(`${DB_PATH}/gruposOverride/${wn}`).remove();
+  }else{
+    await db.ref(`${DB_PATH}/gruposOverride/${wn}`).set(gn);
+  }
+  showToast(`Semana ${wn} asignada a Grupo ${gn}`,false);
 }
 
+// ══ ADMIN: MIEMBROS ══════════════════════════════════════════
+function loadMiembros(){
+  if(!db) return;
+  db.ref(`${DB_PATH}/miembros`).once('value').then(snap=>{
+    const data=snap.val();
+    if(!data) return;
+    if(data.g1){
+      GRUPOS[1].voces=data.g1.voces||GRUPOS_DEFAULT[1].voces;
+      GRUPOS[1].banda=(data.g1.banda||GRUPOS_DEFAULT[1].banda.map(b=>({n:b.n,i:b.i})));
+      GRUPOS[1].coord=data.g1.coord||GRUPOS_DEFAULT[1].coord;
+    }
+    if(data.g2){
+      GRUPOS[2].voces=data.g2.voces||GRUPOS_DEFAULT[2].voces;
+      GRUPOS[2].banda=(data.g2.banda||GRUPOS_DEFAULT[2].banda.map(b=>({n:b.n,i:b.i})));
+      GRUPOS[2].coord=data.g2.coord||GRUPOS_DEFAULT[2].coord;
+    }
+    buildMemberEditors();
+  });
+}
+function buildMemberEditors(){
+  [1,2].forEach(gn=>{
+    const g=GRUPOS[gn];
+    const el=document.getElementById(`meG${gn}`);
+    if(!el) return;
+    el.innerHTML=`
+      <div class="me-row"><span class="me-label">Coord.</span><input class="me-input" id="me-${gn}-coord" value="${esc(g.coord)}" placeholder="Coordinadora"/></div>
+      ${g.voces.map((v,i)=>`<div class="me-row"><span class="me-label">Voz ${i+1}</span><input class="me-input" id="me-${gn}-voz-${i}" value="${esc(v)}" placeholder="Nombre"/></div>`).join('')}
+      ${g.banda.map((b,i)=>`<div class="me-row"><span class="me-label">${b.i}</span><input class="me-input" id="me-${gn}-band-${i}" value="${esc(b.n)}" placeholder="Nombre"/></div>`).join('')}`;
+  });
+}
+async function saveMiembros(){
+  const data={};
+  [1,2].forEach(gn=>{
+    const g=GRUPOS[gn];
+    const coord=document.getElementById(`me-${gn}-coord`)?.value.trim()||g.coord;
+    const voces=g.voces.map((_,i)=>document.getElementById(`me-${gn}-voz-${i}`)?.value.trim()||'').filter(Boolean);
+    const banda=g.banda.map((b,i)=>({n:document.getElementById(`me-${gn}-band-${i}`)?.value.trim()||b.n,i:b.i}));
+    data[`g${gn}`]={coord,voces,banda};
+    GRUPOS[gn].coord=coord; GRUPOS[gn].voces=voces; GRUPOS[gn].banda=banda;
+  });
+  try{
+    await db.ref(`${DB_PATH}/miembros`).set(data);
+    buildGruposPage();
+    showToast('✓ Miembros actualizados',false);
+  }catch(e){showToast('❌ Error al guardar',true);}
+}
+
+// ══ ADMIN: NOTAS ═════════════════════════════════════════════
+let selectedDests=new Set();
+function buildDestGrid(){
+  const el=document.getElementById('destGrid');
+  if(!el) return;
+  const todos=[...GRUPOS[1].voces,...GRUPOS[1].banda.map(b=>b.n),...GRUPOS[2].voces,...GRUPOS[2].banda.map(b=>b.n)];
+  el.innerHTML=`<button class="dest-btn dall dsel" id="dest-all" onclick="toggleAll()">📢 Todo el equipo</button>`+
+    todos.map(n=>`<button class="dest-btn" id="dest-${fbKey(n)}" onclick="toggleDest('${n}')">${n}</button>`).join('');
+  selectedDests.clear();
+}
 function toggleAll(){
   selectedDests.clear();
-  document.querySelectorAll('.dest-btn').forEach(b=>b.classList.remove('sel'));
-  document.getElementById('dest-all').classList.add('sel');
+  document.querySelectorAll('.dest-btn').forEach(b=>b.classList.remove('dsel'));
+  document.getElementById('dest-all').classList.add('dsel');
 }
-
 function toggleDest(name){
-  document.getElementById('dest-all').classList.remove('sel');
   const btn=document.getElementById('dest-'+fbKey(name));
-  if(selectedDests.has(name)){
-    selectedDests.delete(name); btn.classList.remove('sel');
-  } else {
-    selectedDests.add(name); btn.classList.add('sel');
-  }
+  document.getElementById('dest-all').classList.remove('dsel');
+  if(selectedDests.has(name)){selectedDests.delete(name);btn.classList.remove('dsel');}
+  else{selectedDests.add(name);btn.classList.add('dsel');}
   if(selectedDests.size===0) toggleAll();
 }
-
 async function enviarNota(){
-  const titulo=document.getElementById('notaTitulo').value.trim();
-  const mensaje=document.getElementById('notaMensaje').value.trim();
-  if(!titulo||!mensaje){
-    showToast('❌ Completa título y mensaje',true); return;
-  }
-  const destinatarios=selectedDests.size>0?[...selectedDests]:[];
+  const tit=document.getElementById('notaTitulo').value.trim();
+  const msg=document.getElementById('notaMensaje').value.trim();
+  if(!tit||!msg){showToast('❌ Completa título y mensaje',true);return;}
   try{
-    await db.ref('/alabanza/notasManual').push({
-      titulo, mensaje,
-      destinatarios, // [] = todos
-      de: loggedUser,
-      creadoAt: new Date().toISOString(),
-      enviado: false
+    await db.ref(`${DB_PATH}/notasManual`).push({
+      titulo:tit,mensaje:msg,
+      destinatarios:selectedDests.size>0?[...selectedDests]:[],
+      de:loggedUser,creadoAt:new Date().toISOString(),enviado:false
     });
     document.getElementById('notaTitulo').value='';
     document.getElementById('notaMensaje').value='';
     toggleAll();
-    showToast('✓ Nota enviada — el equipo recibirá la notificación',false);
+    showToast('✓ Nota enviada al equipo',false);
   }catch(e){showToast('❌ Error al enviar',true);}
 }
-
 function listenNotas(){
   if(!db) return;
-  db.ref('/alabanza/notasManual').orderByChild('creadoAt').limitToLast(20).on('value',snap=>{
+  db.ref(`${DB_PATH}/notasManual`).orderByChild('creadoAt').limitToLast(15).on('value',snap=>{
     const raw=snap.val();
     const notas=raw?Object.values(raw).reverse():[];
-    renderNotas(notas);
+    const el=document.getElementById('notasHistory');
+    if(!el) return;
+    if(!notas.length){el.innerHTML=`<div class="empty"><div class="ei">📋</div><p>Sin notas enviadas aún.</p></div>`;return;}
+    el.innerHTML=notas.map(n=>{
+      const dest=n.destinatarios?.length>0?n.destinatarios.join(', '):'Todo el equipo';
+      const at=n.creadoAt?new Date(n.creadoAt).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+      const st=n.enviado?`<span class="nota-status ns-sent">✓ Enviada</span>`:`<span class="nota-status ns-pend">⏳ Pendiente</span>`;
+      return `<div class="nota-item"><div class="nota-hdr"><div class="nota-titulo">${esc(n.titulo||'')}</div><div class="nota-fecha">${at}</div></div><div class="nota-msg">${esc(n.mensaje||'')}</div><div class="nota-dest">📤 ${dest}</div>${st}</div>`;
+    }).join('');
   });
 }
 
-function renderNotas(notas){
-  const el=document.getElementById('notasHistory');
-  if(!notas.length){
-    el.innerHTML=`<div class="empty"><div class="ei">📋</div><p>Sin notas enviadas aún.</p></div>`;
-    return;
+// ══ FCM ══════════════════════════════════════════════════════
+async function initFCM(){
+  if(!messaging||!('serviceWorker' in navigator)) return;
+  try{
+    const reg=await navigator.serviceWorker.register('/Planificador-de-Min-De-Musica/firebase-messaging-sw.js');
+    if(Notification.permission==='default') document.getElementById('notifBanner').classList.add('show');
+    else if(Notification.permission==='granted') await regToken(reg);
+    messaging.onMessage(p=>{
+      const n=p.notification||{};
+      showToast((n.title||'')+(n.body?' — '+n.body:''),false);
+    });
+  }catch(e){console.warn('FCM:',e);}
+}
+async function solicitarNotif(){
+  document.getElementById('notifBanner').classList.remove('show');
+  const p=await Notification.requestPermission();
+  if(p==='granted'){
+    showToast('🔔 Notificaciones activadas',false);
+    const reg=await navigator.serviceWorker.ready;
+    await regToken(reg);
   }
-  el.innerHTML=notas.map(n=>{
-    const dest=n.destinatarios&&n.destinatarios.length>0?n.destinatarios.join(', '):'Todo el equipo';
-    const dated=n.creadoAt?new Date(n.creadoAt).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
-    const status=n.enviado
-      ?`<span class="nota-status status-sent">✓ Enviada</span>`
-      :`<span class="nota-status status-pending">⏳ Pendiente</span>`;
-    return `<div class="nota-item">
-      <div class="nota-item-hdr"><div class="nota-item-titulo">${esc(n.titulo||'')}</div><div class="nota-item-meta">${dated}</div></div>
-      <div class="nota-item-msg">${esc(n.mensaje||'')}</div>
-      <div style="font-size:10.5px;color:var(--mut);margin-top:4px">📤 ${dest}</div>
-      ${status}
-    </div>`;
-  }).join('');
+}
+async function regToken(reg){
+  if(!messaging||!db) return;
+  try{
+    const token=await messaging.getToken({vapidKey:VAPID,serviceWorkerRegistration:reg});
+    if(token&&loggedUser) await db.ref(`${DB_PATH}/tokens/${fbKey(loggedUser)}`).set(token);
+  }catch(e){console.warn('token:',e);}
 }
 
-// ══ UTILS ═════════════════════════════════════════════════════
+// ══ UTILS ════════════════════════════════════════════════════
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showToast(msg,isErr){
   const t=document.getElementById('toast');
