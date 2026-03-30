@@ -1,4 +1,190 @@
 // ================================================================
+// alabanza-notificaciones-5050.gs  —  Google Apps Script
+// Ministerio 50/50 · Grace Church
+//
+// INSTALACIÓN:
+// 1. https://script.google.com → Nuevo proyecto → pega este código
+// 2. Archivo → Configuración → activa "Mostrar appsscript.json"
+// 3. En appsscript.json pega:
+//    {"timeZone":"America/Caracas","dependencies":{},
+//     "exceptionLogging":"STACKDRIVER","runtimeVersion":"V8",
+//     "oauthScopes":["https://www.googleapis.com/auth/firebase.messaging",
+//     "https://www.googleapis.com/auth/script.external_request"]}
+// 4. Guarda → Ejecuta "instalarTrigger" UNA vez → autoriza permisos
+// ================================================================
+
+var DB   = 'https://asistentegrace-e750c-default-rtdb.firebaseio.com';
+var PATH = '/ministerio5050';
+var FCM  = 'https://fcm.googleapis.com/v1/projects/asistentegrace-e750c/messages:send';
+
+// Grupos del ministerio 50/50
+var GRUPOS = {
+  1: { voces:['Veruska','Diana','Joselyn','Marialex'],
+       banda:['Manuel','Daniel','Luis Y.'] },
+  2: { voces:['Isamar','Valeria','Zuisay','Gelimar'],
+       banda:['Miguel','Leo','Moisés'] }
+};
+
+var SEMANAS = [
+  {n:1,g:1,fri:'2026-04-03',sun:'2026-04-05',wed:'2026-04-08'},
+  {n:2,g:2,fri:'2026-04-10',sun:'2026-04-12',wed:'2026-04-15'},
+  {n:3,g:1,fri:'2026-04-17',sun:'2026-04-19',wed:'2026-04-22'},
+  {n:4,g:2,fri:'2026-04-24',sun:'2026-04-26',wed:'2026-04-29'},
+  {n:5,g:1,fri:'2026-05-01',sun:'2026-05-03',wed:'2026-05-06'},
+  {n:6,g:2,fri:'2026-05-08',sun:'2026-05-10',wed:'2026-05-13'},
+];
+
+// ── Instalar trigger horario ──────────────────────────────────
+function instalarTrigger() {
+  ScriptApp.getProjectTriggers().forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('ejecutar').timeBased().everyHours(1).create();
+  Logger.log('✅ Trigger instalado — se ejecuta cada hora');
+}
+
+// ── Función principal ─────────────────────────────────────────
+function ejecutar() {
+  var hora = new Date().getHours();
+  enviarNotasManual();
+  if (hora >= 8 && hora <= 9) enviarRecordatoriosCalendario();
+  notificarDevocionalNuevo();
+}
+
+// ── Notas manuales de Pra. Mary ───────────────────────────────
+function enviarNotasManual() {
+  var resp = fetchDB(PATH + '/notasManual.json');
+  if (!resp) return;
+  var notas = JSON.parse(resp);
+  if (!notas) return;
+  Object.keys(notas).forEach(function(key) {
+    var nota = notas[key];
+    if (nota.enviado) return;
+    var dest = nota.destinatarios && nota.destinatarios.length > 0
+      ? nota.destinatarios : null; // null = todos
+    var tokens = obtenerTokens(dest);
+    tokens.forEach(function(t){ enviarFCM(t, {
+      title: '📋 ' + (nota.titulo || 'Nota de Pra. Mary'),
+      body: nota.mensaje || '',
+      tag: 'nota-' + key
+    }); });
+    putDB(PATH + '/notasManual/' + key + '/enviado.json', 'true');
+    putDB(PATH + '/notasManual/' + key + '/enviadoAt.json', '"' + new Date().toISOString() + '"');
+  });
+}
+
+// ── Recordatorios del calendario ─────────────────────────────
+function enviarRecordatoriosCalendario() {
+  var hoy = Utilities.formatDate(new Date(), 'America/Caracas', 'yyyy-MM-dd');
+  // También mirar mañana y en 2 días
+  [0,1,2].forEach(function(offset){
+    var fecha = getFechaMas(offset);
+    SEMANAS.forEach(function(s) {
+      var evMap = {fri:s.fri, sun:s.sun, wed:s.wed};
+      Object.keys(evMap).forEach(function(tipo){
+        if (evMap[tipo] !== fecha) return;
+        // Ya notificado?
+        var ya = fetchDB(PATH + '/recordatoriosEnviados/' + fecha + '_' + tipo + '.json');
+        if (ya && JSON.parse(ya) === true) return;
+        // Obtener grupo activo (con posible override)
+        var gn = s.g;
+        var ovResp = fetchDB(PATH + '/gruposOverride/' + s.n + '.json');
+        if (ovResp && JSON.parse(ovResp)) gn = JSON.parse(ovResp);
+        var miembros = GRUPOS[gn].voces.concat(GRUPOS[gn].banda);
+        var label = offset === 0 ? 'HOY' : offset === 1 ? 'Mañana' : 'En 2 días';
+        var titulo, cuerpo;
+        if (tipo === 'fri') { titulo = '🎸 ' + label + ' — Ensayo'; cuerpo = 'Ensayo Grupo ' + gn + ' · Semana ' + s.n; }
+        else if (tipo === 'sun') { titulo = '⛪ ' + label + ' — Servicios'; cuerpo = '3 servicios: 8am, 10am, 12m · Grupo ' + gn; }
+        else { titulo = '🎤 ' + label + ' — Servicio Miércoles'; cuerpo = 'Grupo ' + gn + ' · Semana ' + s.n; }
+        var tokens = obtenerTokens(miembros);
+        tokens.forEach(function(t){ enviarFCM(t, {title:titulo, body:cuerpo, tag:tipo+'-'+fecha}); });
+        if (tokens.length > 0) putDB(PATH + '/recordatoriosEnviados/' + fecha + '_' + tipo + '.json', 'true');
+      });
+    });
+  });
+}
+
+// ── Notificar nuevo devocional ────────────────────────────────
+function notificarDevocionalNuevo() {
+  var resp = fetchDB(PATH + '/devocional.json');
+  if (!resp) return;
+  var devo = JSON.parse(resp);
+  if (!devo || !devo.updatedAt || !devo.text) return;
+  var last = fetchDB(PATH + '/devocionalNotificado.json');
+  var lastAt = last ? JSON.parse(last) : null;
+  if (lastAt === devo.updatedAt) return;
+  var pub = new Date(devo.updatedAt).getTime();
+  var ahora = new Date().getTime();
+  putDB(PATH + '/devocionalNotificado.json', '"' + devo.updatedAt + '"');
+  if (ahora - pub > 2 * 60 * 60 * 1000) return; // más de 2h
+  var tokens = obtenerTokens(null); // todos
+  tokens.forEach(function(t){ enviarFCM(t, {
+    title: '📖 Nuevo Devocional publicado',
+    body: 'Pra. Mary publicó el devocional de la semana',
+    tag: 'devo-' + devo.updatedAt
+  }); });
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function obtenerTokens(filtro) {
+  var resp = fetchDB(PATH + '/tokens.json');
+  if (!resp) return [];
+  var tokens = JSON.parse(resp);
+  if (!tokens) return [];
+  var result = [];
+  Object.keys(tokens).forEach(function(k){
+    if (!tokens[k]) return;
+    if (!filtro) { result.push(tokens[k]); return; }
+    var nombre = k.replace(/_/g,' ').replace('Pra  Mary','Pra. Mary').replace('Luis Y ','Luis Y.');
+    if (filtro.some(function(f){ return f.replace(/[^a-zA-Z0-9]/g,'_') === k; }))
+      result.push(tokens[k]);
+  });
+  return result;
+}
+
+function enviarFCM(token, notif) {
+  var payload = JSON.stringify({
+    message: {
+      token: token,
+      notification: { title: notif.title||'🎶 Ministerio 50/50', body: notif.body||'' },
+      data: { tag: notif.tag||'m5050' },
+      webpush: {
+        notification: {
+          icon:'https://ejam3.github.io/Planificador-de-Min-De-Musica/icon-192.png',
+          badge:'https://ejam3.github.io/Planificador-de-Min-De-Musica/icon-192.png'
+        },
+        fcm_options:{ link:'https://ejam3.github.io/Planificador-de-Min-De-Musica/' }
+      }
+    }
+  });
+  try {
+    var r = UrlFetchApp.fetch(FCM, {
+      method:'POST',
+      headers:{'Authorization':'Bearer '+ScriptApp.getOAuthToken(),'Content-Type':'application/json'},
+      payload: payload, muteHttpExceptions: true
+    });
+    if (r.getResponseCode() !== 200)
+      Logger.log('FCM error ' + r.getResponseCode() + ': ' + r.getContentText().substring(0,150));
+  } catch(e) { Logger.log('FCM exception: ' + e.message); }
+}
+
+function fetchDB(path) {
+  try {
+    var r = UrlFetchApp.fetch(DB + path, {muteHttpExceptions:true});
+    return r.getResponseCode() === 200 ? r.getContentText() : null;
+  } catch(e) { return null; }
+}
+
+function putDB(path, val) {
+  try {
+    UrlFetchApp.fetch(DB + path, {
+      method:'PUT', contentType:'application/json', payload:val, muteHttpExceptions:true
+    });
+  } catch(e) {}
+}
+
+function getFechaMas(dias) {
+  var d = new Date(); d.setDate(d.getDate() + dias);
+  return Utilities.formatDate(d, 'America/Caracas', 'yyyy-MM-dd');
+}// ================================================================
 // alabanza-notificaciones.gs  —  Google Apps Script
 //
 // INSTRUCCIONES DE INSTALACIÓN:
