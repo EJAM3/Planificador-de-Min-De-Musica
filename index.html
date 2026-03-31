@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Ministerio Musical"/>
-<title>Ministerio Musical· Grace</title>
+<title>Ministerio Musical · Grace</title>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
@@ -428,7 +428,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <!-- LOGIN -->
 <div class="lov" id="loginOv">
   <div class="llogo">🎶</div>
-  <div class="ltitle">Ministerio 50/50</div>
+  <div class="ltitle">Ministerio Musical</div>
   <div class="lsub">Grace Church · Selecciona tu nombre</div>
   <div class="lgroup"><div class="lgroup-label">Directora General</div>
     <div class="lgrid"><button class="lbtn special privileged lbtn-full" onclick="selectUser('Pra. Mary')">Pra. Mary</button></div>
@@ -491,7 +491,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <div class="app" id="mainApp" style="display:none">
   <div class="topbar">
     <div class="toprow">
-      <span class="atitle">🎶 Ministerio 50/50</span>
+      <span class="atitle">🎶 Ministerio Musical</span>
       <div style="display:flex;gap:5px">
         <button class="bsm" id="userBadge" onclick="logout()">👤 —</button>
         <button class="bsm" id="pendingBadge" onclick="goNav('panel',document.querySelector('.nb:last-child'))" style="display:none">⏳ Pendientes</button>
@@ -1048,7 +1048,7 @@ function buildTicker(){
     }
   });
   items.sort((a,b)=>a.priority-b.priority);
-  if(!items.length) items.push({ico:'🎶',text:'Ministerio 50/50 · Grace Church',date:'',priority:0});
+  if(!items.length) items.push({ico:'🎶',text:'Ministerio Musical · Grace Church',date:'',priority:0});
   const inner=document.getElementById('tickerInner');
   const count=Math.max(items.length,3);
   inner.style.setProperty('--item-count',count);
@@ -1320,8 +1320,7 @@ function listenRep(n){
   repRef.on('value',snap=>{
     document.getElementById('repErr').classList.remove('show');
     const raw=snap.val();
-    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];
-    document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
+    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
     document.getElementById('songList').innerHTML=songs.length?songs.map((s,i)=>buildSongCard(s,i,s._k,false)).join(''):`<div class="empty"><div class="ei">🎶</div><p>Sin canciones todavía.</p></div>`;
   },()=>document.getElementById('repErr').classList.add('show'));
 }
