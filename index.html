@@ -29,9 +29,11 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .bsm:active{opacity:.7}
 .page{display:none;padding:13px 13px 0}
 .page.active{display:block}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 2px 10px}
-.nb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 7px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500}
-.nb .ico{font-size:18px;line-height:1}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 1px 10px}
+.nb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 3px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:500;min-width:44px}
+.nb .ico{font-size:17px;line-height:1}
+@media(min-width:400px){.nb{font-size:9px;min-width:50px}.nb .ico{font-size:18px}}
+@media(min-width:768px){.nb{font-size:10px;min-width:60px;padding:6px 8px}.nb .ico{font-size:20px}}
 .nb.active{color:var(--gold)}
 .nb.active .ico{filter:drop-shadow(0 0 5px rgba(212,168,67,.55))}
 .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:11px;box-shadow:var(--cs)}
@@ -316,6 +318,109 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 [data-theme="light"] .bday-card{background:linear-gradient(135deg,#fff0f6,#fce7f3)}
 [data-theme="light"] .bday-name{color:#831843}
 [data-theme="light"] .bday-msg{color:rgba(0,0,0,.65)}
+
+/* ══ RESPONSIVE — Tablets & large phones ══ */
+:root{--nav:66px;}
+
+/* Small phones (< 360px) */
+@media(max-width:359px){
+  .atitle{font-size:16px}
+  .pin-pad{max-width:240px}
+  .pin-key{height:52px;font-size:19px}
+  .cd-num{font-size:19px}
+  .adorar-title{font-size:24px}
+  .wn{font-size:20px}
+  .song-title{font-size:12.5px}
+  .dest-grid{grid-template-columns:1fr}
+}
+
+/* Regular phones (360–479px) — default, no changes needed */
+
+/* Large phones (480–767px) */
+@media(min-width:480px) and (max-width:767px){
+  .app{max-width:100%}
+  .lgrid{grid-template-columns:repeat(3,1fr)}
+  .dest-grid{grid-template-columns:repeat(3,1fr)}
+  .cd-num{font-size:26px}
+  .adorar-title{font-size:32px}
+  .pin-key{height:68px;font-size:24px}
+  .pin-pad{max-width:320px}
+  .cg{gap:5px}
+  .cd{font-size:13px;border-radius:10px}
+}
+
+/* Tablets portrait (768–1023px) */
+@media(min-width:768px){
+  .app{max-width:680px;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr)}
+  html,body{background:var(--surf2)}
+  .nav{max-width:680px}
+  .topbar{padding:20px 22px 0}
+  .page{padding:16px 22px 0}
+  .atitle{font-size:22px}
+  .lgrid{grid-template-columns:repeat(3,1fr)}
+  .dest-grid{grid-template-columns:repeat(3,1fr)}
+  .cd-num{font-size:28px}
+  .adorar-title{font-size:34px}
+  .pin-key{height:72px;font-size:25px}
+  .pin-pad{max-width:340px}
+  .pin-sheet{max-width:680px}
+  .sh{max-width:680px}
+  .toast{max-width:620px}
+  .cg{gap:6px}
+  .cd{font-size:14px;border-radius:11px}
+  .cdl{font-size:9px}
+  .svcs, .grupo-card .member-list{flex-wrap:wrap}
+  .week-row,.falta-row,.ruta-row{padding:11px 16px}
+  .song-card,.adorar-song-card{border-radius:15px}
+  .song-title{font-size:14px}
+  .song-artist{font-size:12.5px}
+  .nb{font-size:10px;padding:6px 10px}
+  .nb .ico{font-size:20px}
+  .card{padding:16px}
+  .bday-card{max-width:380px}
+  .countdown-card{padding:18px}
+  .cd-boxes{gap:10px}
+  .cd-box{padding:10px 6px;border-radius:12px}
+}
+
+/* Tablets landscape / desktop (1024px+) */
+@media(min-width:1024px){
+  .app{max-width:760px;border-left:1px solid var(--bdr);border-right:1px solid var(--bdr)}
+  .nav{max-width:760px}
+  .pin-sheet{max-width:760px}
+  .sh{max-width:760px}
+  .toast{max-width:700px}
+  .lgrid{grid-template-columns:repeat(4,1fr)}
+  .dest-grid{grid-template-columns:repeat(4,1fr)}
+  .svcs{grid-template-columns:repeat(3,1fr)}
+  .cg{gap:7px}
+  .cd{font-size:15px;border-radius:12px}
+  .adorar-title{font-size:38px}
+  .cd-num{font-size:30px}
+  .pin-key{height:76px;font-size:27px}
+  .pin-pad{max-width:360px}
+  .page{padding:18px 28px 0}
+  .card{padding:18px}
+}
+
+/* Ensure ticker works on all sizes */
+.ticker-wrap{height:52px;min-height:52px}
+.ticker-item{min-height:52px;height:52px}
+
+/* Safe area for notch phones */
+@supports(padding-bottom: env(safe-area-inset-bottom)){
+  .nav{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+  .scr{padding-bottom:calc(var(--nav) + 52px + env(safe-area-inset-bottom))}
+}
+
+/* Propuestas specific */
+.prop-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;margin-bottom:8px;overflow:hidden;box-shadow:var(--cs)}
+.prop-by{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.2);color:#2dd4bf;margin-top:4px;display:inline-flex;align-items:center;gap:3px}
+.prop-vote{display:flex;align-items:center;gap:5px;margin-top:5px}
+.prop-vote-btn{padding:4px 10px;border-radius:999px;border:1px solid rgba(74,222,128,.3);background:rgba(74,222,128,.08);color:#4ade80;font-size:11.5px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif}.prop-vote-btn.sel{background:rgba(74,222,128,.18);border-color:rgba(74,222,128,.5)}
+.prop-vote-btn:active{opacity:.7}
+.prop-vote-count{font-size:12px;font-weight:700;color:var(--mut)}
+
 </style>
 </head>
 <body>
@@ -335,7 +440,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <button class="lbtn g1-btn privileged" onclick="selectUser('Marialex')">Ma Alex</button>
       <button class="lbtn g1-btn" onclick="selectUser('Joselyn')">Joselyn</button>
       <button class="lbtn g1-btn" onclick="selectUser('Manuel')">Manuel</button>
-      <button class="lbtn g1-btn" onclick="selectUser('Daniel')">Daniel</button>
+      <button class="lbtn g1-btn privileged" onclick="selectUser('Daniel')">Daniel</button>
       <button class="lbtn g1-btn lbtn-full" onclick="selectUser('Luis Y.')">Luis Y.</button>
     </div>
   </div>
@@ -452,7 +557,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
     <!-- ══ REPERTORIO ══ -->
     <div id="page-repertorio" class="page">
       <div class="fberr" id="repErr">⚠️ Error de conexión.</div>
-      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — coordinadoras gestionan el repertorio</div>
+      <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — las coordinadoras y directores gestionan el repertorio</div>
       <div class="pills" id="repPills">
         <button class="pill active" onclick="selRepWeek(1,this)">S1 · 5 abr</button>
         <button class="pill" onclick="selRepWeek(2,this)">S2 · 12 abr</button>
@@ -500,7 +605,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
           <button class="bg" id="aBtnAdd" onclick="addAdorarSong()" style="background:var(--adorar)">Agregar al evento</button>
         </div>
       </div>
-      <div id="adorarReadOnly" class="ro-notice" style="display:none">👁 Repertorio preliminar — Veruska y Daniel coordinan</div>
+      <div id="adorarReadOnly" class="ro-notice" style="display:none">👁 Repertorio de ADORAR — Solo Veruska, Daniel y Pra. Mary pueden editar</div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
         <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:14px">Repertorio preliminar</div>
         <span style="font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 8px" id="adorarCount">—</span>
@@ -651,14 +756,33 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       </div>
 
     </div><!-- /page-panel -->
+
+    <!-- ══ PROPUESTAS ══ -->
+    <div id="page-propuestas" class="page">
+      <div class="card" style="border-color:rgba(45,212,191,.22);padding:13px 14px;margin-bottom:13px">
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:14px;color:#2dd4bf;margin-bottom:10px">💡 Proponer una canción</div>
+        <div class="ig"><label class="il">Título *</label><input id="pTitulo" class="inp" type="text" placeholder="Nombre de la canción" autocomplete="off"/></div>
+        <div class="ig"><label class="il">Artista / Ministerio</label><input id="pArtist" class="inp" type="text" placeholder="Ej: Hillsong, Marcos Witt..." autocomplete="off"/></div>
+        <div class="ig"><label class="il">Enlace YouTube (opcional)</label><input id="pUrl" class="inp" type="url" placeholder="https://youtube.com/..."/></div>
+        <div class="ig"><label class="il">¿Por qué la propones?</label><input id="pNota" class="inp" type="text" placeholder="Mensaje opcional..." autocomplete="off"/></div>
+        <button class="bg" id="pBtnAdd" onclick="addPropuesta()" style="background:#2dd4bf;color:#0b0e15">Enviar propuesta</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:14px">Propuestas del equipo</div>
+        <span style="font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 8px" id="propCount">—</span>
+      </div>
+      <div id="propList"><div class="lmsg">Cargando…</div></div>
+    </div>
+
   </div><!-- /scr -->
 
-  <nav class="nav">
+  <nav class="nav" style="padding:0 0 10px">
     <button class="nb active" onclick="goNav('inicio',this)"><span class="ico">🏠</span>Inicio</button>
-    <button class="nb" onclick="goNav('calendario',this)"><span class="ico">📅</span>Calend.</button>
-    <button class="nb" onclick="goNav('repertorio',this)"><span class="ico">🎵</span>Reperto.</button>
+    <button class="nb" onclick="goNav('calendario',this)"><span class="ico">📅</span>Cal.</button>
+    <button class="nb" onclick="goNav('repertorio',this)"><span class="ico">🎵</span>Rep.</button>
+    <button class="nb" onclick="goNav('propuestas',this)"><span class="ico">💡</span>Prop.</button>
     <button class="nb" onclick="goNav('adorar',this)"><span class="ico">✨</span>Adorar</button>
-    <button class="nb" id="panelNavBtn" onclick="goNav('panel',this)"><span class="ico">📖</span><span id="panelNavLabel">Devoc.</span></button>
+    <button class="nb" id="panelNavBtn" onclick="goNav('panel',this)"><span class="ico">📖</span><span id="panelNavLabel">Panel</span></button>
   </nav>
 </div>
 
@@ -697,8 +821,8 @@ const ALL_VOCAL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Isamar','Vale
 const ALL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés'];
 const RUTA_ALL = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Jesús','Luis M.','Omar','Franyelis','Leonardo','Lilianny','Adriana'];
 
-function needsPin(u){ return u===DG||COORDS.includes(u)||u===MA_ALEX_KEY; }
-function canEditRep(u){ return u===DG||COORDS.includes(u)||u===MA_ALEX_KEY; }
+function needsPin(u){ return u===DG||COORDS.includes(u)||u===MA_ALEX_KEY||u==='Daniel'; }
+function canEditRep(u){ return u===DG||COORDS.includes(u)||u===MA_ALEX_KEY||u==='Daniel'; }
 function canEditDevo(u){ return u===DG; }
 function isAdmin(u){ return u===DG||COORDS.includes(u); }
 function isMaAlex(u){ return u===MA_ALEX_KEY; }
@@ -876,6 +1000,8 @@ function initApp(){
 
   // FCM
   initFCM();
+  // Propuestas
+  if(window._initPropuestas) window._initPropuestas();
 }
 
 // ══ THEME ════════════════════════════════════════════════════
@@ -1575,6 +1701,80 @@ async function solicitarNotif(){
 }
 async function regToken(reg){
   try{const t=await messaging.getToken({vapidKey:VAPID,serviceWorkerRegistration:reg});if(t&&loggedUser) await db.ref(`${P}/tokens/${fbKey(loggedUser)}`).set(t);}catch(e){console.warn('token:',e);}
+}
+
+
+// ══ PROPUESTAS ════════════════════════════════════════════════
+(function(){
+  function initPropuestas(){
+    db.ref(`${P}/propuestas`).orderByChild('creadoAt').on('value',snap=>{
+      const raw=snap.val();
+      const items=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
+      document.getElementById('propCount').textContent=`${items.length} propuesta${items.length!==1?'s':''}`;
+      const el=document.getElementById('propList');
+      if(!items.length){el.innerHTML='<div class="empty"><div class="ei">💡</div><p>Sin propuestas aún.<br>¡Sé el primero en sugerir una canción!</p></div>';return;}
+      el.innerHTML=items.map((s,i)=>{
+        const ytId=getYTId(s.url||'');
+        const voted=(s.votos||{})[fbKey(loggedUser)];
+        const voteCount=Object.keys(s.votos||{}).length;
+        return `<div class="prop-card" id="psc-${s._k}">
+          <div class="song-main">
+            <div class="song-num">${i+1}</div>
+            <div class="song-info">
+              <div class="song-title">${esc(s.title||'')}</div>
+              ${s.artist?`<div class="song-artist">${esc(s.artist)}</div>`:''}
+              ${s.nota?`<div style="font-size:11px;color:var(--mut);margin-top:2px;font-style:italic">💬 ${esc(s.nota)}</div>`:''}
+              <div class="prop-by">👤 ${esc(s.porNombre||s.por||'')}</div>
+              <div class="prop-vote">
+                <button class="prop-vote-btn${voted?' sel':''}" onclick="voteProuesta('${s._k}','${voted||''}')">${voted?'❤️':'🤍'} Me gusta</button>
+                <span class="prop-vote-count">${voteCount>0?voteCount+' voto'+(voteCount>1?'s':''):''}</span>
+              </div>
+            </div>
+            <div class="song-actions">
+              ${s.url?`<button class="sact-btn play-btn" id="pb-p-${s._k}" onclick="togglePlayer('p-${s._k}','${esc(s.url||'')}')" title="Reproducir">▶</button>`:''}
+              ${s.por===fbKey(loggedUser)||isAdmin(loggedUser)?`<button class="sact-btn del-btn" onclick="delPropuesta('${s._k}')" title="Eliminar">✕</button>`:''}
+            </div>
+          </div>
+          <div class="player-area" id="pl-p-${s._k}"></div>
+        </div>`;
+      }).join('');
+    });
+  }
+  // Expose to global
+  window._initPropuestas = initPropuestas;
+})();
+
+async function addPropuesta(){
+  const tEl=document.getElementById('pTitulo'),btn=document.getElementById('pBtnAdd');
+  const title=tEl.value.trim();
+  if(!title){tEl.classList.add('err');tEl.focus();return;}tEl.classList.remove('err');
+  btn.disabled=true;btn.textContent='Enviando…';
+  const displayName=loggedUser==='Marialex'?'Ma Alex':loggedUser;
+  try{
+    await db.ref(`${P}/propuestas`).push({
+      title,artist:document.getElementById('pArtist').value.trim(),
+      url:document.getElementById('pUrl').value.trim(),
+      nota:document.getElementById('pNota').value.trim(),
+      por:fbKey(loggedUser),porNombre:displayName,
+      creadoAt:new Date().toISOString(),votos:{}
+    });
+    tEl.value='';document.getElementById('pArtist').value='';
+    document.getElementById('pUrl').value='';document.getElementById('pNota').value='';
+    showToast('✓ Propuesta enviada — el equipo puede verla',false);
+  }catch(e){showToast('❌ Error al enviar',true);}
+  finally{btn.disabled=false;btn.textContent='Enviar propuesta';}
+}
+async function voteProuesta(k, existing){
+  const voteKey=fbKey(loggedUser);
+  try{
+    if(existing){ await db.ref(`${P}/propuestas/${k}/votos/${voteKey}`).remove(); }
+    else{ await db.ref(`${P}/propuestas/${k}/votos/${voteKey}`).set(true); }
+  }catch(e){showToast('❌ Error',true);}
+}
+async function delPropuesta(k){
+  if(!confirm('¿Eliminar esta propuesta?'))return;
+  try{await db.ref(`${P}/propuestas/${k}`).remove();showToast('Propuesta eliminada',false);}
+  catch(e){showToast('❌ Error',true);}
 }
 
 // ══ UTILS ════════════════════════════════════════════════════
