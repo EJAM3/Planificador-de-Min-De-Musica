@@ -233,11 +233,58 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .notif-banner.show{display:flex}
 .nbtn{padding:7px 13px;border-radius:9px;border:none;background:var(--gold);color:#0b0e15;font-family:'Outfit',sans-serif;font-weight:800;font-size:11.5px;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .debadge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:#fde68a;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);border-radius:999px;padding:2px 8px;margin-bottom:8px}
-.dtext{font-size:13.5px;line-height:1.78;color:var(--txt);white-space:pre-wrap;min-height:50px}
+.dtext{font-size:14px;line-height:1.82;color:var(--txt);min-height:50px}
+.dtext h1{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;margin:10px 0 6px}
+.dtext h2{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;margin:9px 0 5px}
+.dtext h3{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin:7px 0 4px}
+.dtext b,.dtext strong{font-weight:700}
+.dtext i,.dtext em{font-style:italic}
+.dtext u{text-decoration:underline}
+.dtext ul{margin:6px 0 6px 18px;padding:0}
+.dtext ol{margin:6px 0 6px 18px;padding:0}
+.dtext li{margin-bottom:3px}
+.dtext blockquote{border-left:3px solid var(--gold);margin:8px 0;padding:6px 12px;background:var(--gbg);border-radius:0 9px 9px 0;font-style:italic;color:var(--txt2)}
+.dtext a{color:var(--g1c)}
+.dtext p{margin:4px 0}
 .dempty{font-size:13px;color:var(--mut);font-style:italic}
-.dta{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:13.5px;padding:11px;outline:none;resize:vertical;min-height:170px;line-height:1.75}
-.dta:focus{border-color:var(--gd)}.dta::placeholder{color:var(--mut)}
 .dmeta{font-size:10.5px;color:var(--mut);margin-bottom:10px}
+
+/* ── Rich text editor toolbar ── */
+.rte-toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:9px 10px;background:var(--surf2);border:1px solid var(--bdr);border-radius:11px 11px 0 0;border-bottom:none;margin-bottom:0}
+.rte-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .15s;flex-shrink:0}
+.rte-btn:active,.rte-btn.rte-active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+.rte-sep{width:1px;background:var(--bdr);margin:3px 2px;flex-shrink:0}
+.rte-select{height:30px;border-radius:7px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:12px;padding:0 6px;outline:none;cursor:pointer}
+.rte-select:focus{border-color:var(--gd)}
+.rte-color{width:30px;height:30px;border-radius:7px;border:1px solid var(--bdr);padding:2px;cursor:pointer;background:var(--surf)}
+.rte-editor{min-height:220px;background:var(--inp);border:1px solid var(--bdr);border-radius:0 0 11px 11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px;outline:none;line-height:1.78;overflow-y:auto;max-height:420px}
+.rte-editor:focus{border-color:var(--gd)}
+.rte-editor h1{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;margin:8px 0 5px}
+.rte-editor h2{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;margin:7px 0 4px}
+.rte-editor h3{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;margin:6px 0 4px}
+.rte-editor ul{margin:5px 0 5px 16px}.rte-editor ol{margin:5px 0 5px 16px}
+.rte-editor blockquote{border-left:3px solid var(--gold);margin:7px 0;padding:5px 11px;background:var(--gbg);border-radius:0 8px 8px 0;font-style:italic}
+.rte-editor p{margin:3px 0}
+[data-theme="light"] .rte-btn{background:var(--surf2)}
+[data-theme="light"] .rte-editor{background:var(--inp)}
+
+/* ── TTS Player ── */
+.tts-player{display:none;background:linear-gradient(135deg,rgba(212,168,67,.1),rgba(212,168,67,.03));border:1px solid rgba(212,168,67,.25);border-radius:12px;padding:12px 14px;margin-top:12px}
+.tts-player.show{display:block}
+.tts-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.tts-controls{display:flex;gap:7px;margin-bottom:9px}
+.tts-btn{flex:1;padding:10px 6px;border-radius:11px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-family:'Outfit',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .18s}
+.tts-btn:active{opacity:.75}
+.tts-btn.tts-play{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.3);color:#4ade80}
+.tts-btn.tts-pause{background:rgba(212,168,67,.1);border-color:rgba(212,168,67,.25);color:var(--gold)}
+.tts-btn.tts-stop{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.22);color:var(--red)}
+.tts-btn:disabled{opacity:.35;cursor:default}
+.tts-progress{height:4px;background:var(--bdr);border-radius:2px;overflow:hidden;margin-bottom:7px}
+.tts-bar{height:100%;background:var(--gold);width:0%;transition:width .3s;border-radius:2px}
+.tts-voice{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:9px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 10px;outline:none;margin-top:5px}
+.tts-voice:focus{border-color:var(--gd)}
+.tts-meta{font-size:11px;color:var(--mut);margin-top:6px;text-align:center}
+[data-theme="light"] .tts-btn{background:var(--surf2)}
 
 /* ══ DAY SHEET ══ */
 .shov{position:fixed;inset:0;background:var(--ov);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -615,7 +662,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
     <!-- ══ PANEL ══ -->
     <div id="page-panel" class="page">
-      <!-- Devocional (todos leen) -->
+      <!-- Devocional (todos leen, Pra. Mary edita) -->
       <div class="card">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
           <div>
@@ -625,16 +672,73 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
           <div id="devoEdBadge" style="display:none"><span class="debadge">✏️ Editor</span></div>
         </div>
         <div id="devoReadOnly2" class="ro-notice" style="display:none">👁 Solo Pra. Mary puede publicar</div>
-        <div id="devoRead"><div class="dtext" id="devoText"></div></div>
+
+        <!-- READ VIEW -->
+        <div id="devoRead">
+          <div class="dtext" id="devoText"></div>
+          <!-- TTS Player (visible when content exists) -->
+          <div class="tts-player" id="ttsPlayer">
+            <div class="tts-title">🔊 Escuchar devocional</div>
+            <div class="tts-progress"><div class="tts-bar" id="ttsBar"></div></div>
+            <div class="tts-controls">
+              <button class="tts-btn tts-play" id="ttsPlay" onclick="ttsPlay()">▶ Play</button>
+              <button class="tts-btn tts-pause" id="ttsPause" onclick="ttsPause()" disabled>⏸ Pausa</button>
+              <button class="tts-btn tts-stop" id="ttsStop" onclick="ttsStop()" disabled>⏹ Stop</button>
+            </div>
+            <select class="tts-voice" id="ttsVoiceSelect" onchange="ttsSetVoice()">
+              <option value="">Voz del sistema</option>
+            </select>
+            <div class="tts-meta" id="ttsMeta">Toca ▶ Play para escuchar</div>
+          </div>
+        </div>
+
+        <!-- EDIT VIEW (Pra. Mary only) -->
         <div id="devoEdit" style="display:none">
-          <textarea class="dta" id="devoTa" placeholder="Escribe el devocional de la semana…"></textarea>
+          <!-- Toolbar -->
+          <div class="rte-toolbar" id="rteToolbar">
+            <!-- Text style -->
+            <select class="rte-select" onchange="rteBlock(this.value);this.value=''" style="width:88px">
+              <option value="">Estilo…</option>
+              <option value="p">Normal</option>
+              <option value="h1">Título 1</option>
+              <option value="h2">Título 2</option>
+              <option value="h3">Título 3</option>
+              <option value="blockquote">Cita</option>
+            </select>
+            <div class="rte-sep"></div>
+            <!-- Bold Italic Underline -->
+            <button class="rte-btn" onclick="rteExec('bold')" title="Negrita"><b>B</b></button>
+            <button class="rte-btn" onclick="rteExec('italic')" title="Cursiva"><i>I</i></button>
+            <button class="rte-btn" onclick="rteExec('underline')" title="Subrayado"><u>U</u></button>
+            <button class="rte-btn" onclick="rteExec('strikeThrough')" title="Tachado" style="text-decoration:line-through">S</button>
+            <div class="rte-sep"></div>
+            <!-- Lists -->
+            <button class="rte-btn" onclick="rteExec('insertUnorderedList')" title="Viñetas">• ≡</button>
+            <button class="rte-btn" onclick="rteExec('insertOrderedList')" title="Numerado">1 ≡</button>
+            <div class="rte-sep"></div>
+            <!-- Align -->
+            <button class="rte-btn" onclick="rteExec('justifyLeft')" title="Izquierda">◀</button>
+            <button class="rte-btn" onclick="rteExec('justifyCenter')" title="Centro">≡</button>
+            <button class="rte-btn" onclick="rteExec('justifyRight')" title="Derecha">▶</button>
+            <div class="rte-sep"></div>
+            <!-- Color -->
+            <input class="rte-color" type="color" value="#d4a843" onchange="rteExec('foreColor',this.value)" title="Color texto"/>
+            <button class="rte-btn" onclick="rteExec('removeFormat')" title="Limpiar formato" style="font-size:11px">✕fmt</button>
+            <div class="rte-sep"></div>
+            <!-- Link & HR -->
+            <button class="rte-btn" onclick="rteLink()" title="Enlace">🔗</button>
+            <button class="rte-btn" onclick="rteExec('insertHorizontalRule')" title="Separador" style="font-size:10px">— —</button>
+          </div>
+          <div class="rte-editor" id="rteEditor" contenteditable="true" spellcheck="true" dir="ltr"></div>
           <div style="display:flex;gap:7px;margin-top:9px">
-            <button class="bg" style="flex:1" onclick="saveDevo()">Publicar devocional</button>
+            <button class="bg" style="flex:1" onclick="saveDevo()">📤 Publicar devocional</button>
             <button class="bo" onclick="cancelDevo()">Cancelar</button>
           </div>
         </div>
+
+        <!-- Edit toggle button -->
         <div id="devoEditToggle" style="display:none;margin-top:11px">
-          <button class="bo" onclick="openDevoEdit()" style="width:100%">✏️ Editar devocional</button>
+          <button class="bo" onclick="openDevoEdit()" style="width:100%">✏️ Redactar / Editar devocional</button>
         </div>
       </div>
 
@@ -981,6 +1085,7 @@ function initApp(){
 
   // Devocional
   listenDevo();
+  if('speechSynthesis' in window) setTimeout(ttsLoadVoices, 500);
 
   // Firebase listeners
   loadGruposOverride();loadMiembros();
@@ -1017,6 +1122,7 @@ function goNav(id,btn){
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');document.querySelector('.scr').scrollTop=0;
+  if(id!=='panel' && typeof ttsStop==='function' && ttsState==='playing') ttsStop();
 }
 
 // ══ TICKER ══════════════════════════════════════════════════
@@ -1320,7 +1426,8 @@ function listenRep(n){
   repRef.on('value',snap=>{
     document.getElementById('repErr').classList.remove('show');
     const raw=snap.val();
-    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
+    const songs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];
+    document.getElementById('songCount').textContent=`${songs.length} canción${songs.length!==1?'es':''}`;
     document.getElementById('songList').innerHTML=songs.length?songs.map((s,i)=>buildSongCard(s,i,s._k,false)).join(''):`<div class="empty"><div class="ei">🎶</div><p>Sin canciones todavía.</p></div>`;
   },()=>document.getElementById('repErr').classList.add('show'));
 }
@@ -1410,6 +1517,24 @@ async function addAdorarSong(){
 }
 
 // ══ DEVOCIONAL ═══════════════════════════════════════════════
+// ══ RICH TEXT EDITOR ════════════════════════════════════════
+function rteExec(cmd,val){
+  document.getElementById('rteEditor').focus();
+  document.execCommand(cmd,false,val||null);
+}
+function rteBlock(tag){
+  if(!tag) return;
+  document.getElementById('rteEditor').focus();
+  document.execCommand('formatBlock',false,tag);
+}
+function rteLink(){
+  const url=prompt('URL del enlace:','https://');
+  if(url) rteExec('createLink',url);
+}
+
+// ══ DEVOCIONAL ═══════════════════════════════════════════════
+let currentDevoHTML = '';
+
 function listenDevo(){
   const canEdit=canEditDevo(loggedUser);
   document.getElementById('devoReadOnly2').style.display=canEdit?'none':'';
@@ -1417,19 +1542,149 @@ function listenDevo(){
   document.getElementById('devoEditToggle').style.display=canEdit?'block':'none';
   db.ref(`${P}/devocional`).on('value',snap=>{
     const d=snap.val()||{};
-    document.getElementById('devoText').textContent=d.text||'';
-    if(!d.text) document.getElementById('devoText').innerHTML='<span class="dempty">Sin devocional publicado aún.</span>';
+    currentDevoHTML = d.html||d.text||'';
+    const el=document.getElementById('devoText');
+    if(currentDevoHTML){
+      el.innerHTML=currentDevoHTML;
+      document.getElementById('ttsPlayer').classList.add('show');
+      ttsLoadVoices();
+    }else{
+      el.innerHTML='<span class="dempty">Pra. Mary no ha publicado el devocional aún.</span>';
+      document.getElementById('ttsPlayer').classList.remove('show');
+    }
     const at=d.updatedAt?new Date(d.updatedAt).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}):'';
     document.getElementById('devoMeta').textContent=d.updatedBy&&at?`${d.updatedBy} · ${at}`:'Sin publicar';
-    if(document.getElementById('devoTa')) document.getElementById('devoTa').value=d.text||'';
   });
 }
-function openDevoEdit(){document.getElementById('devoRead').style.display='none';document.getElementById('devoEdit').style.display='block';document.getElementById('devoEditToggle').style.display='none';}
-function cancelDevo(){document.getElementById('devoRead').style.display='block';document.getElementById('devoEdit').style.display='none';document.getElementById('devoEditToggle').style.display=canEditDevo(loggedUser)?'block':'none';}
+
+function openDevoEdit(){
+  document.getElementById('devoRead').style.display='none';
+  document.getElementById('devoEdit').style.display='block';
+  document.getElementById('devoEditToggle').style.display='none';
+  // Load current HTML into editor
+  const editor=document.getElementById('rteEditor');
+  editor.innerHTML=currentDevoHTML||'';
+  editor.focus();
+}
+function cancelDevo(){
+  document.getElementById('devoRead').style.display='block';
+  document.getElementById('devoEdit').style.display='none';
+  document.getElementById('devoEditToggle').style.display=canEditDevo(loggedUser)?'block':'none';
+  ttsStop();
+}
 async function saveDevo(){
-  const text=document.getElementById('devoTa').value.trim();
-  try{await db.ref(`${P}/devocional`).set({text,updatedBy:loggedUser,updatedAt:new Date().toISOString()});cancelDevo();showToast('✓ Devocional publicado',false);}
-  catch(e){showToast('❌ Error',true);}
+  const html=document.getElementById('rteEditor').innerHTML.trim();
+  if(!html||html==='<br>'){showToast('❌ El devocional está vacío',true);return;}
+  try{
+    await db.ref(`${P}/devocional`).set({html,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
+    cancelDevo();showToast('✓ Devocional publicado — el equipo puede escucharlo 🔊',false);
+  }catch(e){showToast('❌ Error al guardar',true);}
+}
+
+// ══ TTS — Text to Speech ═════════════════════════════════════
+let ttsUtterance=null, ttsChunks=[], ttsChunkIdx=0, ttsTotalChars=0, ttsCharsDone=0, ttsState='stopped';
+
+function ttsGetPlainText(){
+  const el=document.getElementById('devoText');
+  return el.innerText||el.textContent||'';
+}
+
+function ttsLoadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  const sel=document.getElementById('ttsVoiceSelect');
+  const populate=()=>{
+    const voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('es'));
+    if(!voices.length) return;
+    sel.innerHTML='<option value="">Voz automática (español)</option>'+
+      voices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join('');
+  };
+  populate();
+  speechSynthesis.onvoiceschanged=populate;
+}
+
+function ttsGetVoice(){
+  const sel=document.getElementById('ttsVoiceSelect');
+  const idx=parseInt(sel.value);
+  if(isNaN(idx)) return null;
+  const voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('es'));
+  return voices[idx]||null;
+}
+
+function ttsSetVoice(){
+  if(ttsState==='playing'){ttsStop();setTimeout(ttsPlay,200);}
+}
+
+// Split text into chunks of ~200 chars at sentence boundaries
+function ttsChunkText(text){
+  const sentences=text.replace(/([.!?¿¡])/g,'$1|').split('|').filter(s=>s.trim().length>0);
+  const chunks=[],MAX=200;let cur='';
+  sentences.forEach(s=>{
+    if((cur+s).length>MAX&&cur.length>0){chunks.push(cur.trim());cur=s;}
+    else cur+=s;
+  });
+  if(cur.trim()) chunks.push(cur.trim());
+  return chunks;
+}
+
+function ttsUpdateUI(state){
+  const play=document.getElementById('ttsPlay'),pause=document.getElementById('ttsPause'),stop=document.getElementById('ttsStop');
+  const meta=document.getElementById('ttsMeta'),bar=document.getElementById('ttsBar');
+  ttsState=state;
+  if(state==='playing'){
+    play.disabled=true;pause.disabled=false;stop.disabled=false;
+    play.textContent='▶ Leyendo…';meta.textContent='Escuchando devocional…';
+  }else if(state==='paused'){
+    play.disabled=false;pause.disabled=true;stop.disabled=false;
+    play.textContent='▶ Continuar';meta.textContent='En pausa — toca ▶ para continuar';
+  }else{
+    play.disabled=false;pause.disabled=true;stop.disabled=true;
+    play.textContent='▶ Play';
+    if(state==='done'){meta.textContent='✓ Terminado';bar.style.width='100%';setTimeout(()=>{bar.style.width='0%';meta.textContent='Toca ▶ Play para escuchar';},3000);}
+    else{meta.textContent='Toca ▶ Play para escuchar';bar.style.width='0%';}
+  }
+}
+
+function ttsPlay(){
+  if(!('speechSynthesis' in window)){showToast('⚠️ Tu dispositivo no soporta audio',true);return;}
+  if(ttsState==='paused'){speechSynthesis.resume();ttsUpdateUI('playing');return;}
+  const text=ttsGetPlainText();
+  if(!text||text.length<3){showToast('❌ No hay texto para leer',true);return;}
+  ttsStop();
+  ttsChunks=ttsChunkText(text);
+  ttsTotalChars=text.length;ttsCharsDone=0;ttsChunkIdx=0;
+  ttsUpdateUI('playing');
+  ttsPlayChunk();
+}
+
+function ttsPlayChunk(){
+  if(ttsChunkIdx>=ttsChunks.length){ttsUpdateUI('done');return;}
+  const chunk=ttsChunks[ttsChunkIdx];
+  ttsUtterance=new SpeechSynthesisUtterance(chunk);
+  ttsUtterance.lang='es-US';
+  ttsUtterance.rate=0.92;
+  ttsUtterance.pitch=1.05;
+  const voice=ttsGetVoice();
+  if(voice) ttsUtterance.voice=voice;
+  ttsUtterance.onend=()=>{
+    ttsCharsDone+=chunk.length;
+    const pct=Math.min(100,Math.round(ttsCharsDone/ttsTotalChars*100));
+    document.getElementById('ttsBar').style.width=pct+'%';
+    ttsChunkIdx++;
+    if(ttsState==='playing') ttsPlayChunk();
+  };
+  ttsUtterance.onerror=()=>{ttsChunkIdx++;if(ttsState==='playing') ttsPlayChunk();};
+  speechSynthesis.speak(ttsUtterance);
+}
+
+function ttsPause(){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.pause();ttsUpdateUI('paused');
+}
+
+function ttsStop(){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();ttsChunks=[];ttsChunkIdx=0;ttsCharsDone=0;
+  if(ttsState!=='stopped'&&ttsState!=='done') ttsUpdateUI('stopped');
 }
 
 // ══ ADMIN: GRUPOS OVERRIDE ════════════════════════════════════
