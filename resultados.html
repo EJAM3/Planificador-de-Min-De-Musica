@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados · Ministerio Musical</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0e1018; color: #eef0fb;
+      font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 24px 16px 48px;
+    }
+
+    /* Login */
+    #login-wrap {
+      display: flex; align-items: center; justify-content: center; min-height: 100vh;
+    }
+    .login-box {
+      background: #16162a; border: 1px solid #2a2a4a; border-radius: 20px;
+      padding: 36px 28px; width: 100%; max-width: 340px; text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    .login-box .ico { font-size: 36px; margin-bottom: 10px; }
+    .login-box h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .login-box p { color: #666; font-size: 13px; margin-bottom: 22px; }
+    .login-box input {
+      width: 100%; background: #0e0e20; border: 1px solid #2e2e52;
+      border-radius: 10px; padding: 12px 14px; color: #ddd; font-size: 15px;
+      outline: none; font-family: inherit; transition: .2s; margin-bottom: 12px;
+      text-align: center; letter-spacing: 4px;
+    }
+    .login-box input:focus { border-color: #f59e0b; }
+    .login-box button {
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg,#f59e0b,#f97316);
+      border: none; border-radius: 10px; color: #1a0e00;
+      font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .login-box button:hover { opacity: .9; }
+    .err-msg { color: #f87171; font-size: 12px; margin-top: 8px; min-height: 18px; }
+
+    /* Dashboard */
+    #dashboard { display: none; max-width: 700px; margin: 0 auto; }
+    .dash-header { text-align: center; margin-bottom: 28px; padding-top: 8px; }
+    .dash-header h1 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .dash-header p { color: #666; font-size: 13px; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card {
+      background: #16162a; border: 1px solid #2a2a4a; border-radius: 14px;
+      padding: 16px 12px; text-align: center;
+    }
+    .stat-card .num { font-size: 28px; font-weight: 700; color: #f59e0b; }
+    .stat-card .lbl { font-size: 11px; color: #777; margin-top: 3px; }
+
+    .section {
+      background: #16162a; border: 1px solid #2a2a4a; border-radius: 16px;
+      padding: 20px 18px; margin-bottom: 16px;
+    }
+    .section h3 { font-size: 13px; font-weight: 700; color: #f59e0b; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .5px; }
+
+    .bar-item { margin-bottom: 10px; }
+    .bar-label { display: flex; justify-content: space-between; font-size: 12.5px; color: #ccc; margin-bottom: 4px; }
+    .bar-track { background: #1e1e38; border-radius: 50px; height: 8px; overflow: hidden; }
+    .bar-fill { background: linear-gradient(90deg,#f59e0b,#f97316); height: 100%; border-radius: 50px; transition: width .6s ease; }
+
+    .resp-card {
+      background: #1e1e38; border: 1px solid #2e2e52; border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px;
+    }
+    .resp-date { font-size: 11px; color: #555; margin-bottom: 8px; }
+    .resp-row { display: flex; gap: 8px; margin-bottom: 5px; align-items: baseline; flex-wrap: wrap; }
+    .resp-key { font-size: 11px; color: #888; min-width: 130px; flex-shrink: 0; }
+    .resp-val { font-size: 12.5px; color: #ddd; }
+    .resp-val.highlight { color: #f59e0b; font-weight: 600; }
+
+    .empty { text-align: center; color: #555; font-size: 13px; padding: 20px 0; }
+    .loading { text-align: center; color: #666; font-size: 13px; padding: 30px 0; }
+
+    .badge {
+      display: inline-block; background: #251d00; border: 1px solid #f59e0b;
+      color: #f59e0b; border-radius: 50px; padding: 2px 10px; font-size: 11px; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-wrap">
+  <div class="login-box">
+    <div class="ico">🔐</div>
+    <h2>Resultados del Cuestionario</h2>
+    <p>Ministerio Musical · Grace Church</p>
+    <input type="password" id="pin-input" placeholder="PIN" maxlength="6"
+      onkeydown="if(event.key==='Enter') verificar()">
+    <button onclick="verificar()">Entrar</button>
+    <p class="err-msg" id="err-msg"></p>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+  <div class="dash-header">
+    <h1>📊 Resultados del Cuestionario</h1>
+    <p>Ministerio Musical · Grace Church</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="num" id="total-resp">—</div>
+      <div class="lbl">Respuestas totales</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="recomend-pct">—</div>
+      <div class="lbl">La recomendarían</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="facil-pct">—</div>
+      <div class="lbl">Fácil o Muy fácil</div>
+    </div>
+  </div>
+
+  <!-- P1 Frecuencia -->
+  <div class="section">
+    <h3>¿Qué tan seguido la usan?</h3>
+    <div id="bars-p1"></div>
+  </div>
+
+  <!-- P2 Sección -->
+  <div class="section">
+    <h3>Sección más usada</h3>
+    <div id="bars-p2"></div>
+  </div>
+
+  <!-- P3 Facilidad -->
+  <div class="section">
+    <h3>Facilidad de uso</h3>
+    <div id="bars-p3"></div>
+  </div>
+
+  <!-- P4 Ayuda -->
+  <div class="section">
+    <h3>¿Cuánto les ha ayudado a organizarse?</h3>
+    <div id="bars-p4"></div>
+  </div>
+
+  <!-- P5 Confuso -->
+  <div class="section">
+    <h3>¿Qué les resulta confuso?</h3>
+    <div id="bars-p5"></div>
+  </div>
+
+  <!-- P6 Recomendar -->
+  <div class="section">
+    <h3>¿La recomendarían?</h3>
+    <div id="bars-p6"></div>
+  </div>
+
+  <!-- P7 Problemas -->
+  <div class="section">
+    <h3>Problemas reportados</h3>
+    <div id="bars-p7"></div>
+  </div>
+
+  <!-- P8 Sugerencias -->
+  <div class="section">
+    <h3>Sugerencias y comentarios</h3>
+    <div id="sugerencias"></div>
+  </div>
+
+  <!-- Respuestas individuales -->
+  <div class="section">
+    <h3>Respuestas individuales</h3>
+    <div id="resp-list"><p class="loading">Cargando...</p></div>
+  </div>
+</div>
+
+<script>
+  const PIN_CORRECTO = '2611';
+
+  function verificar() {
+    const val = document.getElementById('pin-input').value.trim();
+    if (val === PIN_CORRECTO) {
+      document.getElementById('login-wrap').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      cargarDatos();
+    } else {
+      document.getElementById('err-msg').textContent = 'PIN incorrecto, intenta de nuevo.';
+    }
+  }
+
+  firebase.initializeApp({
+    apiKey: "AIzaSyBuKRoh9gZeYcCMgJv8p6iHDuEcraqd-dk",
+    authDomain: "asistentegrace-e750c.firebaseapp.com",
+    databaseURL: "https://asistentegrace-e750c-default-rtdb.firebaseio.com",
+    projectId: "asistentegrace-e750c",
+    storageBucket: "asistentegrace-e750c.firebasestorage.app",
+    messagingSenderId: "446240076504",
+    appId: "1:446240076504:web:90e26c8360fc8aa26c9dad"
+  });
+
+  function cargarDatos() {
+    firebase.database().ref('cuestionario_ministerio').once('value', snap => {
+      const raw = snap.val();
+      if (!raw) {
+        document.getElementById('resp-list').innerHTML = '<p class="empty">Todavía no hay respuestas.</p>';
+        document.getElementById('total-resp').textContent = '0';
+        return;
+      }
+
+      const items = Object.values(raw).sort((a, b) => new Date(b.fechaEnvio) - new Date(a.fechaEnvio));
+      const n = items.length;
+      document.getElementById('total-resp').textContent = n;
+
+      // Pct recomienda
+      const rec = items.filter(i => i.p6_recomendaria === 'Sí, claro').length;
+      document.getElementById('recomend-pct').textContent = Math.round(rec / n * 100) + '%';
+
+      // Pct fácil
+      const facil = items.filter(i => i.p3_facilidad === 'Fácil' || i.p3_facilidad === 'Muy fácil').length;
+      document.getElementById('facil-pct').textContent = Math.round(facil / n * 100) + '%';
+
+      renderBars('bars-p1', conteo(items, 'p1_frecuencia'), n);
+      renderBars('bars-p2', conteo(items, 'p2_seccion'), n);
+      renderBars('bars-p3', conteo(items, 'p3_facilidad'), n);
+      renderBars('bars-p4', conteo(items, 'p4_ayuda'), n);
+      renderBars('bars-p5', conteo(items, 'p5_confuso'), n);
+      renderBars('bars-p6', conteo(items, 'p6_recomendaria'), n);
+      renderP7('bars-p7', items, n);
+      renderSugerencias('sugerencias', items);
+      renderRespuestas('resp-list', items);
+    });
+  }
+
+  function conteo(items, campo) {
+    const m = {};
+    items.forEach(i => { const v = i[campo] || 'Sin respuesta'; m[v] = (m[v] || 0) + 1; });
+    return Object.entries(m).sort((a, b) => b[1] - a[1]);
+  }
+
+  function renderBars(id, pares, total) {
+    const el = document.getElementById(id);
+    if (!pares.length) { el.innerHTML = '<p class="empty">Sin datos</p>'; return; }
+    el.innerHTML = pares.map(([lbl, cnt]) => `
+      <div class="bar-item">
+        <div class="bar-label"><span>${lbl}</span><span>${cnt} (${Math.round(cnt/total*100)}%)</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/total*100)}%"></div></div>
+      </div>`).join('');
+  }
+
+  function renderP7(id, items, total) {
+    const el = document.getElementById(id);
+    const m = {};
+    items.forEach(i => {
+      if (!i.p7_problemas || i.p7_problemas === 'Ninguno marcado') return;
+      i.p7_problemas.split(', ').forEach(v => { m[v] = (m[v] || 0) + 1; });
+    });
+    const pares = Object.entries(m).sort((a, b) => b[1] - a[1]);
+    if (!pares.length) { el.innerHTML = '<p class="empty">Nadie reportó problemas.</p>'; return; }
+    el.innerHTML = pares.map(([lbl, cnt]) => `
+      <div class="bar-item">
+        <div class="bar-label"><span>${lbl}</span><span>${cnt} (${Math.round(cnt/total*100)}%)</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/total*100)}%"></div></div>
+      </div>`).join('');
+  }
+
+  function renderSugerencias(id, items) {
+    const el = document.getElementById(id);
+    const sug = items.filter(i => i.p8_sugerencia && i.p8_sugerencia !== 'Sin sugerencia');
+    if (!sug.length) { el.innerHTML = '<p class="empty">Nadie dejó sugerencias todavía.</p>'; return; }
+    el.innerHTML = sug.map(i => `
+      <div class="resp-card">
+        <div class="resp-date">${fmtFecha(i.fechaEnvio)}</div>
+        <div class="resp-val">"${i.p8_sugerencia}"</div>
+      </div>`).join('');
+  }
+
+  function renderRespuestas(id, items) {
+    const el = document.getElementById(id);
+    const labels = {
+      p1_frecuencia: 'Frecuencia', p2_seccion: 'Sección favorita',
+      p3_facilidad: 'Facilidad', p4_ayuda: 'Ayuda a organizarse',
+      p5_confuso: 'Confuso / falla', p6_recomendaria: 'Recomendaría',
+      p7_problemas: 'Problemas', p8_sugerencia: 'Sugerencia'
+    };
+    el.innerHTML = items.map(i => `
+      <div class="resp-card">
+        <div class="resp-date">${fmtFecha(i.fechaEnvio)}</div>
+        ${Object.entries(labels).map(([k, lbl]) => `
+          <div class="resp-row">
+            <span class="resp-key">${lbl}:</span>
+            <span class="resp-val ${['p3_facilidad','p6_recomendaria'].includes(k) ? 'highlight' : ''}">${i[k] || '—'}</span>
+          </div>`).join('')}
+      </div>`).join('');
+  }
+
+  function fmtFecha(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' }) +
+      ' · ' + d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
+  }
+</script>
+</body>
+</html>

@@ -299,25 +299,35 @@
   bindRadioCards('cqg5', 'cq-pill');
   bindRadioCards('cqg6', 'cq-btn');
 
-  // Checkboxes P7
+  // Checkboxes P7 — preventDefault evita el doble toggle que causa el label nativo
   document.querySelectorAll('#cqg7 .cq-card').forEach(lbl => {
-    lbl.addEventListener('click', () => {
+    lbl.addEventListener('click', (e) => {
+      e.preventDefault();
       const isOn = lbl.dataset.checked === 'true';
       const val  = lbl.dataset.val;
       const box  = lbl.querySelector('.cq-chkbox');
+      const inp  = lbl.querySelector('input');
       if (val === 'Todo ha funcionado bien' && !isOn) {
         document.querySelectorAll('#cqg7 .cq-card').forEach(l => {
-          if (l !== lbl) { l.dataset.checked = 'false'; l.classList.remove('sel'); l.querySelector('.cq-chkbox').textContent = ''; l.querySelector('input').checked = false; }
+          if (l !== lbl) {
+            l.dataset.checked = 'false'; l.classList.remove('sel');
+            l.querySelector('.cq-chkbox').textContent = '';
+            l.querySelector('input').checked = false;
+          }
         });
       }
       if (val !== 'Todo ha funcionado bien' && !isOn) {
         const nada = document.querySelector('#cqg7 [data-val="Todo ha funcionado bien"]');
-        if (nada && nada.dataset.checked === 'true') { nada.dataset.checked = 'false'; nada.classList.remove('sel'); nada.querySelector('.cq-chkbox').textContent = ''; nada.querySelector('input').checked = false; }
+        if (nada && nada.dataset.checked === 'true') {
+          nada.dataset.checked = 'false'; nada.classList.remove('sel');
+          nada.querySelector('.cq-chkbox').textContent = '';
+          nada.querySelector('input').checked = false;
+        }
       }
       lbl.dataset.checked = isOn ? 'false' : 'true';
       lbl.classList.toggle('sel', !isOn);
       box.textContent = isOn ? '' : '✓';
-      lbl.querySelector('input').checked = !isOn;
+      inp.checked = !isOn;
     });
   });
 
