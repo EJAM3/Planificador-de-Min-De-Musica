@@ -3,7 +3,7 @@
   const style = document.createElement('style');
   style.textContent = `
     #cq-fab {
-      position: fixed; bottom: 24px; right: 16px; z-index: 9998;
+      position: fixed; bottom: 82px; right: 16px; z-index: 9998;
       background: linear-gradient(135deg,#f59e0b,#f97316);
       border: none; cursor: pointer;
       box-shadow: 0 4px 18px rgba(245,158,11,0.45);
