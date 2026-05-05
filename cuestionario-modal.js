@@ -3,15 +3,21 @@
   const style = document.createElement('style');
   style.textContent = `
     #cq-fab {
-      position: fixed; bottom: 24px; right: 24px; z-index: 9998;
-      width: 54px; height: 54px; border-radius: 50%;
+      position: fixed; bottom: 24px; right: 16px; z-index: 9998;
       background: linear-gradient(135deg,#f59e0b,#f97316);
       border: none; cursor: pointer;
       box-shadow: 0 4px 18px rgba(245,158,11,0.45);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; transition: transform .2s, box-shadow .2s;
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px 10px 14px;
+      border-radius: 50px;
+      font-size: 13px; font-weight: 700; color: #1a0e00;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: .1px;
+      transition: transform .2s, box-shadow .2s;
     }
-    #cq-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(245,158,11,0.6); }
+    #cq-fab:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(245,158,11,0.6); }
+    #cq-fab .fab-ico { font-size: 18px; line-height: 1; }
+    #cq-fab .fab-txt { line-height: 1.2; text-align: left; }
 
     #cq-backdrop {
       display: none; position: fixed; inset: 0; z-index: 9999;
@@ -138,7 +144,10 @@
 
   // ── HTML del modal ─────────────────────────────────────────────────────────
   const html = `
-  <button id="cq-fab" title="Evalúa la app">📋</button>
+  <button id="cq-fab">
+    <span class="fab-ico">📋</span>
+    <span class="fab-txt">¡Ayúdanos a mejorar!</span>
+  </button>
 
   <div id="cq-backdrop">
     <div id="cq-modal">
