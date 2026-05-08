@@ -13,8 +13,8 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
 <style>
-[data-theme="dark"]{--bg:#09090f;--surf:#12141e;--surf2:#0e1018;--surf3:#1a1d2e;--bdr:#1f2235;--txt:#eef0fb;--txt2:#9ba3c4;--mut:#6b7499;--ov:rgba(0,0,0,.82);--sh:#12141e;--inp:#09090f;--cs:0 2px 14px rgba(0,0,0,.4);--g1c:#3b82f6;--g1bg:rgba(59,130,246,.12);--g1bdr:rgba(59,130,246,.28);--g2c:#a78bfa;--g2bg:rgba(167,139,250,.12);--g2bdr:rgba(167,139,250,.28);--gold:#d4a843;--gd:#a07c28;--gbg:rgba(212,168,67,.1);--adorar:#f59e0b;}
-[data-theme="light"]{--bg:#f4f5fc;--surf:#ffffff;--surf2:#eef0f9;--surf3:#e6e9f5;--bdr:#dce0f0;--txt:#111827;--txt2:#4b5568;--mut:#8b97b5;--ov:rgba(10,15,40,.45);--sh:#ffffff;--inp:#eef0f9;--cs:0 2px 14px rgba(100,116,170,.13);--g1c:#2563eb;--g1bg:rgba(37,99,235,.09);--g1bdr:rgba(37,99,235,.28);--g2c:#7c3aed;--g2bg:rgba(124,58,237,.09);--g2bdr:rgba(124,58,237,.28);--gold:#b8860b;--gd:#92620a;--gbg:rgba(184,134,11,.1);--adorar:#d97706;}
+[data-theme="dark"]{--bg:#0a1628;--surf:#0f1e35;--surf2:#091422;--surf3:#142037;--bdr:#1c2e4a;--txt:#ede8de;--txt2:#8fa4b8;--mut:#5a7085;--ov:rgba(0,0,0,.88);--sh:#0f1e35;--inp:#091422;--cs:0 2px 16px rgba(0,0,0,.48);--g1c:#5b9bd5;--g1bg:rgba(91,155,213,.12);--g1bdr:rgba(91,155,213,.28);--g2c:#b07fd4;--g2bg:rgba(176,127,212,.12);--g2bdr:rgba(176,127,212,.28);--gold:#c9a96e;--gd:#9e7840;--gbg:rgba(201,169,110,.1);--adorar:#d4a843;}
+[data-theme="light"]{--bg:#ddd5c4;--surf:#ede8da;--surf2:#e4dece;--surf3:#d8d0c0;--bdr:#bfb5a4;--txt:#1a2b3c;--txt2:#2d4560;--mut:#6b7a8d;--ov:rgba(10,22,40,.55);--sh:#ede8da;--inp:#e4dece;--cs:0 2px 12px rgba(0,0,0,.13);--g1c:#1d4e8a;--g1bg:rgba(29,78,138,.1);--g1bdr:rgba(29,78,138,.28);--g2c:#6b3a9e;--g2bg:rgba(107,58,158,.1);--g2bdr:rgba(107,58,158,.28);--gold:#8c6520;--gd:#6e4e18;--gbg:rgba(140,101,32,.1);--adorar:#9a6a15;}
 :root{--green:#4ade80;--red:#f87171;--teal:#2dd4bf;--r:17px;--nav:66px;}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:15px;overflow:hidden}
@@ -29,8 +29,9 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .bsm:active{opacity:.7}
 .page{display:none;padding:13px 13px 0}
 .page.active{display:block}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-around;z-index:100;padding:0 1px 10px}
-.nb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 3px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:500;min-width:44px}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:flex-start;z-index:100;padding:0 2px 10px;overflow-x:auto;gap:0;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 2px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:500;min-width:52px;flex-shrink:0}
 .nb .ico{font-size:17px;line-height:1}
 @media(min-width:400px){.nb{font-size:9px;min-width:50px}.nb .ico{font-size:18px}}
 @media(min-width:768px){.nb{font-size:10px;min-width:60px;padding:6px 8px}.nb .ico{font-size:20px}}
@@ -351,20 +352,29 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .pin-back{width:100%;padding:11px;border-radius:11px;border:1px solid var(--bdr);background:transparent;color:var(--mut);font-family:'DM Sans',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;margin-top:13px}
 
 /* Light overrides */
-[data-theme="light"] .adorar-hero{background:linear-gradient(135deg,#fffbeb,#fef3c7,#fffbeb)}
-[data-theme="light"] .ev-g1{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.3);color:#1d4ed8}
-[data-theme="light"] .ev-g2{background:rgba(124,58,237,.09);border-color:rgba(124,58,237,.28);color:#6d28d9}
-[data-theme="light"] .gs-active{background:rgba(22,101,52,.11);color:#166534;border-color:rgba(22,101,52,.28)}
-[data-theme="light"] .mc1{background:rgba(37,99,235,.09);color:#1d4ed8;border-color:rgba(37,99,235,.22)}
-[data-theme="light"] .mc2{background:rgba(124,58,237,.08);color:#6d28d9;border-color:rgba(124,58,237,.2)}
-[data-theme="light"] .pill.active{color:var(--gold);background:rgba(184,134,11,.09);border-color:rgba(184,134,11,.3)}
+[data-theme="light"] .adorar-hero{background:linear-gradient(135deg,#f5edd8,#ede0c4,#f5edd8)}
+[data-theme="light"] .ev-g1{background:rgba(29,78,138,.1);border-color:rgba(29,78,138,.3);color:#1d4e8a}
+[data-theme="light"] .ev-g2{background:rgba(107,58,158,.09);border-color:rgba(107,58,158,.28);color:#6b3a9e}
+[data-theme="light"] .gs-active{background:rgba(22,101,52,.12);color:#166534;border-color:rgba(22,101,52,.28)}
+[data-theme="light"] .mc1{background:rgba(29,78,138,.1);color:#1d4e8a;border-color:rgba(29,78,138,.25)}
+[data-theme="light"] .mc2{background:rgba(107,58,158,.09);color:#6b3a9e;border-color:rgba(107,58,158,.22)}
+[data-theme="light"] .pill.active{color:var(--gold);background:rgba(140,101,32,.1);border-color:rgba(140,101,32,.32)}
 [data-theme="light"] .nb.active{color:var(--gold)}
-[data-theme="light"] .nb.active .ico{filter:drop-shadow(0 0 5px rgba(184,134,11,.4))}
-[data-theme="light"] .bg{color:#fff}
+[data-theme="light"] .nb.active .ico{filter:drop-shadow(0 0 5px rgba(140,101,32,.4))}
+[data-theme="light"] .bg{color:#fff7ed}
 [data-theme="light"] .lbtn.special{color:var(--gold)}
-[data-theme="light"] .bday-card{background:linear-gradient(135deg,#fff0f6,#fce7f3)}
-[data-theme="light"] .bday-name{color:#831843}
-[data-theme="light"] .bday-msg{color:rgba(0,0,0,.65)}
+[data-theme="light"] .bday-card{background:linear-gradient(135deg,#f5edd8,#ede0c4)}
+[data-theme="light"] .bday-name{color:#1a2b3c}
+[data-theme="light"] .bday-msg{color:rgba(26,43,60,.72)}
+[data-theme="light"] .countdown-card{background:linear-gradient(135deg,#ede0c4,#f5edd8,#ede0c4)}
+[data-theme="light"] .rte-btn{background:var(--surf2);color:var(--txt)}
+[data-theme="light"] .rte-editor{background:var(--inp);color:var(--txt)}
+[data-theme="light"] .tts-btn{background:var(--surf2);color:var(--txt)}
+[data-theme="light"] .toast{background:#1a2b1a;color:#bbf7d0}
+[data-theme="light"] .card{background:var(--surf)}
+[data-theme="light"] .nota-item{background:var(--surf2)}
+[data-theme="light"] .song-card{background:var(--surf)}
+[data-theme="light"] .prop-card{background:var(--surf)}
 
 /* ══ RESPONSIVE — Tablets & large phones ══ */
 :root{--nav:66px;}
@@ -460,6 +470,43 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   .scr{padding-bottom:calc(var(--nav) + 52px + env(safe-area-inset-bottom))}
 }
 
+/* ══ VOCES ══ */
+.voice-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;padding:12px;margin-bottom:8px}
+.voice-title{font-weight:600;font-size:13px;margin-bottom:3px}
+.voice-meta{font-size:10.5px;color:var(--mut);margin-bottom:8px}
+.voice-audio{width:100%;border-radius:9px;margin-bottom:7px;accent-color:var(--gold)}
+.rec-pulse{animation:recPulse 1s infinite}
+@keyframes recPulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ══ CHAT ══ */
+.page-chat-layout{padding:0!important;display:flex;flex-direction:column;min-height:calc(100dvh - var(--nav) - 52px)}
+.chat-wrap{flex:1;overflow-y:auto;padding:12px 13px;display:flex;flex-direction:column;gap:7px}
+.msg-row{display:flex;gap:8px;align-items:flex-end}
+.msg-row.mine{flex-direction:row-reverse}
+.msg-avatar{width:30px;height:30px;border-radius:50%;background:var(--surf3);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-family:'Outfit',sans-serif;font-weight:700}
+.msg-bubble{max-width:72%;padding:8px 11px;border-radius:14px;font-size:13px;line-height:1.5}
+.msg-bubble.other{background:var(--surf);border:1px solid var(--bdr);border-bottom-left-radius:4px}
+.msg-bubble.mine{background:var(--gold);color:#1a1000;border-bottom-right-radius:4px}
+.msg-name{font-size:10px;font-weight:700;color:var(--mut);margin-bottom:2px}
+.msg-time{font-size:9.5px;color:var(--mut);margin-top:3px}
+.chat-input-bar{padding:10px 13px;background:var(--bg);border-top:1px solid var(--bdr)}
+[data-theme="light"] .msg-bubble.mine{color:#fff7ed}
+
+/* ══ LETRAS ══ */
+.lyrics-box{background:var(--surf2);border:1px solid var(--bdr);border-radius:13px;padding:14px;white-space:pre-wrap;font-size:13.5px;line-height:2;color:var(--txt);max-height:420px;overflow-y:auto}
+.lyric-saved-card{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:11px 13px;margin-bottom:7px;cursor:pointer}
+.lyric-saved-card:active{opacity:.7}
+
+/* ══ CIFRADOS ══ */
+.cifrado-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;overflow:hidden;margin-bottom:9px}
+.cifrado-thumb{width:100%;max-height:200px;object-fit:cover;display:block;cursor:pointer}
+.cifrado-meta{padding:9px 12px;font-size:11.5px;color:var(--mut)}
+.cifrado-name{font-weight:600;font-size:13px;color:var(--txt);margin-bottom:2px}
+
+/* ══ OFFLINE INDICATOR ══ */
+.offline-bar{display:none;background:rgba(248,113,113,.12);border-bottom:1px solid rgba(248,113,113,.3);padding:5px 13px;font-size:11.5px;font-weight:600;color:var(--red);text-align:center}
+.offline-bar.show{display:block}
+
 /* Propuestas specific */
 .prop-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;margin-bottom:8px;overflow:hidden;box-shadow:var(--cs)}
 .prop-by{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.2);color:#2dd4bf;margin-top:4px;display:inline-flex;align-items:center;gap:3px}
@@ -491,7 +538,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <button class="lbtn g1-btn lbtn-full" onclick="selectUser('Luis Y.')">Luis Y.</button>
     </div>
   </div>
-  <div class="lgroup" style="margin-bottom:28px"><div class="lgroup-label">🟣 Grupo 2 — Coordina Isamar</div>
+  <div class="lgroup"><div class="lgroup-label">🟣 Grupo 2 — Coordina Isamar</div>
     <div class="lgrid">
       <button class="lbtn g2-btn privileged" onclick="selectUser('Isamar')">Isamar</button>
       <button class="lbtn g2-btn" onclick="selectUser('Valeria')">Valeria</button>
@@ -500,6 +547,14 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <button class="lbtn g2-btn" onclick="selectUser('Miguel')">Miguel</button>
       <button class="lbtn g2-btn" onclick="selectUser('Leo')">Leo</button>
       <button class="lbtn g2-btn lbtn-full" onclick="selectUser('Moisés')">Moisés</button>
+    </div>
+  </div>
+  <div class="lgroup" style="margin-bottom:28px"><div class="lgroup-label">🌱 Nuevos Miembros</div>
+    <div class="lgrid">
+      <button class="lbtn" onclick="selectUser('Omar')">Omar</button>
+      <button class="lbtn" onclick="selectUser('Lilianny')">Lilianny</button>
+      <button class="lbtn" onclick="selectUser('Gabriel')">Gabriel</button>
+      <button class="lbtn" onclick="selectUser('Adriana')">Adriana</button>
     </div>
   </div>
 </div>
@@ -547,6 +602,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
     </div>
     <div class="asub">Grace Church · Abr – Jun 2026</div>
   </div>
+  <div class="offline-bar" id="offlineBar">📡 Sin conexión — modo offline activo</div>
   <div class="scr">
 
     <!-- ══ INICIO ══ -->
@@ -573,15 +629,8 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
         <div style="flex:1"><div style="font-weight:700;color:var(--gold);font-size:12.5px">🔔 Activa recordatorios</div><div style="font-size:11px;color:var(--mut)">Avisos de ensayos y servicios</div></div>
         <button class="nbtn" onclick="solicitarNotif()">Activar</button>
       </div>
-      <!-- Week pills -->
-      <div class="pills" id="inicioPills">
-        <button class="pill active" onclick="showInicio(1,this)">S1 · 5 abr</button>
-        <button class="pill" onclick="showInicio(2,this)">S2 · 12 abr</button>
-        <button class="pill" onclick="showInicio(3,this)">S3 · 19 abr</button>
-        <button class="pill" onclick="showInicio(4,this)">S4 · 26 abr</button>
-        <button class="pill" onclick="showInicio(5,this)">S5 · 3 may</button>
-        <button class="pill" onclick="showInicio(6,this)">S6 · 10 may</button>
-      </div>
+      <!-- Week pills — built dynamically -->
+      <div class="pills" id="inicioPills"></div>
       <div id="inicioDetail"></div>
     </div>
 
@@ -599,20 +648,16 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <div class="cm"><div class="ct">Abril 2026</div><div class="cg" id="calAbr"></div></div>
       <div class="cm"><div class="ct">Mayo 2026</div><div class="cg" id="calMay"></div></div>
       <div class="cm"><div class="ct">Junio 2026</div><div class="cg" id="calJun"></div></div>
+      <div class="cm"><div class="ct">Julio 2026</div><div class="cg" id="calJul"></div></div>
+      <div class="cm"><div class="ct">Agosto 2026</div><div class="cg" id="calAgo"></div></div>
     </div>
 
     <!-- ══ REPERTORIO ══ -->
     <div id="page-repertorio" class="page">
       <div class="fberr" id="repErr">⚠️ Error de conexión.</div>
       <div id="repReadOnly" class="ro-notice" style="display:none">👁 Solo lectura — las coordinadoras y directores gestionan el repertorio</div>
-      <div class="pills" id="repPills">
-        <button class="pill active" onclick="selRepWeek(1,this)">S1 · 5 abr</button>
-        <button class="pill" onclick="selRepWeek(2,this)">S2 · 12 abr</button>
-        <button class="pill" onclick="selRepWeek(3,this)">S3 · 19 abr</button>
-        <button class="pill" onclick="selRepWeek(4,this)">S4 · 26 abr</button>
-        <button class="pill" onclick="selRepWeek(5,this)">S5 · 3 may</button>
-        <button class="pill" onclick="selRepWeek(6,this)">S6 · 10 may</button>
-      </div>
+      <!-- Rep pills — built dynamically -->
+      <div class="pills" id="repPills"></div>
       <div id="repWeekInfo" style="margin-bottom:11px"></div>
       <div id="repForm">
         <div class="card" style="border-color:rgba(212,168,67,.22)">
@@ -768,6 +813,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
               <option>Manuel</option><option>Daniel</option><option>Luis Y.</option>
               <option>Isamar</option><option>Valeria</option><option>Zuisay</option><option>Gelimar</option>
               <option>Miguel</option><option>Leo</option><option>Moisés</option>
+              <option>Omar</option><option>Lilianny</option><option>Gabriel</option><option>Adriana</option>
             </select>
           </div>
           <div class="ig"><label class="il">Suplente</label><input id="sSuplente" class="inp" type="text" placeholder="Nombre del suplente" autocomplete="off"/></div>
@@ -786,6 +832,8 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
               <option value="4">Abril 2026</option>
               <option value="5">Mayo 2026</option>
               <option value="6">Junio 2026</option>
+              <option value="7">Julio 2026</option>
+              <option value="8">Agosto 2026</option>
             </select>
           </div>
           <div class="ig">
@@ -797,6 +845,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
                 <option>Manuel</option><option>Daniel</option><option>Luis Y.</option>
                 <option>Isamar</option><option>Valeria</option><option>Zuisay</option><option>Gelimar</option>
                 <option>Miguel</option><option>Leo</option><option>Moisés</option>
+                <option>Omar</option><option>Lilianny</option><option>Gabriel</option><option>Adriana</option>
               </select>
             </div>
             <button class="bg-s" style="margin-top:7px;width:100%" onclick="registrarFalta()">Registrar ausencia</button>
@@ -858,6 +907,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
               <option>Manuel</option><option>Daniel</option><option>Luis Y.</option>
               <option>Isamar</option><option>Valeria</option><option>Zuisay</option><option>Gelimar</option>
               <option>Miguel</option><option>Leo</option><option>Moisés</option>
+              <option>Omar</option><option>Lilianny</option><option>Gabriel</option><option>Adriana</option>
             </select>
           </div>
           <div class="ig"><label class="il">Suplente</label><input id="maSSuplente" class="inp" type="text" placeholder="Nombre del suplente" autocomplete="off"/></div>
@@ -885,15 +935,95 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <div id="propList"><div class="lmsg">Cargando…</div></div>
     </div>
 
+    <!-- ══ VOCES ══ -->
+    <div id="page-voces" class="page">
+      <div class="card" style="border-color:rgba(201,169,110,.22)">
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:16px;color:var(--gold);margin-bottom:4px">🎙 Grabador de Voces</div>
+        <div style="font-size:11.5px;color:var(--mut);margin-bottom:14px">Graba, guarda y reproduce notas de voz del equipo.</div>
+        <div style="display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:14px">
+          <button id="btnRecord" class="bg" style="flex:1;max-width:160px" onclick="toggleRecording()">🎙 Grabar</button>
+          <div id="recTimer" style="font-family:Outfit,sans-serif;font-weight:800;font-size:22px;color:var(--gold);min-width:52px;text-align:center">0:00</div>
+        </div>
+        <div id="recStatus" style="text-align:center;font-size:12px;color:var(--mut);margin-bottom:10px">Presiona grabar para empezar</div>
+        <div id="previewArea" style="display:none">
+          <div class="sec">Vista previa</div>
+          <audio id="audioPreview" controls style="width:100%;margin-bottom:10px;border-radius:10px"></audio>
+          <div class="ig"><label class="il">Título de la grabación</label><input id="voiceName" class="inp" type="text" placeholder="Ej: Ensayo 17 may – Voces S2" autocomplete="off"/></div>
+          <div style="display:flex;gap:7px">
+            <button class="bg" style="flex:1" onclick="saveRecording()">💾 Guardar</button>
+            <button class="bo" onclick="discardRecording()">Descartar</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:14px">Grabaciones guardadas</div>
+        <span id="voiceCount" style="font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 8px">—</span>
+      </div>
+      <div id="voiceList"><div class="lmsg">Cargando…</div></div>
+    </div>
+
+    <!-- ══ LETRAS ══ -->
+    <div id="page-letras" class="page">
+      <div class="card" style="border-color:rgba(45,212,191,.22);margin-bottom:13px">
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:15px;color:#2dd4bf;margin-bottom:11px">🔍 Buscar letras</div>
+        <div class="ig"><label class="il">Artista</label><input id="lArtist" class="inp" type="text" placeholder="Ej: Hillsong, Marcos Witt" autocomplete="off"/></div>
+        <div class="ig"><label class="il">Canción</label><input id="lTitle" class="inp" type="text" placeholder="Ej: Oceans, Sublime Gracia" autocomplete="off"/></div>
+        <div style="display:flex;gap:7px">
+          <button class="bg" style="flex:1;background:#2dd4bf;color:#0b1a1a" onclick="searchLyrics()">🔍 Buscar letra</button>
+          <button class="bo" onclick="openProjector()" title="Modo proyección">📺</button>
+        </div>
+      </div>
+      <div id="lyricsResult"></div>
+      <!-- Saved lyrics -->
+      <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:13px;margin-bottom:8px;margin-top:4px">Letras guardadas</div>
+      <div id="savedLyricsList"><div class="lmsg">Cargando…</div></div>
+    </div>
+
+    <!-- ══ CHAT ══ -->
+    <div id="page-chat" class="page page-chat-layout"></div>
+
+    <!-- ══ CIFRADOS ══ -->
+    <div id="page-cifrados" class="page">
+      <div class="card" style="border-color:rgba(251,146,60,.22);margin-bottom:13px">
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:15px;color:#fb923c;margin-bottom:11px">🎸 Subir Cifrado</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <label class="bg" style="flex:1;text-align:center;cursor:pointer;padding:10px">
+            📷 Cámara / Foto
+            <input type="file" accept="image/*" capture="camera" id="cifradoCamera" style="display:none" onchange="uploadCifrado(this,'photo')"/>
+          </label>
+          <label class="bg" style="flex:1;text-align:center;cursor:pointer;padding:10px;background:var(--surf2);color:var(--txt);border:1px solid var(--bdr)">
+            📄 Archivo / PDF
+            <input type="file" accept="image/*,.pdf" id="cifradoFile" style="display:none" onchange="uploadCifrado(this,'file')"/>
+          </label>
+        </div>
+        <div id="cifradoProgress" style="display:none;font-size:12px;color:var(--mut);text-align:center">Subiendo…</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:14px">Cifrados guardados</div>
+        <span id="cifradoCount" style="font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 8px">—</span>
+      </div>
+      <div id="cifradoList"><div class="lmsg">Cargando…</div></div>
+    </div>
+
+    <!-- Projector overlay (Letras) -->
+    <div id="projectorOv" style="display:none;position:fixed;inset:0;background:#000;z-index:800;overflow-y:auto;padding:30px 20px">
+      <button onclick="closeProjector()" style="position:fixed;top:14px;right:14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;z-index:801">✕</button>
+      <div id="projectorContent" style="font-family:'Outfit',sans-serif;font-size:28px;color:#fff;line-height:1.9;white-space:pre-wrap;text-align:center;max-width:700px;margin:0 auto;padding-top:20px"></div>
+    </div>
+
   </div><!-- /scr -->
 
-  <nav class="nav" style="padding:0 0 10px">
+  <nav class="nav">
     <button class="nb active" onclick="goNav('inicio',this)"><span class="ico">🏠</span>Inicio</button>
     <button class="nb" onclick="goNav('calendario',this)"><span class="ico">📅</span>Cal.</button>
     <button class="nb" onclick="goNav('repertorio',this)"><span class="ico">🎵</span>Rep.</button>
+    <button class="nb" onclick="goNav('voces',this)"><span class="ico">🎙</span>Voces</button>
+    <button class="nb" onclick="goNav('letras',this)"><span class="ico">📝</span>Letras</button>
+    <button class="nb" onclick="goNav('chat',this)"><span class="ico">💬</span>Chat</button>
+    <button class="nb" onclick="goNav('cifrados',this)"><span class="ico">🎸</span>Cifrados</button>
     <button class="nb" onclick="goNav('propuestas',this)"><span class="ico">💡</span>Prop.</button>
     <button class="nb" onclick="goNav('adorar',this)"><span class="ico">✨</span>Adorar</button>
-    <button class="nb" id="panelNavBtn" onclick="goNav('panel',this)"><span class="ico">📖</span><span id="panelNavLabel">Panel</span></button>
+    <button class="nb" id="panelNavBtn" onclick="goNav('panel',this)"><span class="ico">🛠</span><span id="panelNavLabel">Panel</span></button>
   </nav>
 </div>
 
@@ -928,16 +1058,36 @@ const DG = 'Pra. Mary';
 const COORDS = ['Veruska','Diana','Isamar'];
 const MA_ALEX_KEY = 'Marialex';
 const ADORAR_COORDS = ['Veruska','Daniel'];
-const ALL_VOCAL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Isamar','Valeria','Zuisay','Gelimar'];
-const ALL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés'];
-const RUTA_ALL = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Jesús','Luis M.','Omar','Franyelis','Leonardo','Lilianny','Adriana'];
+const ALL_VOCAL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Isamar','Valeria','Zuisay','Gelimar','Lilianny','Adriana'];
+const ALL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Omar','Lilianny','Gabriel','Adriana'];
+const RUTA_ALL = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Jesús','Luis M.','Omar','Franyelis','Leonardo','Lilianny','Adriana','Gabriel'];
 
-function needsPin(u){ return u===DG||COORDS.includes(u)||u===MA_ALEX_KEY||u==='Daniel'; }
-function canEditRep(u){ return u===DG||COORDS.includes(u)||u===MA_ALEX_KEY||u==='Daniel'; }
-function canEditDevo(u){ return u===DG; }
-function isAdmin(u){ return u===DG||COORDS.includes(u); }
+// ══ SISTEMA DE ROLES ═════════════════════════════════════════
+// superAdmin: Pra. Mary — ve y edita todo
+// musicDir:   Daniel    — acceso total, ve y edita
+// worshipDir: Veruska, Diana, Isamar — todo excepto panel (solo devo), edita repertorio
+// asstGeneral: Marialex — acceso completo, edita letras y calendario
+// musician:   resto     — ve todo excepto panel, solo escribe en propuestas
+function getRole(u){
+  if(u===DG) return 'superAdmin';
+  if(u==='Daniel') return 'musicDir';
+  if(COORDS.includes(u)) return 'worshipDir';
+  if(u===MA_ALEX_KEY) return 'asstGeneral';
+  return 'musician';
+}
+function getRoleLabel(u){
+  const map={superAdmin:'Súper Admin',musicDir:'Director de Música',worshipDir:'Director(a) de Culto',asstGeneral:'Asistente General',musician:'Músico / Voz'};
+  return map[getRole(u)]||'';
+}
+function needsPin(u){ const r=getRole(u); return r!=='musician'; }
+function canEditRep(u){ const r=getRole(u); return r==='superAdmin'||r==='musicDir'||r==='worshipDir'||r==='asstGeneral'; }
+function canEditDevo(u){ return getRole(u)==='superAdmin'; }
+function isAdmin(u){ const r=getRole(u); return r==='superAdmin'||r==='musicDir'; }
 function isMaAlex(u){ return u===MA_ALEX_KEY; }
 function canEditAdorar(u){ return u===DG||ADORAR_COORDS.includes(u); }
+function canSeePanel(u){ const r=getRole(u); return r==='superAdmin'||r==='musicDir'||r==='worshipDir'||r==='asstGeneral'; }
+function canEditCalendar(u){ const r=getRole(u); return r==='superAdmin'||r==='asstGeneral'; }
+function canEditLetras(u){ const r=getRole(u); return r==='superAdmin'||r==='asstGeneral'; }
 function fbKey(n){ return n.replace(/[^a-zA-Z0-9]/g,'_'); }
 
 // ══ BIRTHDAYS ════════════════════════════════════════════════
@@ -976,14 +1126,28 @@ const SEMANAS = [
   {n:4,label:'26 abr',g:2,especial:null,fri:'2026-04-24',sun:'2026-04-26',wed:'2026-04-29'},
   {n:5,label:'3 may',g:1,especial:'Comunión',fri:'2026-05-01',sun:'2026-05-03',wed:'2026-05-06'},
   {n:6,label:'10 may',g:2,especial:null,fri:'2026-05-08',sun:'2026-05-10',wed:'2026-05-13'},
+  // Rotación extendida 3 meses desde S6 (10 may)
+  {n:7,label:'17 may',g:1,especial:null,fri:'2026-05-15',sun:'2026-05-17',wed:'2026-05-20'},
+  {n:8,label:'24 may',g:2,especial:null,fri:'2026-05-22',sun:'2026-05-24',wed:'2026-05-27'},
+  {n:9,label:'31 may',g:1,especial:null,fri:'2026-05-29',sun:'2026-05-31',wed:'2026-06-03'},
+  {n:10,label:'7 jun',g:2,especial:'Comunión',fri:'2026-06-05',sun:'2026-06-07',wed:null},
+  // ADORAR 2026: 8–14 jun (no hay servicio regular)
+  {n:11,label:'21 jun',g:1,especial:null,fri:'2026-06-19',sun:'2026-06-21',wed:'2026-06-24'},
+  {n:12,label:'28 jun',g:2,especial:null,fri:'2026-06-26',sun:'2026-06-28',wed:'2026-07-01'},
+  {n:13,label:'5 jul',g:1,especial:'Comunión',fri:'2026-07-03',sun:'2026-07-05',wed:'2026-07-08'},
+  {n:14,label:'12 jul',g:2,especial:null,fri:'2026-07-10',sun:'2026-07-12',wed:'2026-07-15'},
+  {n:15,label:'19 jul',g:1,especial:null,fri:'2026-07-17',sun:'2026-07-19',wed:'2026-07-22'},
+  {n:16,label:'26 jul',g:2,especial:null,fri:'2026-07-24',sun:'2026-07-26',wed:'2026-07-29'},
+  {n:17,label:'2 ago',g:1,especial:'Comunión',fri:'2026-07-31',sun:'2026-08-02',wed:'2026-08-05'},
+  {n:18,label:'9 ago',g:2,especial:null,fri:'2026-08-07',sun:'2026-08-09',wed:'2026-08-12'},
 ];
 
 // Build calendar event map
 const CAL = {};
 SEMANAS.forEach(s=>{
-  CAL[s.fri]={t:'fri',wn:s.n,g:s.g};
-  CAL[s.sun]={t:'sun',wn:s.n,g:s.g,especial:s.especial};
-  CAL[s.wed]={t:'wed',wn:s.n,g:s.g};
+  if(s.fri) CAL[s.fri]={t:'fri',wn:s.n,g:s.g};
+  if(s.sun) CAL[s.sun]={t:'sun',wn:s.n,g:s.g,especial:s.especial};
+  if(s.wed) CAL[s.wed]={t:'wed',wn:s.n,g:s.g};
 });
 // Special events
 const SPECIAL_DATES = {
@@ -1065,8 +1229,13 @@ function initApp(){
   document.documentElement.setAttribute('data-theme',t);
   document.getElementById('themeBtn').textContent=t==='dark'?'🌙':'🌞';
 
-  // Panel label
-  if(isAdmin(loggedUser)||isMaAlex(loggedUser)){
+  // Role badge in topbar
+  document.getElementById('userBadge').title = getRoleLabel(loggedUser);
+
+  // Panel visibility by role
+  const canPanel=canSeePanel(loggedUser);
+  document.getElementById('panelNavBtn').style.display=canPanel?'':'none';
+  if(canPanel){
     document.getElementById('panelNavBtn').querySelector('.ico').textContent='🛠';
     document.getElementById('panelNavLabel').textContent='Panel';
   }
@@ -1075,6 +1244,7 @@ function initApp(){
     document.getElementById('pendingSection').style.display='';
     buildWeekRows();buildMemberEditors();buildDestGrid();buildRutaList();
     listenNotas();listenPending();listenSuplencias();loadFaltas();
+    loadDevoHistory();
   }
   if(isMaAlex(loggedUser)){
     document.getElementById('maAlexPanel').style.display='';
@@ -1100,9 +1270,18 @@ function initApp(){
 
   // Calendar
   buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
+  buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
 
-  // Inicio
-  showInicio(1,document.querySelector('#inicioPills .pill'));
+  // Build dynamic pills for Inicio and Repertorio
+  buildSemanasPills();
+
+  // Inicio — auto-select current week
+  const cw = getCurrentWeek();
+  const inicioBtn = document.querySelector(`#inicioPills .pill[data-n="${cw}"]`) || document.querySelector('#inicioPills .pill');
+  if(inicioBtn) showInicio(cw, inicioBtn);
+
+  // Auto-refresh Sundays at 3pm
+  scheduleWeekRefresh();
 
   // Ticker + countdown
   buildTicker();startCountdown();
@@ -1114,6 +1293,12 @@ function initApp(){
   initFCM();
   // Propuestas
   if(window._initPropuestas) window._initPropuestas();
+  // New tabs
+  initNewTabs();
+  // Offline support
+  initOffline();
+  // Real-time notifications for non-admin users
+  if(!isAdmin(loggedUser)) listenNotasGlobal();
 }
 
 // ══ THEME ════════════════════════════════════════════════════
@@ -1207,6 +1392,41 @@ function checkBirthdays(){
   },1500);
 }
 function closeBday(){document.getElementById('bdayOv').classList.remove('open');}
+
+// ══ PILLS DINÁMICAS ══════════════════════════════════════════
+function buildSemanasPills(){
+  const ip=document.getElementById('inicioPills');
+  const rp=document.getElementById('repPills');
+  const cw=getCurrentWeek();
+  if(ip) ip.innerHTML=SEMANAS.map(s=>`<button class="pill${s.n===cw?' active':''}" data-n="${s.n}" onclick="showInicio(${s.n},this)">S${s.n} · ${s.label}</button>`).join('');
+  if(rp) rp.innerHTML=SEMANAS.map(s=>`<button class="pill${s.n===1?' active':''}" data-n="${s.n}" onclick="selRepWeek(${s.n},this)">S${s.n} · ${s.label}</button>`).join('');
+}
+
+// Devuelve la semana actual (la más cercana a hoy sin pasar)
+function getCurrentWeek(){
+  const today=new Date();today.setHours(0,0,0,0);
+  let best=1;
+  for(const s of SEMANAS){
+    const sun=new Date(s.sun);
+    if(sun<=today) best=s.n;
+    else break;
+  }
+  return best;
+}
+
+// Refresca la semana activa cada domingo a las 3pm
+function scheduleWeekRefresh(){
+  function check(){
+    const now=new Date();
+    if(now.getDay()===0&&now.getHours()===15&&now.getMinutes()===0){
+      buildSemanasPills();
+      const cw=getCurrentWeek();
+      const btn=document.querySelector(`#inicioPills .pill[data-n="${cw}"]`);
+      if(btn) showInicio(cw,btn);
+    }
+  }
+  setInterval(check,60000);
+}
 
 // ══ INICIO ═══════════════════════════════════════════════════
 function showInicio(n,btn){
@@ -1699,6 +1919,7 @@ function loadGruposOverride(){
   db.ref(`${P}/gruposOverride`).on('value',snap=>{
     gruposOverride=snap.val()||{};buildWeekRows();
     buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
+    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
     const ap=document.querySelector('#inicioPills .pill.active');if(ap) ap.click();
   });
 }
@@ -1913,18 +2134,44 @@ async function enviarNota(){
     showToast('✓ Nota enviada',false);
   }catch(e){showToast('❌ Error',true);}
 }
+let _lastNotaAt='';
 function listenNotas(){
   const el=document.getElementById('notasHistory');if(!el)return;
   db.ref(`${P}/notasManual`).orderByChild('creadoAt').limitToLast(15).on('value',snap=>{
-    const raw=snap.val();const notas=raw?Object.values(raw).reverse():[];
+    const raw=snap.val();const notas=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
     if(!notas.length){el.innerHTML='<div class="lmsg">Sin notas</div>';return;}
+    // Real-time toast for new notes (for non-admin users too via separate listener)
+    if(notas[0]&&notas[0].creadoAt&&notas[0].creadoAt!==_lastNotaAt&&_lastNotaAt!==''){
+      showToast('📢 Nueva nota: '+notas[0].titulo,false);
+    }
+    _lastNotaAt=notas[0]?.creadoAt||'';
     el.innerHTML=notas.map(n=>{
       const at=n.creadoAt?new Date(n.creadoAt).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
       const dest=n.destinatarios?.length>0?n.destinatarios.join(', '):'Todo el equipo';
-      const st=n.enviado?'<div class="ns-sent">✓ Enviada</div>':'<div class="ns-pend">⏳ Pendiente</div>';
-      return `<div class="nota-item"><div class="nota-hdr"><div class="nota-titulo">${esc(n.titulo||'')}</div><div class="nota-fecha">${at}</div></div><div class="nota-msg">${esc(n.mensaje||'')}</div><div class="nota-dest">📤 ${dest}</div>${st}</div>`;
+      const st=n.enviado?'<div class="ns-sent">✓ Notificada</div>':'<div class="ns-pend">⏳ Pendiente de notif. push</div>';
+      const canDel=isAdmin(loggedUser);
+      return `<div class="nota-item"><div class="nota-hdr"><div class="nota-titulo">${esc(n.titulo||'')}</div><div class="nota-fecha">${at}</div></div><div class="nota-msg">${esc(n.mensaje||'')}</div><div class="nota-dest">📤 ${dest}</div>${st}${canDel?`<button class="bo-red" style="font-size:10px;padding:3px 8px;margin-top:5px" onclick="deleteNota('${n._k}')">✕ Borrar</button>`:''}</div>`;
     }).join('');
   });
+}
+// Listener para usuarios no-admin: reciben notificación de notas nuevas
+function listenNotasGlobal(){
+  if(isAdmin(loggedUser)) return; // admins ya tienen listenNotas
+  db.ref(`${P}/notasManual`).orderByChild('creadoAt').limitToLast(1).on('value',snap=>{
+    const raw=snap.val();if(!raw)return;
+    const latest=Object.values(raw)[0];
+    if(!latest)return;
+    if(_lastNotaAt&&latest.creadoAt!==_lastNotaAt){
+      const dest=latest.destinatarios||[];
+      if(!dest.length||dest.includes(loggedUser)) showToast('📢 '+esc(latest.titulo||'Nueva nota del equipo'),false);
+    }
+    _lastNotaAt=latest.creadoAt||'';
+  });
+}
+async function deleteNota(k){
+  if(!confirm('¿Borrar esta nota?'))return;
+  try{await db.ref(`${P}/notasManual/${k}`).remove();showToast('Nota eliminada',false);}
+  catch(e){showToast('❌ Error',true);}
 }
 
 // ══ REMINDERS ════════════════════════════════════════════════
@@ -2036,6 +2283,366 @@ async function delPropuesta(k){
   if(!confirm('¿Eliminar esta propuesta?'))return;
   try{await db.ref(`${P}/propuestas/${k}`).remove();showToast('Propuesta eliminada',false);}
   catch(e){showToast('❌ Error',true);}
+}
+
+// ══ OFFLINE CACHE ════════════════════════════════════════════
+const OC={
+  set(k,d){try{localStorage.setItem('oc_'+k,JSON.stringify(d));}catch(e){}},
+  get(k){try{const d=localStorage.getItem('oc_'+k);return d?JSON.parse(d):null;}catch(e){return null;}}
+};
+const OQ={
+  add(item){const q=this.get();q.push(item);localStorage.setItem('oq',JSON.stringify(q));},
+  get(){try{return JSON.parse(localStorage.getItem('oq')||'[]');}catch(e){return[];}},
+  clear(){localStorage.setItem('oq','[]');}
+};
+function initOffline(){
+  function setBar(){document.getElementById('offlineBar').classList.toggle('show',!navigator.onLine);}
+  setBar();
+  window.addEventListener('online',()=>{setBar();processOfflineQueue();});
+  window.addEventListener('offline',setBar);
+}
+async function processOfflineQueue(){
+  const q=OQ.get();if(!q.length)return;
+  for(const item of q){
+    try{
+      if(item.method==='push') await db.ref(item.path).push(item.data);
+      else await db.ref(item.path).set(item.data);
+    }catch(e){}
+  }
+  OQ.clear();showToast('✓ Datos sincronizados con el servidor',false);
+}
+async function dbWrite(path,data,method='set'){
+  if(!navigator.onLine){OQ.add({path,data,method,at:new Date().toISOString()});showToast('📡 Guardado localmente — se sincronizará al conectar',false);return;}
+  if(method==='push') return db.ref(path).push(data);
+  return db.ref(path).set(data);
+}
+
+// ══ VOCES — GRABACIÓN ════════════════════════════════════════
+let mediaRecorder=null,audioChunks=[],recInterval=null,recSeconds=0,currentBlob=null;
+
+async function toggleRecording(){
+  if(mediaRecorder&&mediaRecorder.state==='recording'){stopRecording();return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    const mimeType=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'audio/webm';
+    mediaRecorder=new MediaRecorder(stream,{mimeType});
+    audioChunks=[];recSeconds=0;
+    mediaRecorder.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
+    mediaRecorder.onstop=()=>{
+      currentBlob=new Blob(audioChunks,{type:mediaRecorder.mimeType||'audio/webm'});
+      const url=URL.createObjectURL(currentBlob);
+      document.getElementById('audioPreview').src=url;
+      document.getElementById('previewArea').style.display='';
+      document.getElementById('recStatus').textContent='Grabación lista — dale un nombre y guárdala.';
+      stream.getTracks().forEach(t=>t.stop());
+    };
+    mediaRecorder.start(200);
+    document.getElementById('btnRecord').textContent='⏹ Detener';
+    document.getElementById('btnRecord').style.background='var(--red)';
+    document.getElementById('recStatus').innerHTML='<span class="rec-pulse">🔴 Grabando…</span>';
+    recInterval=setInterval(()=>{recSeconds++;const m=Math.floor(recSeconds/60),s=String(recSeconds%60).padStart(2,'0');document.getElementById('recTimer').textContent=m+':'+s;if(recSeconds>=120){stopRecording();}},1000);
+  }catch(e){showToast('❌ No se pudo acceder al micrófono',true);}
+}
+function stopRecording(){
+  if(mediaRecorder&&mediaRecorder.state!=='inactive') mediaRecorder.stop();
+  clearInterval(recInterval);
+  document.getElementById('btnRecord').textContent='🎙 Grabar';
+  document.getElementById('btnRecord').style.background='';
+}
+async function saveRecording(){
+  if(!currentBlob){showToast('❌ Sin grabación',true);return;}
+  const name=document.getElementById('voiceName').value.trim()||'Grabación '+new Date().toLocaleDateString('es');
+  const reader=new FileReader();
+  reader.onloadend=async()=>{
+    const b64=reader.result;
+    try{
+      await db.ref(`${P}/voces`).push({title:name,audio:b64,savedBy:loggedUser,savedAt:new Date().toISOString()});
+      discardRecording();showToast('✓ Grabación guardada',false);listenVoices();
+    }catch(e){showToast('❌ Error al guardar — archivo muy grande o sin conexión',true);}
+  };
+  reader.readAsDataURL(currentBlob);
+}
+function discardRecording(){
+  currentBlob=null;document.getElementById('previewArea').style.display='none';
+  document.getElementById('voiceName').value='';document.getElementById('recTimer').textContent='0:00';
+  document.getElementById('recStatus').textContent='Presiona grabar para empezar';
+}
+function listenVoices(){
+  db.ref(`${P}/voces`).orderByChild('savedAt').limitToLast(30).once('value').then(snap=>{
+    const raw=snap.val();
+    const list=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
+    document.getElementById('voiceCount').textContent=list.length+' grabación'+(list.length!==1?'es':'');
+    document.getElementById('voiceList').innerHTML=list.length?list.map(v=>`
+      <div class="voice-card">
+        <div class="voice-title">${esc(v.title||'Sin título')}</div>
+        <div class="voice-meta">👤 ${esc(v.savedBy||'')} · ${v.savedAt?new Date(v.savedAt).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}</div>
+        <audio class="voice-audio" controls src="${v.audio||''}"></audio>
+        ${isAdmin(loggedUser)?`<button class="bo-red" style="font-size:11px;padding:5px 10px" onclick="deleteVoice('${v._k}')">✕ Eliminar</button>`:''}
+      </div>`).join(''):'<div class="empty"><div class="ei">🎙</div><p>Sin grabaciones todavía.</p></div>';
+  });
+}
+async function deleteVoice(k){
+  if(!confirm('¿Eliminar esta grabación?'))return;
+  try{await db.ref(`${P}/voces/${k}`).remove();listenVoices();showToast('Grabación eliminada',false);}
+  catch(e){showToast('❌ Error',true);}
+}
+
+// ══ CHAT ═════════════════════════════════════════════════════
+let chatRef=null,lastMsgAt=null;
+function initChat(){
+  const wrap=document.createElement('div');wrap.className='chat-wrap';wrap.id='chatMessages';
+  const bar=document.createElement('div');bar.className='chat-input-bar';
+  bar.innerHTML=`<div style="display:flex;gap:7px;align-items:center"><input id="chatInput" class="inp" type="text" placeholder="Escribe un mensaje…" style="flex:1" onkeydown="if(event.key==='Enter')sendChat()" autocomplete="off"/><button class="bg-s" onclick="sendChat()" style="padding:10px 14px">➤</button></div>`;
+  const page=document.getElementById('page-chat');
+  page.innerHTML='';page.appendChild(wrap);page.appendChild(bar);
+  if(chatRef) chatRef.off();
+  chatRef=db.ref(`${P}/chat`).orderByChild('at').limitToLast(60);
+  chatRef.on('value',snap=>{
+    const raw=snap.val();
+    const msgs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];
+    renderChat(msgs);
+  });
+}
+function renderChat(msgs){
+  const wrap=document.getElementById('chatMessages');if(!wrap)return;
+  const atBottom=wrap.scrollHeight-wrap.scrollTop-wrap.clientHeight<80;
+  wrap.innerHTML=msgs.map(m=>{
+    const mine=m.from===fbKey(loggedUser);
+    const initials=(m.fromName||m.from||'?').slice(0,2).toUpperCase();
+    const time=m.at?new Date(m.at).toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}):'';
+    return `<div class="msg-row${mine?' mine':''}">
+      <div class="msg-avatar">${initials}</div>
+      <div>
+        ${!mine?`<div class="msg-name">${esc(m.fromName||m.from||'')}</div>`:''}
+        <div class="msg-bubble ${mine?'mine':'other'}">${esc(m.text||'')}</div>
+        <div class="msg-time">${time}</div>
+      </div>
+    </div>`;
+  }).join('');
+  if(atBottom||msgs.length<=3) wrap.scrollTop=wrap.scrollHeight;
+}
+async function sendChat(){
+  const inp=document.getElementById('chatInput');if(!inp)return;
+  const text=inp.value.trim();if(!text)return;
+  const displayName=loggedUser==='Marialex'?'Ma Alex':loggedUser;
+  inp.value='';
+  try{
+    await db.ref(`${P}/chat`).push({from:fbKey(loggedUser),fromName:displayName,text,at:new Date().toISOString()});
+  }catch(e){showToast('❌ Error al enviar',true);}
+}
+
+// ══ LETRAS ═══════════════════════════════════════════════════
+let currentLyrics='',currentLyricsTitle='';
+async function searchLyrics(){
+  const artist=document.getElementById('lArtist').value.trim();
+  const title=document.getElementById('lTitle').value.trim();
+  if(!artist||!title){showToast('❌ Ingresa artista y canción',true);return;}
+  const res=document.getElementById('lyricsResult');
+  res.innerHTML='<div class="lmsg">Buscando…</div>';
+  try{
+    const r=await fetch(`https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`);
+    const d=await r.json();
+    if(d.lyrics){
+      currentLyrics=d.lyrics;currentLyricsTitle=title+' — '+artist;
+      res.innerHTML=`<div style="margin-bottom:9px;display:flex;gap:7px;align-items:center">
+        <div style="flex:1;font-weight:700;font-size:13px">${esc(currentLyricsTitle)}</div>
+        ${canEditLetras(loggedUser)?`<button class="bg-s" onclick="saveLyrics()">💾 Guardar</button>`:''}
+        <button class="bo" onclick="openProjector()">📺</button>
+      </div><div class="lyrics-box">${esc(d.lyrics)}</div>`;
+    }else{
+      res.innerHTML='<div class="empty"><div class="ei">🎵</div><p>No se encontró la letra.<br>Prueba con otro artista o título.</p></div>';
+    }
+  }catch(e){
+    res.innerHTML='<div class="empty"><div class="ei">⚠️</div><p>Error de conexión.<br>Verifica tu internet.</p></div>';
+  }
+}
+async function saveLyrics(){
+  if(!currentLyrics){showToast('❌ Sin letra para guardar',true);return;}
+  try{
+    await db.ref(`${P}/letras`).push({title:currentLyricsTitle,lyrics:currentLyrics,savedBy:loggedUser,savedAt:new Date().toISOString()});
+    showToast('✓ Letra guardada',false);listenLyrics();
+  }catch(e){showToast('❌ Error al guardar',true);}
+}
+function listenLyrics(){
+  db.ref(`${P}/letras`).orderByChild('savedAt').limitToLast(30).once('value').then(snap=>{
+    const raw=snap.val();
+    const list=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
+    const el=document.getElementById('savedLyricsList');if(!el)return;
+    el.innerHTML=list.length?list.map(l=>`<div class="lyric-saved-card" onclick="showSavedLyric('${l._k}','${esc(l.title||'')}','${esc((l.lyrics||'').replace(/'/g,"&#39;").replace(/\n/g,'\\n'))}')">
+      <div style="font-weight:600;font-size:13px">${esc(l.title||'Sin título')}</div>
+      <div style="font-size:11px;color:var(--mut)">👤 ${esc(l.savedBy||'')} · ${l.savedAt?new Date(l.savedAt).toLocaleDateString('es',{day:'numeric',month:'short'}):''}
+      ${canEditLetras(loggedUser)?`<button class="bo-red" style="float:right;font-size:10px;padding:2px 7px" onclick="event.stopPropagation();deleteLyric('${l._k}')">✕</button>`:''}</div>
+    </div>`).join(''):'<div class="empty"><div class="ei">📝</div><p>Sin letras guardadas.</p></div>';
+  });
+}
+function showSavedLyric(k,title,lyricsEncoded){
+  currentLyrics=lyricsEncoded.replace(/\\n/g,'\n');currentLyricsTitle=title;
+  const res=document.getElementById('lyricsResult');
+  res.innerHTML=`<div style="margin-bottom:9px;display:flex;gap:7px;align-items:center">
+    <div style="flex:1;font-weight:700;font-size:13px">${esc(title)}</div>
+    <button class="bo" onclick="openProjector()">📺</button>
+  </div><div class="lyrics-box">${esc(currentLyrics)}</div>`;
+  window.scrollTo(0,0);
+}
+async function deleteLyric(k){
+  if(!confirm('¿Eliminar esta letra?'))return;
+  try{await db.ref(`${P}/letras/${k}`).remove();listenLyrics();showToast('Letra eliminada',false);}
+  catch(e){showToast('❌ Error',true);}
+}
+function openProjector(){
+  if(!currentLyrics){showToast('❌ No hay letra activa',true);return;}
+  document.getElementById('projectorContent').textContent=currentLyrics;
+  document.getElementById('projectorOv').style.display='block';
+  document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{});
+}
+function closeProjector(){
+  document.getElementById('projectorOv').style.display='none';
+  document.exitFullscreen&&document.exitFullscreen().catch(()=>{});
+}
+
+// ══ CIFRADOS ═════════════════════════════════════════════════
+function uploadCifrado(input,type){
+  const file=input.files[0];if(!file)return;
+  const prog=document.getElementById('cifradoProgress');prog.style.display='';
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    const b64=e.target.result;
+    const isImg=file.type.startsWith('image/');
+    try{
+      await db.ref(`${P}/cifrados`).push({
+        name:file.name,data:b64,type:isImg?'image':'pdf',
+        mimeType:file.type,savedBy:loggedUser,savedAt:new Date().toISOString()
+      });
+      prog.style.display='none';input.value='';
+      showToast('✓ Cifrado guardado',false);listenCifrados();
+    }catch(e){prog.style.display='none';showToast('❌ Error — archivo demasiado grande (máx ~5MB)',true);}
+  };
+  reader.readAsDataURL(file);
+}
+function listenCifrados(){
+  db.ref(`${P}/cifrados`).orderByChild('savedAt').limitToLast(40).once('value').then(snap=>{
+    const raw=snap.val();
+    const list=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
+    document.getElementById('cifradoCount').textContent=list.length+' cifrado'+(list.length!==1?'s':'');
+    document.getElementById('cifradoList').innerHTML=list.length?list.map(c=>`
+      <div class="cifrado-card">
+        ${c.type==='image'?`<img class="cifrado-thumb" src="${c.data}" alt="${esc(c.name||'')}" onclick="viewCifrado('${c._k}')" loading="lazy"/>`:'<div style="padding:16px;text-align:center;font-size:28px;cursor:pointer" onclick="viewCifrado(\''+c._k+'\')">📄</div>'}
+        <div class="cifrado-meta">
+          <div class="cifrado-name">${esc(c.name||'Sin nombre')}</div>
+          👤 ${esc(c.savedBy||'')} · ${c.savedAt?new Date(c.savedAt).toLocaleDateString('es',{day:'numeric',month:'short'}):''}
+          ${isAdmin(loggedUser)?`<button class="bo-red" style="float:right;font-size:10px;padding:2px 7px;margin-top:2px" onclick="deleteCifrado('${c._k}')">✕</button>`:''}
+        </div>
+      </div>`).join(''):'<div class="empty"><div class="ei">🎸</div><p>Sin cifrados guardados.<br>Sube una foto o PDF.</p></div>';
+  });
+}
+function viewCifrado(k){
+  db.ref(`${P}/cifrados/${k}`).once('value').then(snap=>{
+    const c=snap.val();if(!c)return;
+    if(c.type==='image'){
+      document.getElementById('projectorContent').innerHTML=`<img src="${c.data}" style="max-width:100%;border-radius:10px"/>`;
+      document.getElementById('projectorOv').style.display='block';
+    }else{
+      const a=document.createElement('a');a.href=c.data;a.download=c.name||'cifrado.pdf';a.click();
+    }
+  });
+}
+async function deleteCifrado(k){
+  if(!confirm('¿Eliminar este cifrado?'))return;
+  try{await db.ref(`${P}/cifrados/${k}`).remove();listenCifrados();showToast('Cifrado eliminado',false);}
+  catch(e){showToast('❌ Error',true);}
+}
+
+// ══ HISTORIAL DE DEVOCIONALES ════════════════════════════════
+function loadDevoHistory(){
+  const panel=document.getElementById('adminPanel');if(!panel)return;
+  let hSection=document.getElementById('devoHistorySection');
+  if(!hSection){
+    hSection=document.createElement('div');hSection.id='devoHistorySection';hSection.className='panel-sec';
+    hSection.innerHTML=`<div class="panel-hdr">📚 Historial de Devocionales</div><div id="devoHistoryList"><div class="lmsg">Cargando…</div></div>`;
+    panel.insertBefore(hSection,panel.firstChild);
+  }
+  db.ref(`${P}/devocionalHistorial`).orderByChild('updatedAt').limitToLast(10).on('value',snap=>{
+    const raw=snap.val();const items=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
+    const el=document.getElementById('devoHistoryList');if(!el)return;
+    el.innerHTML=items.length?items.map(d=>`
+      <div class="nota-item">
+        <div class="nota-hdr">
+          <div class="nota-titulo">${d.updatedBy||'—'}</div>
+          <div class="nota-fecha">${d.updatedAt?new Date(d.updatedAt).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'}):''}</div>
+        </div>
+        <div class="nota-msg" style="font-size:11.5px;max-height:50px;overflow:hidden;color:var(--txt2)">${(d.html||'').replace(/<[^>]+>/g,'').slice(0,120)}…</div>
+        <div style="display:flex;gap:6px;margin-top:7px">
+          <button class="bo" style="font-size:11px;padding:5px 10px" onclick="restoreDevo('${d._k}')">↩ Restaurar</button>
+          <button class="bo-red" style="font-size:11px;padding:5px 10px" onclick="deleteDevoHistory('${d._k}')">✕ Borrar</button>
+        </div>
+      </div>`).join(''):'<div class="lmsg">Sin historial</div>';
+  });
+}
+async function restoreDevo(k){
+  if(!confirm('¿Restaurar este devocional como el actual?'))return;
+  const snap=await db.ref(`${P}/devocionalHistorial/${k}`).once('value');
+  const d=snap.val();if(!d)return;
+  try{
+    await db.ref(`${P}/devocional`).set({html:d.html,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
+    showToast('✓ Devocional restaurado',false);
+  }catch(e){showToast('❌ Error',true);}
+}
+async function deleteDevoHistory(k){
+  if(!confirm('¿Eliminar este registro del historial?'))return;
+  try{await db.ref(`${P}/devocionalHistorial/${k}`).remove();showToast('Registro eliminado',false);}
+  catch(e){showToast('❌ Error',true);}
+}
+
+// Guardar historial al publicar devo (override de saveDevo)
+const _origSaveDevo=window.saveDevo;
+window.saveDevo=async function(){
+  const html=document.getElementById('rteEditor').innerHTML.trim();
+  if(!html||html==='<br>'){showToast('❌ El devocional está vacío',true);return;}
+  try{
+    const prev=await db.ref(`${P}/devocional`).once('value');
+    const old=prev.val();
+    if(old&&old.html){
+      await db.ref(`${P}/devocionalHistorial`).push({...old,archivedAt:new Date().toISOString()});
+    }
+    await db.ref(`${P}/devocional`).set({html,updatedBy:loggedUser,updatedAt:new Date().toISOString()});
+    cancelDevo();showToast('✓ Devocional publicado 📖',false);
+  }catch(e){showToast('❌ Error al guardar',true);}
+};
+
+// ══ SONGS EN DAY SHEET ═══════════════════════════════════════
+async function loadSheetSongs(weekNum){
+  const el=document.getElementById('sheetSongs');if(!el)return;
+  el.innerHTML='<div style="color:var(--mut);font-size:11.5px">Cargando repertorio…</div>';
+  const snap=await db.ref(`${P}/repertorio/week${weekNum}`).once('value');
+  const raw=snap.val();
+  if(!raw){el.innerHTML='<div style="color:var(--mut);font-size:11.5px;font-style:italic">Sin canciones registradas para esta semana.</div>';return;}
+  const songs=Object.values(raw);
+  el.innerHTML=`<div class="sec" style="margin-top:10px">🎵 Repertorio (${songs.length})</div>`+
+    songs.map((s,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr)">
+      <span style="font-family:Outfit,sans-serif;font-weight:800;font-size:13px;color:rgba(201,169,110,.35);min-width:16px">${i+1}</span>
+      <div><div style="font-size:12.5px;font-weight:600">${esc(s.title||'')}</div>${s.artist?`<div style="font-size:11px;color:var(--mut)">${esc(s.artist)}</div>`:''}</div>
+    </div>`).join('');
+}
+
+// Patch openSheet to add songs
+const _origOpenSheet=openSheet;
+openSheet=function(key){
+  _origOpenSheet(key);
+  const ev=CAL[key];
+  if(ev&&ev.t==='sun'){
+    let body=document.getElementById('shBody');
+    const songsDiv=document.createElement('div');songsDiv.id='sheetSongs';songsDiv.style.padding='0 13px';
+    body.appendChild(songsDiv);
+    loadSheetSongs(ev.wn);
+  }
+};
+
+// ══ INIT DE NUEVAS PESTAÑAS ══════════════════════════════════
+function initNewTabs(){
+  listenVoices();
+  initChat();
+  listenLyrics();
+  listenCifrados();
 }
 
 // ══ UTILS ════════════════════════════════════════════════════
