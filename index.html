@@ -1809,9 +1809,11 @@ function buildCal(yr,mo,cid){
     }else if(cust){
       const ico=cust.type==='cumpleanos'?'🎂':cust.type==='actividad'?'⭐':'📌';
       const dotColor=cust.color||'#c9a96e';
-      h+=`<div class="cd tap" style="border:1.5px solid ${dotColor}33;background:${dotColor}0a" onclick="showCustomEventSheet('${key}')"><div class="cdn" style="font-size:11px;color:${dotColor}">${d}</div><div class="cdl" style="font-size:8px">${ico}</div></div>`;
+      const shortName=(cust.name||'').split(' ')[0].slice(0,7);
+      h+=`<div class="cd tap" style="border:1.5px solid ${dotColor}44;background:${dotColor}0d" onclick="showCustomEventSheet('${key}')"><div class="cdn" style="font-size:10px;color:${dotColor};line-height:1.1">${d}</div><div class="cdl" style="font-size:7px;line-height:1.1">${ico}</div><div class="cdl" style="font-size:6.5px;color:${dotColor};line-height:1;margin-top:1px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(shortName)}</div></div>`;
     }else if(bday){
-      h+=`<div class="cd tap ev-bday" onclick="showBdaySheet('${bday.name}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl">🎂</div></div>`;
+      const shortBday=bday.name.split(' ')[0].slice(0,7);
+      h+=`<div class="cd tap ev-bday" onclick="showBdaySheet('${bday.name}')"><div class="cdn" style="font-size:10px;line-height:1.1">${d}</div><div class="cdl" style="font-size:7px;line-height:1.1">🎂</div><div class="cdl" style="font-size:6.5px;line-height:1;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%">${esc(shortBday)}</div></div>`;
     }else{
       h+=`<div class="cd"><div class="cdn" style="color:var(--mut);font-weight:400">${d}</div></div>`;
     }
@@ -1924,10 +1926,14 @@ function ytCmd(sid,cmd){
 
 // ══ SONG EDIT ════════════════════════════════════════════════
 let editingKey=null,editingWeek=null,editingIsAdorar=false;
-function toggleEdit(sid,fk,data,isAdorar=false){
+const _songCache={}; // cache de datos de canciones por firebaseKey
+function toggleEdit(fk){
+  const sid=fk;
   const el=document.getElementById('ed-'+sid);
   if(!el) return;
   if(el.classList.contains('open')){el.classList.remove('open');el.innerHTML='';editingKey=null;return;}
+  const data=_songCache[fk]||{};
+  const isAdorar=data.isAdorar||false;
   editingKey=fk;editingWeek=curRepWeek;editingIsAdorar=isAdorar;
   const assigned=(data.assignedTo||[]);
   const assignHtml=isAdorar?'':`<div class="ig"><label class="il">Asignar a (voces)</label><div class="assign-grid">${ALL_VOCAL_MEMBERS.map(v=>`<button class="assign-chip${assigned.includes(v)?' sel':''}" onclick="toggleAssignChipEdit(this,'${v}')">${v}</button>`).join('')}</div></div>`;
@@ -2005,6 +2011,8 @@ function listenRep(n){
 }
 
 function buildSongCard(s,i,fk,isAdorar){
+  // Cachear datos para que toggleEdit los lea sin pasar JSON en el onclick
+  _songCache[fk]={title:s.title||'',artist:s.artist||'',url:s.url||'',note:s.note||'',assignedTo:s.assignedTo||[],isAdorar:!!isAdorar};
   const canEdit=isAdorar?canEditAdorar(loggedUser):canEditRep(loggedUser);
   const ytId=getYTId(s.url||'');
   const cardCls=isAdorar?'adorar-song-card':'song-card';
@@ -2020,7 +2028,7 @@ function buildSongCard(s,i,fk,isAdorar){
       </div>
       <div class="song-actions">
         ${s.url?`<button class="sact-btn play-btn" id="pb-${fk}" onclick="togglePlayer('${fk}','${esc(s.url||'')}')" title="${ytId?'Reproducir YouTube':'Ver enlace'}">▶</button>`:''}
-        ${canEdit?`<button class="sact-btn edit-btn" onclick="toggleEdit('${fk}','${fk}',${JSON.stringify({title:s.title||'',artist:s.artist||'',url:s.url||'',note:s.note||'',assignedTo:s.assignedTo||[]})},${isAdorar})" title="Editar">✏️</button>`:''}
+        ${canEdit?`<button class="sact-btn edit-btn" onclick="toggleEdit('${fk}')" title="Editar">✏️</button>`:''}
         ${canEdit?`<button class="sact-btn del-btn" onclick="delSong('${fk}',${isAdorar})" title="Eliminar">✕</button>`:''}
       </div>
     </div>
