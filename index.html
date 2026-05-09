@@ -6,8 +6,11 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="Ministerio Musical"/>
-<title>Ministerio Musical · Grace</title>
+<meta name="apple-mobile-web-app-title" content="Alabanza"/>
+<title>Alabanza · Ministerio Musical</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
@@ -601,6 +604,9 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 }
 
 /* ══ VOCES ══ */
+.voice-folder-card{background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:border-color .18s}
+.voice-folder-card:active{opacity:.75}
+.voice-folder-card:hover{border-color:var(--gd)}
 .voice-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;padding:12px;margin-bottom:8px}
 .voice-title{font-weight:600;font-size:13px;margin-bottom:3px}
 .voice-meta{font-size:10.5px;color:var(--mut);margin-bottom:8px}
@@ -1137,29 +1143,56 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
     <!-- ══ VOCES ══ -->
     <div id="page-voces" class="page">
-      <div class="card" style="border-color:rgba(201,169,110,.22)">
-        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:16px;color:var(--gold);margin-bottom:4px">🎙 Grabador de Voces</div>
-        <div style="font-size:11.5px;color:var(--mut);margin-bottom:14px">Graba, guarda y reproduce notas de voz del equipo.</div>
-        <div style="display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:14px">
-          <button id="btnRecord" class="bg" style="flex:1;max-width:160px" onclick="toggleRecording()">🎙 Grabar</button>
-          <div id="recTimer" style="font-family:Outfit,sans-serif;font-weight:800;font-size:22px;color:var(--gold);min-width:52px;text-align:center">0:00</div>
+      <!-- Vista: Lista de carpetas -->
+      <div id="voicesFolderView">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px">
+          <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:17px;color:var(--gold)">🎙 Carpetas de Voces</div>
+          <button class="bg-s" onclick="showCreateFolder()">＋ Nueva carpeta</button>
         </div>
-        <div id="recStatus" style="text-align:center;font-size:12px;color:var(--mut);margin-bottom:10px">Presiona grabar para empezar</div>
-        <div id="previewArea" style="display:none">
-          <div class="sec">Vista previa</div>
-          <audio id="audioPreview" controls style="width:100%;margin-bottom:10px;border-radius:10px"></audio>
-          <div class="ig"><label class="il">Título de la grabación</label><input id="voiceName" class="inp" type="text" placeholder="Ej: Ensayo 17 may – Voces S2" autocomplete="off"/></div>
+        <!-- Formulario nueva carpeta (oculto) -->
+        <div id="createFolderForm" class="card" style="display:none;margin-bottom:13px;border-color:rgba(201,169,110,.3)">
+          <div style="font-weight:700;font-size:13px;margin-bottom:10px">📁 Nueva carpeta</div>
+          <div class="ig"><label class="il">Nombre de la carpeta</label>
+            <input id="folderNameInp" class="inp" type="text" placeholder="Ej: Soprano – Renacer, Tenores S6" autocomplete="off"/>
+          </div>
           <div style="display:flex;gap:7px">
-            <button class="bg" style="flex:1" onclick="saveRecording()">💾 Guardar</button>
-            <button class="bo" onclick="discardRecording()">Descartar</button>
+            <button class="bg" style="flex:1" onclick="createVoiceFolder()">Crear carpeta</button>
+            <button class="bo" onclick="hideCreateFolder()">Cancelar</button>
           </div>
         </div>
+        <div id="folderList"><div class="lmsg">Cargando…</div></div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
-        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:14px">Grabaciones guardadas</div>
-        <span id="voiceCount" style="font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 8px">—</span>
+      <!-- Vista: Interior de una carpeta -->
+      <div id="voicesFolderDetail" style="display:none">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px">
+          <button class="bo" style="padding:6px 12px;font-size:12px" onclick="backToFolders()">← Volver</button>
+          <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:16px;color:var(--gold)" id="folderDetailTitle">Carpeta</div>
+        </div>
+        <!-- Grabador -->
+        <div class="card" style="border-color:rgba(201,169,110,.22);margin-bottom:13px">
+          <div style="font-size:12px;color:var(--mut);margin-bottom:12px">Graba y guarda voces en esta carpeta</div>
+          <div style="display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:12px">
+            <button id="btnRecord" class="bg" style="flex:1;max-width:160px" onclick="toggleRecording()">🎙 Grabar</button>
+            <div id="recTimer" style="font-family:Outfit,sans-serif;font-weight:800;font-size:22px;color:var(--gold);min-width:52px;text-align:center">0:00</div>
+          </div>
+          <div id="recStatus" style="text-align:center;font-size:12px;color:var(--mut);margin-bottom:10px">Presiona grabar para empezar</div>
+          <div id="previewArea" style="display:none">
+            <div class="sec">Vista previa</div>
+            <audio id="audioPreview" controls style="width:100%;margin-bottom:10px;border-radius:10px"></audio>
+            <div class="ig"><label class="il">Título</label><input id="voiceName" class="inp" type="text" placeholder="Ej: Primera vez, Corrección S2" autocomplete="off"/></div>
+            <div style="display:flex;gap:7px">
+              <button class="bg" style="flex:1" onclick="saveRecording()">💾 Guardar en carpeta</button>
+              <button class="bo" onclick="discardRecording()">Descartar</button>
+            </div>
+          </div>
+        </div>
+        <!-- Lista de grabaciones en la carpeta -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+          <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:14px">Grabaciones</div>
+          <span id="voiceCount" style="font-size:11px;font-weight:600;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);border-radius:999px;padding:2px 8px">—</span>
+        </div>
+        <div id="voiceList"><div class="lmsg">Cargando…</div></div>
       </div>
-      <div id="voiceList"><div class="lmsg">Cargando…</div></div>
     </div>
 
     <!-- ══ LETRAS ══ -->
@@ -1232,9 +1265,9 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   <div class="nav-drawer-title">Navegación</div>
   <!-- Desktop sidebar header (solo visible en PC) -->
   <div class="desk-sidebar-hdr" id="deskSidebarHdr">
-    <div class="desk-logo">🎶</div>
-    <div class="desk-app-name">Ministerio Musical</div>
-    <div class="desk-church">Grace Church</div>
+    <img src="logo-alabanza.png" alt="Alabanza" style="width:90px;height:90px;object-fit:contain;border-radius:18px;margin-bottom:8px"/>
+    <div class="desk-app-name">Alabanza</div>
+    <div class="desk-church">Ministerio Musical · Grace Church</div>
   </div>
   <div class="nav-grid" id="navGrid">
     <button class="ng-btn active" data-page="inicio" onclick="goNav('inicio',this)"><span class="ng-ico">🏠</span>Inicio</button>
@@ -1270,6 +1303,9 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <div class="toast" id="toast"></div>
 
 <script>
+// Helper: parsea 'YYYY-MM-DD' como fecha LOCAL (evita bug UTC -1 día)
+function parseDate(s){if(!s)return null;const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+
 // ══ FIREBASE ══════════════════════════════════════════════════
 firebase.initializeApp({
   apiKey:"AIzaSyBuKRoh9gZeYcCMgJv8p6iHDuEcraqd-dk",
@@ -1608,7 +1644,7 @@ function buildTicker(){
   });
   // Service reminders
   SEMANAS.forEach(s=>{
-    const sunDate=new Date(s.sun);
+    const sunDate=parseDate(s.sun);
     const diff=Math.round((sunDate-today)/864e5);
     if(diff>=0&&diff<=7){
       const ag=getAG(s.n);
@@ -1677,7 +1713,7 @@ function getCurrentWeek(){
   const today=new Date();today.setHours(0,0,0,0);
   let best=SEMANAS[0].n;
   for(const s of SEMANAS){
-    const fri=s.fri?new Date(s.fri):null;
+    const fri=s.fri?parseDate(s.fri):null;
     if(!fri) continue;
     // La semana "inicia" el jueves antes del viernes de ensayo
     const thu=new Date(fri);thu.setDate(thu.getDate()-1);
@@ -1708,7 +1744,7 @@ function showInicio(n,btn){
   const s=SEMANAS[n-1];
   const ag=getAG(n),rg=ag===1?2:1;
   const gA=GRUPOS[ag],gR=GRUPOS[rg];
-  const sunDt=new Date(s.sun),wedDt=new Date(s.wed),friDt=new Date(s.fri);
+  const sunDt=parseDate(s.sun),wedDt=parseDate(s.wed),friDt=parseDate(s.fri);
   const MES_SHORT=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
   const fmtDate=d=>`${d.getDate()} ${MES_SHORT[d.getMonth()]}`;
   document.getElementById('inicioDetail').innerHTML=`
@@ -2630,6 +2666,72 @@ async function dbWrite(path,data,method='set'){
 // ══ VOCES — GRABACIÓN ════════════════════════════════════════
 let mediaRecorder=null,audioChunks=[],recInterval=null,recSeconds=0,currentBlob=null;
 
+// ══ VOCES: CARPETAS ══════════════════════════════════════════
+let currentFolderId=null;
+
+function initVoicesFolders(){
+  listenFolders();
+}
+function showCreateFolder(){
+  document.getElementById('createFolderForm').style.display='';
+  document.getElementById('folderNameInp').focus();
+}
+function hideCreateFolder(){
+  document.getElementById('createFolderForm').style.display='none';
+  document.getElementById('folderNameInp').value='';
+}
+async function createVoiceFolder(){
+  const name=document.getElementById('folderNameInp').value.trim();
+  if(!name){showToast('❌ Escribe un nombre para la carpeta',true);return;}
+  try{
+    await db.ref(`${P}/vocesFolders`).push({name,createdBy:loggedUser,createdAt:new Date().toISOString()});
+    hideCreateFolder();showToast('✓ Carpeta creada',false);
+  }catch(e){showToast('❌ Error al crear carpeta',true);}
+}
+function listenFolders(){
+  db.ref(`${P}/vocesFolders`).orderByChild('createdAt').on('value',snap=>{
+    const raw=snap.val();
+    const list=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
+    const el=document.getElementById('folderList');if(!el)return;
+    el.innerHTML=list.length?list.map(f=>`
+      <div class="voice-folder-card" onclick="openFolder('${f._k}','${esc(f.name||'')}')">
+        <div style="display:flex;align-items:center;gap:11px">
+          <span style="font-size:26px">📁</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:14px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(f.name||'Sin nombre')}</div>
+            <div style="font-size:11px;color:var(--mut)">👤 ${esc(f.createdBy||'')} · ${f.createdAt?new Date(f.createdAt).toLocaleDateString('es',{day:'numeric',month:'short'}):''}
+            </div>
+          </div>
+          <span style="color:var(--mut);font-size:18px">›</span>
+        </div>
+        ${isAdmin(loggedUser)?`<button class="bo-red" style="font-size:10.5px;padding:4px 9px;margin-top:8px;width:100%" onclick="event.stopPropagation();deleteFolder('${f._k}','${esc(f.name||'')}')">🗑 Eliminar carpeta</button>`:''}
+      </div>`).join(''):'<div class="empty"><div class="ei">📁</div><p>No hay carpetas.<br>Crea una para empezar.</p></div>';
+  });
+}
+function openFolder(folderId,folderName){
+  currentFolderId=folderId;
+  document.getElementById('voicesFolderView').style.display='none';
+  document.getElementById('voicesFolderDetail').style.display='';
+  document.getElementById('folderDetailTitle').textContent='📁 '+folderName;
+  discardRecording();
+  listenVoices();
+}
+function backToFolders(){
+  currentFolderId=null;
+  document.getElementById('voicesFolderDetail').style.display='none';
+  document.getElementById('voicesFolderView').style.display='';
+  discardRecording();
+}
+async function deleteFolder(folderId,folderName){
+  if(!confirm(`¿Eliminar la carpeta "${folderName}" y todas sus grabaciones?`))return;
+  try{
+    await db.ref(`${P}/vocesFolders/${folderId}`).remove();
+    await db.ref(`${P}/vocesRec/${folderId}`).remove();
+    showToast('✓ Carpeta eliminada',false);
+  }catch(e){showToast('❌ Error',true);}
+}
+
+// Grabador
 async function toggleRecording(){
   if(mediaRecorder&&mediaRecorder.state==='recording'){stopRecording();return;}
   try{
@@ -2650,7 +2752,7 @@ async function toggleRecording(){
     document.getElementById('btnRecord').textContent='⏹ Detener';
     document.getElementById('btnRecord').style.background='var(--red)';
     document.getElementById('recStatus').innerHTML='<span class="rec-pulse">🔴 Grabando…</span>';
-    recInterval=setInterval(()=>{recSeconds++;const m=Math.floor(recSeconds/60),s=String(recSeconds%60).padStart(2,'0');document.getElementById('recTimer').textContent=m+':'+s;if(recSeconds>=120){stopRecording();}},1000);
+    recInterval=setInterval(()=>{recSeconds++;const m=Math.floor(recSeconds/60),s=String(recSeconds%60).padStart(2,'0');document.getElementById('recTimer').textContent=m+':'+s;if(recSeconds>=180)stopRecording();},1000);
   }catch(e){showToast('❌ No se pudo acceder al micrófono',true);}
 }
 function stopRecording(){
@@ -2661,39 +2763,45 @@ function stopRecording(){
 }
 async function saveRecording(){
   if(!currentBlob){showToast('❌ Sin grabación',true);return;}
+  if(!currentFolderId){showToast('❌ Abre una carpeta primero',true);return;}
   const name=document.getElementById('voiceName').value.trim()||'Grabación '+new Date().toLocaleDateString('es');
   const reader=new FileReader();
   reader.onloadend=async()=>{
     const b64=reader.result;
     try{
-      await db.ref(`${P}/voces`).push({title:name,audio:b64,savedBy:loggedUser,savedAt:new Date().toISOString()});
+      await db.ref(`${P}/vocesRec/${currentFolderId}`).push({title:name,audio:b64,savedBy:loggedUser,savedAt:new Date().toISOString()});
       discardRecording();showToast('✓ Grabación guardada',false);listenVoices();
-    }catch(e){showToast('❌ Error al guardar — archivo muy grande o sin conexión',true);}
+    }catch(e){showToast('❌ Error — archivo muy grande o sin conexión',true);}
   };
   reader.readAsDataURL(currentBlob);
 }
 function discardRecording(){
-  currentBlob=null;document.getElementById('previewArea').style.display='none';
-  document.getElementById('voiceName').value='';document.getElementById('recTimer').textContent='0:00';
-  document.getElementById('recStatus').textContent='Presiona grabar para empezar';
+  currentBlob=null;
+  const pa=document.getElementById('previewArea');if(pa)pa.style.display='none';
+  const vn=document.getElementById('voiceName');if(vn)vn.value='';
+  const rt=document.getElementById('recTimer');if(rt)rt.textContent='0:00';
+  const rs=document.getElementById('recStatus');if(rs)rs.textContent='Presiona grabar para empezar';
 }
 function listenVoices(){
-  db.ref(`${P}/voces`).orderByChild('savedAt').limitToLast(30).once('value').then(snap=>{
+  if(!currentFolderId)return;
+  db.ref(`${P}/vocesRec/${currentFolderId}`).orderByChild('savedAt').on('value',snap=>{
     const raw=snap.val();
     const list=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})).reverse():[];
-    document.getElementById('voiceCount').textContent=list.length+' grabación'+(list.length!==1?'es':'');
-    document.getElementById('voiceList').innerHTML=list.length?list.map(v=>`
+    const vc=document.getElementById('voiceCount');if(vc)vc.textContent=list.length+' grabación'+(list.length!==1?'es':'');
+    const vl=document.getElementById('voiceList');if(!vl)return;
+    vl.innerHTML=list.length?list.map(v=>`
       <div class="voice-card">
         <div class="voice-title">${esc(v.title||'Sin título')}</div>
         <div class="voice-meta">👤 ${esc(v.savedBy||'')} · ${v.savedAt?new Date(v.savedAt).toLocaleDateString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}</div>
         <audio class="voice-audio" controls src="${v.audio||''}"></audio>
-        ${isAdmin(loggedUser)?`<button class="bo-red" style="font-size:11px;padding:5px 10px" onclick="deleteVoice('${v._k}')">✕ Eliminar</button>`:''}
-      </div>`).join(''):'<div class="empty"><div class="ei">🎙</div><p>Sin grabaciones todavía.</p></div>';
+        ${isAdmin(loggedUser)||v.savedBy===loggedUser?`<button class="bo-red" style="font-size:11px;padding:5px 10px;margin-top:6px" onclick="deleteVoice('${v._k}')">✕ Eliminar</button>`:''}
+      </div>`).join(''):'<div class="empty"><div class="ei">🎙</div><p>Sin grabaciones.<br>Graba la primera voz.</p></div>';
   });
 }
 async function deleteVoice(k){
+  if(!currentFolderId)return;
   if(!confirm('¿Eliminar esta grabación?'))return;
-  try{await db.ref(`${P}/voces/${k}`).remove();listenVoices();showToast('Grabación eliminada',false);}
+  try{await db.ref(`${P}/vocesRec/${currentFolderId}/${k}`).remove();showToast('Grabación eliminada',false);}
   catch(e){showToast('❌ Error',true);}
 }
 
@@ -3057,7 +3165,7 @@ openSheet=function(key){
 
 // ══ INIT DE NUEVAS PESTAÑAS ══════════════════════════════════
 function initNewTabs(){
-  listenVoices();
+  initVoicesFolders();
   initChat();
   listenLyrics();
   listenCifrados();
