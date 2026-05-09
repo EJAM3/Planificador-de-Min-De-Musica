@@ -497,13 +497,24 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .msg-row{display:flex;gap:8px;align-items:flex-end}
 .msg-row.mine{flex-direction:row-reverse}
 .msg-avatar{width:30px;height:30px;border-radius:50%;background:var(--surf3);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-family:'Outfit',sans-serif;font-weight:700}
-.msg-bubble{max-width:72%;padding:8px 11px;border-radius:14px;font-size:13px;line-height:1.5}
+.msg-bubble{max-width:72%;padding:8px 11px;border-radius:14px;font-size:13px;line-height:1.5;cursor:default}
 .msg-bubble.other{background:var(--surf);border:1px solid var(--bdr);border-bottom-left-radius:4px}
-.msg-bubble.mine{background:var(--gold);color:#1a1000;border-bottom-right-radius:4px}
+.msg-bubble.mine{background:var(--gold);color:#1a1000;border-bottom-right-radius:4px;cursor:pointer}
+.msg-bubble.can-act{cursor:pointer}
 .msg-name{font-size:10px;font-weight:700;color:var(--mut);margin-bottom:2px}
 .msg-time{font-size:9.5px;color:var(--mut);margin-top:3px}
+.msg-edited{font-size:9px;color:var(--mut);margin-left:4px;font-style:italic}
 .chat-input-bar{padding:10px 13px;background:var(--bg);border-top:1px solid var(--bdr)}
+.chat-edit-banner{background:rgba(212,168,67,.13);border-top:1px solid var(--gold);padding:5px 13px;font-size:11px;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
 [data-theme="light"] .msg-bubble.mine{color:#fff7ed}
+/* Chat action sheet */
+.chat-act-ov{position:fixed;inset:0;background:var(--ov);z-index:300;opacity:0;pointer-events:none;transition:opacity .2s}
+.chat-act-ov.open{opacity:1;pointer-events:all}
+.chat-act-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:min(420px,100%);background:var(--surf2);border-radius:20px 20px 0 0;border:1px solid var(--bdr);padding:18px 16px 32px;z-index:301;transition:transform .28s cubic-bezier(.32,1,.32,1)}
+.chat-act-sheet.open{transform:translateX(-50%) translateY(0)}
+.chat-act-btn{display:flex;align-items:center;gap:12px;width:100%;padding:13px 10px;border:none;background:none;cursor:pointer;font-size:14px;font-weight:600;border-radius:12px;color:var(--txt)}
+.chat-act-btn:active{background:var(--surf3)}
+.chat-act-btn.danger{color:#f87171}
 
 /* ══ LETRAS ══ */
 .lyrics-box{background:var(--surf2);border:1px solid var(--bdr);border-radius:13px;padding:14px;white-space:pre-wrap;font-size:13.5px;line-height:2;color:var(--txt);max-height:420px;overflow-y:auto}
@@ -1119,6 +1130,15 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   <div class="shhd"><div class="shd" id="shDate"></div><div class="sht" id="shTitle"></div></div>
   <div class="shb" id="shBody"></div>
 </div>
+<!-- Chat action sheet -->
+<div class="chat-act-ov" id="chatActOv" onclick="closeChatActions()"></div>
+<div class="chat-act-sheet" id="chatActSheet">
+  <div style="width:36px;height:4px;border-radius:2px;background:var(--bdr);margin:0 auto 16px"></div>
+  <button class="chat-act-btn" id="chatActEditBtn" onclick="editChatMsg()">✏️ Editar mensaje</button>
+  <button class="chat-act-btn danger" onclick="deleteChatMsg()">🗑 Eliminar mensaje</button>
+  <button class="chat-act-btn" onclick="closeChatActions()" style="color:var(--mut)">Cancelar</button>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -2539,15 +2559,23 @@ async function deleteVoice(k){
 }
 
 // ══ CHAT ═════════════════════════════════════════════════════
-let chatRef=null,lastMsgAt=null;
+let chatRef=null,chatEditKey=null;
 function initChat(){
   const wrap=document.createElement('div');wrap.className='chat-wrap';wrap.id='chatMessages';
   const bar=document.createElement('div');bar.className='chat-input-bar';
-  bar.innerHTML=`<div style="display:flex;gap:7px;align-items:center"><input id="chatInput" class="inp" type="text" placeholder="Escribe un mensaje…" style="flex:1" onkeydown="if(event.key==='Enter')sendChat()" autocomplete="off"/><button class="bg-s" onclick="sendChat()" style="padding:10px 14px">➤</button></div>`;
+  bar.innerHTML=`
+    <div class="chat-edit-banner" id="chatEditBanner" style="display:none">
+      <span>✏️ Editando mensaje</span>
+      <button onclick="cancelChatEdit()" style="background:none;border:none;cursor:pointer;color:var(--mut);font-size:18px;line-height:1">✕</button>
+    </div>
+    <div style="display:flex;gap:7px;align-items:center">
+      <input id="chatInput" class="inp" type="text" placeholder="Escribe un mensaje…" style="flex:1" onkeydown="if(event.key==='Enter')sendChat()" autocomplete="off"/>
+      <button class="bg-s" id="chatSendBtn" onclick="sendChat()" style="padding:10px 14px">➤</button>
+    </div>`;
   const page=document.getElementById('page-chat');
   page.innerHTML='';page.appendChild(wrap);page.appendChild(bar);
   if(chatRef) chatRef.off();
-  chatRef=db.ref(`${P}/chat`).orderByChild('at').limitToLast(60);
+  chatRef=db.ref(`${P}/chat`).orderByChild('at').limitToLast(80);
   chatRef.on('value',snap=>{
     const raw=snap.val();
     const msgs=raw?Object.entries(raw).map(([k,v])=>({...v,_k:k})):[];
@@ -2559,13 +2587,20 @@ function renderChat(msgs){
   const atBottom=wrap.scrollHeight-wrap.scrollTop-wrap.clientHeight<80;
   wrap.innerHTML=msgs.map(m=>{
     const mine=m.from===fbKey(loggedUser);
+    const isSuperAdmin=getRole(loggedUser)==='superAdmin';
+    const canAct=mine||isSuperAdmin;
+    const canEdit=mine;
     const initials=(m.fromName||m.from||'?').slice(0,2).toUpperCase();
     const time=m.at?new Date(m.at).toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}):'';
+    const editedMark=m.editedAt?`<span class="msg-edited">(editado)</span>`:'';
     return `<div class="msg-row${mine?' mine':''}">
       <div class="msg-avatar">${initials}</div>
       <div>
         ${!mine?`<div class="msg-name">${esc(m.fromName||m.from||'')}</div>`:''}
-        <div class="msg-bubble ${mine?'mine':'other'}">${esc(m.text||'')}</div>
+        <div class="msg-bubble ${mine?'mine':'other'}${canAct?' can-act':''}"
+          ${canAct?`onclick="showChatActions('${m._k}',${canEdit})"`:''}>
+          ${esc(m.text||'')}${editedMark}
+        </div>
         <div class="msg-time">${time}</div>
       </div>
     </div>`;
@@ -2574,12 +2609,68 @@ function renderChat(msgs){
 }
 async function sendChat(){
   const inp=document.getElementById('chatInput');if(!inp)return;
-  const text=inp.value.trim();if(!text)return;
+  const text=inp.value.trim();
+  // Edit mode
+  if(chatEditKey){
+    if(!text){cancelChatEdit();return;}
+    const key=chatEditKey;cancelChatEdit();
+    try{
+      await db.ref(`${P}/chat/${key}`).update({text,editedAt:new Date().toISOString()});
+    }catch(e){showToast('❌ Error al editar',true);}
+    return;
+  }
+  if(!text)return;
   const displayName=loggedUser==='Marialex'?'Ma Alex':loggedUser;
   inp.value='';
   try{
     await db.ref(`${P}/chat`).push({from:fbKey(loggedUser),fromName:displayName,text,at:new Date().toISOString()});
   }catch(e){showToast('❌ Error al enviar',true);}
+}
+// Chat action sheet
+let _chatActKey=null,_chatActCanEdit=false;
+function showChatActions(key,canEdit){
+  _chatActKey=key;_chatActCanEdit=canEdit;
+  const editBtn=document.getElementById('chatActEditBtn');
+  if(editBtn)editBtn.style.display=canEdit?'':'none';
+  document.getElementById('chatActOv').classList.add('open');
+  document.getElementById('chatActSheet').classList.add('open');
+}
+function closeChatActions(){
+  _chatActKey=null;
+  document.getElementById('chatActOv').classList.remove('open');
+  document.getElementById('chatActSheet').classList.remove('open');
+}
+async function deleteChatMsg(){
+  if(!_chatActKey)return;
+  closeChatActions();
+  if(!confirm('¿Eliminar este mensaje?'))return;
+  try{
+    await db.ref(`${P}/chat/${_chatActKey}`).remove();
+    showToast('✓ Mensaje eliminado',false);
+  }catch(e){showToast('❌ Error al eliminar',true);}
+}
+async function editChatMsg(){
+  if(!_chatActKey||!_chatActCanEdit)return;
+  const key=_chatActKey;
+  closeChatActions();
+  try{
+    const snap=await db.ref(`${P}/chat/${key}`).once('value');
+    const val=snap.val();if(!val)return;
+    const inp=document.getElementById('chatInput');if(!inp)return;
+    chatEditKey=key;
+    inp.value=val.text||'';
+    const banner=document.getElementById('chatEditBanner');
+    if(banner)banner.style.display='';
+    const sendBtn=document.getElementById('chatSendBtn');
+    if(sendBtn)sendBtn.textContent='✓';
+    inp.focus();inp.select();
+  }catch(e){showToast('❌ Error',true);}
+}
+function cancelChatEdit(){
+  chatEditKey=null;
+  const inp=document.getElementById('chatInput');if(inp){inp.value='';inp.blur();}
+  const banner=document.getElementById('chatEditBanner');if(banner)banner.style.display='none';
+  const sendBtn=document.getElementById('chatSendBtn');if(sendBtn)sendBtn.textContent='➤';
 }
 
 // ══ LETRAS ═══════════════════════════════════════════════════
