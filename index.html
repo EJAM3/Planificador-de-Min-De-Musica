@@ -1323,8 +1323,9 @@ function initApp(){
   const canPanel=canSeePanel(loggedUser);
   document.getElementById('panelNavBtn').style.display=canPanel?'':'none';
   if(canPanel){
-    document.getElementById('panelNavBtn').querySelector('.ico').textContent='🛠';
-    document.getElementById('panelNavLabel').textContent='Panel';
+    const _ico=document.getElementById('panelNavBtn').querySelector('.ng-ico,.ico');
+    if(_ico)_ico.textContent='🛠';
+    const _lbl=document.getElementById('panelNavLabel');if(_lbl)_lbl.textContent='Panel';
   }
   if(isAdmin(loggedUser)){
     document.getElementById('adminPanel').style.display='';
