@@ -1292,6 +1292,8 @@ async function checkPin(){
 
 // ══ LOGIN ════════════════════════════════════════════════════
 let loggedUser = localStorage.getItem('m5050_user')||'';
+let customCalEvents={};
+let currentDevoHTML='';
 function selectUser(n){needsPin(n)?openPinPad(n):doLogin(n);}
 function doLogin(n){
   loggedUser=n;localStorage.setItem('m5050_user',n);
@@ -1583,7 +1585,6 @@ function showInicio(n,btn){
 }
 
 // ══ CALENDAR ════════════════════════════════════════════════
-let customCalEvents={};
 function loadAndBuildCal(){
   db.ref(`${P}/customEvents`).on('value',snap=>{
     customCalEvents=snap.val()||{};
@@ -1910,8 +1911,6 @@ function rteLink(){
 }
 
 // ══ DEVOCIONAL ═══════════════════════════════════════════════
-let currentDevoHTML = '';
-
 function listenDevo(){
   const canEdit=canEditDevo(loggedUser);
   document.getElementById('devoReadOnly2').style.display=canEdit?'none':'';
