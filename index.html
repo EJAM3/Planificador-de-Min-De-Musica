@@ -29,14 +29,26 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .bsm:active{opacity:.7}
 .page{display:none;padding:13px 13px 0}
 .page.active{display:block}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:flex-start;z-index:100;padding:0 2px 10px;overflow-x:auto;gap:0;scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.nb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 2px;border:none;background:none;color:var(--mut);cursor:pointer;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:500;min-width:52px;flex-shrink:0}
-.nb .ico{font-size:17px;line-height:1}
-@media(min-width:400px){.nb{font-size:9px;min-width:50px}.nb .ico{font-size:18px}}
-@media(min-width:768px){.nb{font-size:10px;min-width:60px;padding:6px 8px}.nb .ico{font-size:20px}}
-.nb.active{color:var(--gold)}
-.nb.active .ico{filter:drop-shadow(0 0 5px rgba(212,168,67,.55))}
+/* ══ HAMBURGER NAV BAR ══ */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:var(--sh);border-top:1px solid var(--bdr);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-between;z-index:100;padding:0 16px 10px;}
+.nav-current{display:flex;align-items:center;gap:7px}
+.nav-cur-ico{font-size:20px;line-height:1}
+.nav-cur-lbl{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--gold)}
+.nav-ham{background:none;border:none;cursor:pointer;padding:6px 8px;border-radius:10px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+.nav-ham span{display:block;width:22px;height:2.5px;background:var(--gold);border-radius:2px;transition:all .2s}
+.nav-ham:active{opacity:.7}
+/* Slide-up nav drawer */
+.nav-drawer-ov{position:fixed;inset:0;background:var(--ov);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
+.nav-drawer-ov.open{opacity:1;pointer-events:all}
+.nav-drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:430px;background:var(--surf);border-top:1px solid var(--bdr);border-radius:22px 22px 0 0;z-index:201;padding:18px 16px 34px;transition:transform .3s cubic-bezier(.32,1,.32,1)}
+.nav-drawer.open{transform:translateX(-50%) translateY(0)}
+.nav-drawer-handle{width:36px;height:4px;background:var(--bdr);border-radius:2px;margin:0 auto 16px}
+.nav-drawer-title{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.nav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ng-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:13px 6px;border:1px solid var(--bdr);border-radius:14px;background:var(--surf2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--mut);transition:all .18s}
+.ng-btn .ng-ico{font-size:22px;line-height:1}
+.ng-btn.active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+.ng-btn:active{opacity:.7}
 .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:11px;box-shadow:var(--cs)}
 .pills{display:flex;gap:5px;overflow-x:auto;padding-bottom:11px}
 .pills::-webkit-scrollbar{display:none}
@@ -480,6 +492,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
 /* ══ CHAT ══ */
 .page-chat-layout{padding:0!important;display:flex;flex-direction:column;min-height:calc(100dvh - var(--nav) - 52px)}
+.page-chat-layout.active{display:flex!important}
 .chat-wrap{flex:1;overflow-y:auto;padding:12px 13px;display:flex;flex-direction:column;gap:7px}
 .msg-row{display:flex;gap:8px;align-items:flex-end}
 .msg-row.mine{flex-direction:row-reverse}
@@ -498,11 +511,15 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .lyric-saved-card:active{opacity:.7}
 
 /* ══ CIFRADOS ══ */
-.cifrado-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;overflow:hidden;margin-bottom:9px}
-.cifrado-thumb{width:100%;max-height:200px;object-fit:cover;display:block;cursor:pointer}
-.cifrado-meta{padding:9px 12px;font-size:11.5px;color:var(--mut)}
+.cifrado-card{background:var(--surf);border:1px solid var(--bdr);border-radius:13px;overflow:hidden;margin-bottom:9px;max-width:100%;box-sizing:border-box}
+.cifrado-thumb{width:100%;max-width:100%;max-height:220px;object-fit:contain;display:block;cursor:pointer;background:var(--surf2)}
+.cifrado-meta{padding:9px 12px;font-size:11.5px;color:var(--mut);display:flex;flex-direction:column;gap:3px}
+.cifrado-meta-row{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
 .cifrado-name{font-weight:600;font-size:13px;color:var(--txt);margin-bottom:2px}
 
+/* ══ COLOR PICKER ══ */
+.color-dot{border:2px solid transparent!important;cursor:pointer;transition:border .15s}
+.color-dot:hover{opacity:.85}
 /* ══ OFFLINE INDICATOR ══ */
 .offline-bar{display:none;background:rgba(248,113,113,.12);border-bottom:1px solid rgba(248,113,113,.3);padding:5px 13px;font-size:11.5px;font-weight:600;color:var(--red);text-align:center}
 .offline-bar.show{display:block}
@@ -524,6 +541,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   <div class="llogo">🎶</div>
   <div class="ltitle">Ministerio Musical</div>
   <div class="lsub">Grace Church · Selecciona tu nombre</div>
+  <div style="font-size:9px;color:var(--mut);text-align:center;margin-bottom:6px;margin-top:-10px;letter-spacing:.5px">Creado por <strong style="color:var(--gold)">Tinta Verde Editores</strong></div>
   <div class="lgroup"><div class="lgroup-label">Directora General</div>
     <div class="lgrid"><button class="lbtn special privileged lbtn-full" onclick="selectUser('Pra. Mary')">Pra. Mary</button></div>
   </div>
@@ -549,12 +567,14 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <button class="lbtn g2-btn lbtn-full" onclick="selectUser('Moisés')">Moisés</button>
     </div>
   </div>
-  <div class="lgroup" style="margin-bottom:28px"><div class="lgroup-label">🌱 Nuevos Miembros</div>
+  <div class="lgroup" style="margin-bottom:28px"><div class="lgroup-label">👥 Miembros</div>
     <div class="lgrid">
       <button class="lbtn" onclick="selectUser('Omar')">Omar</button>
       <button class="lbtn" onclick="selectUser('Lilianny')">Lilianny</button>
-      <button class="lbtn" onclick="selectUser('Gabriel')">Gabriel</button>
       <button class="lbtn" onclick="selectUser('Adriana')">Adriana</button>
+      <button class="lbtn" onclick="selectUser('Andrés')">Andrés</button>
+      <button class="lbtn" onclick="selectUser('Tatiana')">Tatiana</button>
+      <button class="lbtn" onclick="selectUser('Gabriel')" style="font-size:11px">Gabriel<span style="display:block;font-size:8.5px;color:var(--mut);font-weight:500">Sonidista</span></button>
     </div>
   </div>
 </div>
@@ -596,7 +616,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <span class="atitle">🎶 Ministerio Musical</span>
       <div style="display:flex;gap:5px">
         <button class="bsm" id="userBadge" onclick="logout()">👤 —</button>
-        <button class="bsm" id="pendingBadge" onclick="goNav('panel',document.querySelector('.nb:last-child'))" style="display:none">⏳ Pendientes</button>
+        <button class="bsm" id="pendingBadge" onclick="goNav('panel',document.querySelector('[data-page=panel]'))" style="display:none">⏳ Pendientes</button>
         <button class="bsm" onclick="toggleTheme()" id="themeBtn">🌙</button>
       </div>
     </div>
@@ -813,7 +833,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
               <option>Manuel</option><option>Daniel</option><option>Luis Y.</option>
               <option>Isamar</option><option>Valeria</option><option>Zuisay</option><option>Gelimar</option>
               <option>Miguel</option><option>Leo</option><option>Moisés</option>
-              <option>Omar</option><option>Lilianny</option><option>Gabriel</option><option>Adriana</option>
+              <option>Omar</option><option>Lilianny</option><option>Adriana</option><option>Andrés</option><option>Tatiana</option><option>Gabriel</option>
             </select>
           </div>
           <div class="ig"><label class="il">Suplente</label><input id="sSuplente" class="inp" type="text" placeholder="Nombre del suplente" autocomplete="off"/></div>
@@ -845,7 +865,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
                 <option>Manuel</option><option>Daniel</option><option>Luis Y.</option>
                 <option>Isamar</option><option>Valeria</option><option>Zuisay</option><option>Gelimar</option>
                 <option>Miguel</option><option>Leo</option><option>Moisés</option>
-                <option>Omar</option><option>Lilianny</option><option>Gabriel</option><option>Adriana</option>
+                <option>Omar</option><option>Lilianny</option><option>Adriana</option><option>Andrés</option><option>Tatiana</option><option>Gabriel</option>
               </select>
             </div>
             <button class="bg-s" style="margin-top:7px;width:100%" onclick="registrarFalta()">Registrar ausencia</button>
@@ -882,12 +902,53 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
           <div id="notasHistory"><div class="lmsg">Cargando…</div></div>
         </div>
 
-        <div class="panel-sec">
-          <div class="panel-hdr">📊 Resultados del cuestionario</div>
-          <a href="resultados.html" target="_blank" class="bg" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;padding:12px;border-radius:13px;font-weight:700;font-size:14px;color:#1a0e00;background:linear-gradient(135deg,#f59e0b,#f97316);box-shadow:0 4px 16px rgba(245,158,11,.3);">
-            📋 Ver respuestas de la encuesta
-          </a>
+        <!-- Gestión de personas (añadir/eliminar miembros) -->
+        <div class="panel-sec" id="memberMgmtSection" style="display:none">
+          <div class="panel-hdr">👤 Añadir / Eliminar Miembros</div>
+          <div id="memberMgmtList" style="margin-bottom:11px"></div>
+          <div style="display:flex;gap:7px;align-items:center">
+            <input id="newMemberName" class="inp" type="text" placeholder="Nombre del nuevo miembro" style="flex:1" autocomplete="off"/>
+            <button class="bg-s" onclick="addMemberDynamic()">+ Añadir</button>
+          </div>
         </div>
+
+        <!-- Editor de eventos del calendario -->
+        <div class="panel-sec" id="calEditorSection" style="display:none">
+          <div class="panel-hdr">📅 Eventos del Calendario</div>
+          <div id="calEventsList" style="margin-bottom:11px"><div class="lmsg">Cargando…</div></div>
+          <div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:13px;padding:12px;margin-top:8px">
+            <div style="font-weight:700;font-size:13px;margin-bottom:10px">➕ Nuevo evento</div>
+            <div class="ig"><label class="il">Fecha</label><input id="calEvDate" class="inp" type="date"/></div>
+            <div class="ig"><label class="il">Nombre / Descripción</label><input id="calEvName" class="inp" type="text" placeholder="Ej: Cumpleaños de Ana, Retiro equipo" autocomplete="off"/></div>
+            <div class="ig"><label class="il">Tipo</label>
+              <select id="calEvType" class="inp">
+                <option value="cumpleanos">🎂 Cumpleaños</option>
+                <option value="actividad">⭐ Actividad</option>
+                <option value="otro">📌 Otro</option>
+              </select>
+            </div>
+            <div class="ig"><label class="il">Color</label>
+              <div style="display:flex;gap:7px;flex-wrap:wrap" id="calEvColorPicker">
+                <button onclick="selectCalColor('#c9a96e',this)" style="width:28px;height:28px;border-radius:50%;background:#c9a96e;border:2px solid transparent;cursor:pointer" class="color-dot active-color"></button>
+                <button onclick="selectCalColor('#f87171',this)" style="width:28px;height:28px;border-radius:50%;background:#f87171;border:2px solid transparent;cursor:pointer" class="color-dot"></button>
+                <button onclick="selectCalColor('#4ade80',this)" style="width:28px;height:28px;border-radius:50%;background:#4ade80;border:2px solid transparent;cursor:pointer" class="color-dot"></button>
+                <button onclick="selectCalColor('#60a5fa',this)" style="width:28px;height:28px;border-radius:50%;background:#60a5fa;border:2px solid transparent;cursor:pointer" class="color-dot"></button>
+                <button onclick="selectCalColor('#c084fc',this)" style="width:28px;height:28px;border-radius:50%;background:#c084fc;border:2px solid transparent;cursor:pointer" class="color-dot"></button>
+                <button onclick="selectCalColor('#fb923c',this)" style="width:28px;height:28px;border-radius:50%;background:#fb923c;border:2px solid transparent;cursor:pointer" class="color-dot"></button>
+              </div>
+            </div>
+            <input type="hidden" id="calEvColor" value="#c9a96e"/>
+            <button class="bg" onclick="saveCalEvent()">💾 Guardar evento</button>
+          </div>
+        </div>
+
+        <!-- Limpiar datos de prueba -->
+        <div class="panel-sec" id="clearTestSection" style="display:none">
+          <div class="panel-hdr">🧹 Mantenimiento</div>
+          <button class="bo-red" onclick="clearAllCifrados()" style="width:100%;margin-bottom:8px">🗑 Limpiar todos los cifrados de prueba</button>
+        </div>
+
+        <!-- cuestionario eliminado -->
 
       </div><!-- /adminPanel -->
 
@@ -907,7 +968,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
               <option>Manuel</option><option>Daniel</option><option>Luis Y.</option>
               <option>Isamar</option><option>Valeria</option><option>Zuisay</option><option>Gelimar</option>
               <option>Miguel</option><option>Leo</option><option>Moisés</option>
-              <option>Omar</option><option>Lilianny</option><option>Gabriel</option><option>Adriana</option>
+              <option>Omar</option><option>Lilianny</option><option>Adriana</option><option>Andrés</option><option>Tatiana</option><option>Gabriel</option>
             </select>
           </div>
           <div class="ig"><label class="il">Suplente</label><input id="maSSuplente" class="inp" type="text" placeholder="Nombre del suplente" autocomplete="off"/></div>
@@ -1013,18 +1074,35 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
   </div><!-- /scr -->
 
+  <!-- Hamburger nav bar -->
   <nav class="nav">
-    <button class="nb active" onclick="goNav('inicio',this)"><span class="ico">🏠</span>Inicio</button>
-    <button class="nb" onclick="goNav('calendario',this)"><span class="ico">📅</span>Cal.</button>
-    <button class="nb" onclick="goNav('repertorio',this)"><span class="ico">🎵</span>Rep.</button>
-    <button class="nb" onclick="goNav('voces',this)"><span class="ico">🎙</span>Voces</button>
-    <button class="nb" onclick="goNav('letras',this)"><span class="ico">📝</span>Letras</button>
-    <button class="nb" onclick="goNav('chat',this)"><span class="ico">💬</span>Chat</button>
-    <button class="nb" onclick="goNav('cifrados',this)"><span class="ico">🎸</span>Cifrados</button>
-    <button class="nb" onclick="goNav('propuestas',this)"><span class="ico">💡</span>Prop.</button>
-    <button class="nb" onclick="goNav('adorar',this)"><span class="ico">✨</span>Adorar</button>
-    <button class="nb" id="panelNavBtn" onclick="goNav('panel',this)"><span class="ico">🛠</span><span id="panelNavLabel">Panel</span></button>
+    <div class="nav-current">
+      <span class="nav-cur-ico" id="navCurIco">🏠</span>
+      <span class="nav-cur-lbl" id="navCurLbl">Inicio</span>
+    </div>
+    <button class="nav-ham" onclick="openNavDrawer()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+</div>
+
+<!-- Nav drawer overlay -->
+<div class="nav-drawer-ov" id="navDrawerOv" onclick="closeNavDrawer()"></div>
+<div class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-handle"></div>
+  <div class="nav-drawer-title">Navegación</div>
+  <div class="nav-grid" id="navGrid">
+    <button class="ng-btn active" data-page="inicio" onclick="goNav('inicio',this)"><span class="ng-ico">🏠</span>Inicio</button>
+    <button class="ng-btn" data-page="calendario" onclick="goNav('calendario',this)"><span class="ng-ico">📅</span>Calendario</button>
+    <button class="ng-btn" data-page="repertorio" onclick="goNav('repertorio',this)"><span class="ng-ico">🎵</span>Repertorio</button>
+    <button class="ng-btn" data-page="voces" onclick="goNav('voces',this)"><span class="ng-ico">🎙</span>Voces</button>
+    <button class="ng-btn" data-page="letras" onclick="goNav('letras',this)"><span class="ng-ico">📝</span>Letras</button>
+    <button class="ng-btn" data-page="chat" onclick="goNav('chat',this)"><span class="ng-ico">💬</span>Chat</button>
+    <button class="ng-btn" data-page="cifrados" onclick="goNav('cifrados',this)"><span class="ng-ico">🎸</span>Cifrados</button>
+    <button class="ng-btn" data-page="propuestas" onclick="goNav('propuestas',this)"><span class="ng-ico">💡</span>Propuestas</button>
+    <button class="ng-btn" data-page="adorar" onclick="goNav('adorar',this)"><span class="ng-ico">✨</span>ADORAR</button>
+    <button class="ng-btn" id="panelNavBtn" data-page="panel" onclick="goNav('panel',this)"><span class="ng-ico">🛠</span><span id="panelNavLabel">Panel</span></button>
+  </div>
 </div>
 
 <!-- Day sheet -->
@@ -1058,9 +1136,10 @@ const DG = 'Pra. Mary';
 const COORDS = ['Veruska','Diana','Isamar'];
 const MA_ALEX_KEY = 'Marialex';
 const ADORAR_COORDS = ['Veruska','Daniel'];
-const ALL_VOCAL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Isamar','Valeria','Zuisay','Gelimar','Lilianny','Adriana'];
-const ALL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Omar','Lilianny','Gabriel','Adriana'];
-const RUTA_ALL = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Jesús','Luis M.','Omar','Franyelis','Leonardo','Lilianny','Adriana','Gabriel'];
+const ALL_VOCAL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Isamar','Valeria','Zuisay','Gelimar','Lilianny','Adriana','Tatiana'];
+const ALL_MEMBERS = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Omar','Lilianny','Adriana','Andrés','Tatiana','Gabriel'];
+// Gabriel = Sonidista (técnico de sonido, no es músico de servicio pero está en el equipo)
+const RUTA_ALL = ['Veruska','Diana','Joselyn','Marialex','Manuel','Daniel','Luis Y.','Isamar','Valeria','Zuisay','Gelimar','Miguel','Leo','Moisés','Jesús','Luis M.','Omar','Leonardo','Lilianny','Adriana','Andrés','Tatiana','Gabriel'];
 
 // ══ SISTEMA DE ROLES ═════════════════════════════════════════
 // superAdmin: Pra. Mary — ve y edita todo
@@ -1101,7 +1180,7 @@ const BIRTHDAYS = [
   {m:8,d:20,name:'Jesús',roles:['PE']},
   {m:9,d:19,name:'Luis M.',roles:['PE','SE']},
   {m:9,d:30,name:'Omar',roles:['PE','SE']},
-  {m:10,d:9,name:'Franyelis',roles:['PE','SE','L']},
+  // Franyelis removida del equipo
   {m:10,d:12,name:'Leonardo',roles:['PE','SE']},
   {m:11,d:11,name:'Lilianny',roles:['PE','SE']},
   {m:12,d:2,name:'Miguel A.',roles:['PE']},
@@ -1246,6 +1325,11 @@ function initApp(){
     listenNotas();listenPending();listenSuplencias();loadFaltas();
     loadDevoHistory();
   }
+  if(getRole(loggedUser)==='superAdmin'||getRole(loggedUser)==='asstGeneral'){
+    loadDynamicMembers().then(()=>renderMemberMgmt());
+    loadCalEvents();
+    const clearSec=document.getElementById('clearTestSection');if(clearSec)clearSec.style.display='';
+  }
   if(isMaAlex(loggedUser)){
     document.getElementById('maAlexPanel').style.display='';
   }
@@ -1268,9 +1352,8 @@ function initApp(){
   loadGruposOverride();loadMiembros();
   listenRep(1);listenAdorar();
 
-  // Calendar
-  buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
-  buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
+  // Calendar (loads custom events from Firebase, then builds all months)
+  loadAndBuildCal();
 
   // Build dynamic pills for Inicio and Repertorio
   buildSemanasPills();
@@ -1309,11 +1392,37 @@ function toggleTheme(){
 }
 
 // ══ NAV ══════════════════════════════════════════════════════
+const NAV_PAGES={
+  inicio:{ico:'🏠',lbl:'Inicio'},
+  calendario:{ico:'📅',lbl:'Calendario'},
+  repertorio:{ico:'🎵',lbl:'Repertorio'},
+  voces:{ico:'🎙',lbl:'Voces'},
+  letras:{ico:'📝',lbl:'Letras'},
+  chat:{ico:'💬',lbl:'Chat'},
+  cifrados:{ico:'🎸',lbl:'Cifrados'},
+  propuestas:{ico:'💡',lbl:'Propuestas'},
+  adorar:{ico:'✨',lbl:'ADORAR'},
+  panel:{ico:'🛠',lbl:'Panel'}
+};
+function openNavDrawer(){
+  document.getElementById('navDrawerOv').classList.add('open');
+  document.getElementById('navDrawer').classList.add('open');
+}
+function closeNavDrawer(){
+  document.getElementById('navDrawerOv').classList.remove('open');
+  document.getElementById('navDrawer').classList.remove('open');
+}
 function goNav(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ng-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  btn.classList.add('active');document.querySelector('.scr').scrollTop=0;
+  btn.classList.add('active');
+  document.querySelector('.scr').scrollTop=0;
+  // Update bottom bar label
+  const info=NAV_PAGES[id]||{ico:'🏠',lbl:'Inicio'};
+  document.getElementById('navCurIco').textContent=info.ico;
+  document.getElementById('navCurLbl').textContent=id==='panel'?(document.getElementById('panelNavLabel')||{textContent:info.lbl}).textContent:info.lbl;
+  closeNavDrawer();
   if(id!=='panel' && typeof ttsStop==='function' && ttsState==='playing') ttsStop();
 }
 
@@ -1402,13 +1511,16 @@ function buildSemanasPills(){
   if(rp) rp.innerHTML=SEMANAS.map(s=>`<button class="pill${s.n===1?' active':''}" data-n="${s.n}" onclick="selRepWeek(${s.n},this)">S${s.n} · ${s.label}</button>`).join('');
 }
 
-// Devuelve la semana actual (la más cercana a hoy sin pasar)
+// Devuelve la semana actual: activa desde el jueves previo al viernes de ensayo
 function getCurrentWeek(){
   const today=new Date();today.setHours(0,0,0,0);
-  let best=1;
+  let best=SEMANAS[0].n;
   for(const s of SEMANAS){
-    const sun=new Date(s.sun);
-    if(sun<=today) best=s.n;
+    const fri=s.fri?new Date(s.fri):null;
+    if(!fri) continue;
+    // La semana "inicia" el jueves antes del viernes de ensayo
+    const thu=new Date(fri);thu.setDate(thu.getDate()-1);
+    if(thu<=today) best=s.n;
     else break;
   }
   return best;
@@ -1464,17 +1576,25 @@ function showInicio(n,btn){
 }
 
 // ══ CALENDAR ════════════════════════════════════════════════
+let customCalEvents={};
+function loadAndBuildCal(){
+  db.ref(`${P}/customEvents`).on('value',snap=>{
+    customCalEvents=snap.val()||{};
+    buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
+    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
+  });
+}
 function pad(n){return String(n).padStart(2,'0')}
 function buildCal(yr,mo,cid){
   const DOWS=['D','L','M','X','J','V','S'];
   let h=DOWS.map(d=>`<div class="cdow">${d}</div>`).join('');
   const first=new Date(yr,mo-1,1).getDay(),total=new Date(yr,mo,0).getDate();
   for(let i=0;i<first;i++) h+=`<div class="cd"></div>`;
-  const MES_SHORT=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
   for(let d=1;d<=total;d++){
     const key=`${yr}-${pad(mo)}-${pad(d)}`;
     const ev=CAL[key],sp=SPECIAL_DATES[key];
     const bday=BIRTHDAYS.find(b=>b.m===mo&&b.d===d);
+    const cust=customCalEvents[key];
     if(ev){
       const ag=getAG(ev.wn);
       const isCom=ev.especial==='Comunión';
@@ -1484,6 +1604,10 @@ function buildCal(yr,mo,cid){
     }else if(sp){
       const cls=sp.type==='adorar'?'ev-adorar':'ev-special';
       h+=`<div class="cd tap ${cls}" onclick="openSheetSpecial('${key}','${esc(sp.label)}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl" style="font-size:7px">${sp.type==='adorar'?'Adorar':'Esp.'}</div></div>`;
+    }else if(cust){
+      const ico=cust.type==='cumpleanos'?'🎂':cust.type==='actividad'?'⭐':'📌';
+      const dotColor=cust.color||'#c9a96e';
+      h+=`<div class="cd tap" style="border:1.5px solid ${dotColor}22" onclick="showCustomEventSheet('${key}')"><div class="cdn" style="font-size:11px;color:${dotColor}">${d}</div><div class="cdl" style="font-size:8px">${ico}</div></div>`;
     }else if(bday){
       h+=`<div class="cd tap ev-bday" onclick="showBdaySheet('${bday.name}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl">🎂</div></div>`;
     }else{
@@ -1491,6 +1615,25 @@ function buildCal(yr,mo,cid){
     }
   }
   document.getElementById(cid).innerHTML=h;
+}
+function showCustomEventSheet(key){
+  const ev=customCalEvents[key];if(!ev)return;
+  const [yr,mo,dy]=key.split('-').map(Number);
+  const dt=new Date(yr,mo-1,dy);
+  const MES2=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const DIAS2=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  document.getElementById('shDate').textContent=`${DIAS2[dt.getDay()]}, ${dy} de ${MES2[mo-1]} ${yr}`;
+  const ico=ev.type==='cumpleanos'?'🎂':ev.type==='actividad'?'⭐':'📌';
+  document.getElementById('shTitle').textContent=`${ico} ${ev.name||'Evento'}`;
+  const c=ev.color||'#c9a96e';
+  document.getElementById('shBody').innerHTML=`<div class="card" style="border-color:${c}44;text-align:center">
+    <div style="font-size:36px;margin-bottom:8px">${ico}</div>
+    <div style="font-size:16px;font-weight:700;color:${c};margin-bottom:5px">${esc(ev.name||'')}</div>
+    <div style="font-size:12px;color:var(--mut)">${esc(ev.type==='cumpleanos'?'Cumpleaños':ev.type==='actividad'?'Actividad':'Otro')}</div>
+    ${ev.createdBy?`<div style="font-size:10.5px;color:var(--mut);margin-top:6px">Agregado por ${esc(ev.createdBy)}</div>`:''}
+  </div>`;
+  document.getElementById('shOv').classList.add('open');
+  document.getElementById('sh').classList.add('open');
 }
 
 // ══ DAY SHEET ════════════════════════════════════════════════
@@ -1919,7 +2062,7 @@ function loadGruposOverride(){
   db.ref(`${P}/gruposOverride`).on('value',snap=>{
     gruposOverride=snap.val()||{};buildWeekRows();
     buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
-    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
+    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo'); // re-render with group overrides
     const ap=document.querySelector('#inicioPills .pill.active');if(ap) ap.click();
   });
 }
@@ -2433,28 +2576,54 @@ async function sendChat(){
 
 // ══ LETRAS ═══════════════════════════════════════════════════
 let currentLyrics='',currentLyricsTitle='';
+function showLyricsResult(lyrics,title){
+  currentLyrics=lyrics;currentLyricsTitle=title;
+  const res=document.getElementById('lyricsResult');
+  res.innerHTML=`<div style="margin-bottom:9px;display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+    <div style="flex:1;font-weight:700;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(currentLyricsTitle)}</div>
+    <div style="display:flex;gap:5px;flex-shrink:0">
+      ${canEditLetras(loggedUser)?`<button class="bg-s" onclick="saveLyrics()">💾</button>`:''}
+      <button class="bo" onclick="openProjector()">📺</button>
+    </div>
+  </div><div class="lyrics-box">${esc(lyrics)}</div>`;
+}
+function showManualLyricsInput(title){
+  const res=document.getElementById('lyricsResult');
+  const t=title||((document.getElementById('lTitle').value.trim()||'Canción')+' — '+(document.getElementById('lArtist').value.trim()||''));
+  res.innerHTML=`<div style="margin-bottom:8px;font-size:12.5px;color:var(--mut)">⚠️ No se encontró online. Pega la letra manualmente:</div>
+    <textarea id="manualLyricsInput" class="inp" rows="10" placeholder="Pega aquí la letra…" style="width:100%;font-size:13px;line-height:1.6;resize:vertical"></textarea>
+    <button class="bg" style="margin-top:8px" onclick="useManualLyrics('${esc(t).replace(/'/g,"\\'")}')">✓ Usar esta letra</button>`;
+}
+function useManualLyrics(title){
+  const txt=document.getElementById('manualLyricsInput').value.trim();
+  if(!txt){showToast('❌ La letra está vacía',true);return;}
+  showLyricsResult(txt,title);
+}
 async function searchLyrics(){
   const artist=document.getElementById('lArtist').value.trim();
   const title=document.getElementById('lTitle').value.trim();
   if(!artist||!title){showToast('❌ Ingresa artista y canción',true);return;}
   const res=document.getElementById('lyricsResult');
-  res.innerHTML='<div class="lmsg">Buscando…</div>';
+  res.innerHTML='<div class="lmsg">🔍 Buscando…</div>';
+  const fullTitle=title+' — '+artist;
+  // Try 1: api.lyrics.ovh
   try{
     const r=await fetch(`https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`);
-    const d=await r.json();
-    if(d.lyrics){
-      currentLyrics=d.lyrics;currentLyricsTitle=title+' — '+artist;
-      res.innerHTML=`<div style="margin-bottom:9px;display:flex;gap:7px;align-items:center">
-        <div style="flex:1;font-weight:700;font-size:13px">${esc(currentLyricsTitle)}</div>
-        ${canEditLetras(loggedUser)?`<button class="bg-s" onclick="saveLyrics()">💾 Guardar</button>`:''}
-        <button class="bo" onclick="openProjector()">📺</button>
-      </div><div class="lyrics-box">${esc(d.lyrics)}</div>`;
-    }else{
-      res.innerHTML='<div class="empty"><div class="ei">🎵</div><p>No se encontró la letra.<br>Prueba con otro artista o título.</p></div>';
+    if(r.ok){
+      const d=await r.json();
+      if(d.lyrics&&d.lyrics.trim()){showLyricsResult(d.lyrics,fullTitle);return;}
     }
-  }catch(e){
-    res.innerHTML='<div class="empty"><div class="ei">⚠️</div><p>Error de conexión.<br>Verifica tu internet.</p></div>';
-  }
+  }catch(e){}
+  // Try 2: lyrist.vercel.app
+  try{
+    const r2=await fetch(`https://lyrist.vercel.app/api/${encodeURIComponent(title)}/${encodeURIComponent(artist)}`);
+    if(r2.ok){
+      const d2=await r2.json();
+      if(d2.lyrics&&d2.lyrics.trim()){showLyricsResult(d2.lyrics,fullTitle);return;}
+    }
+  }catch(e){}
+  // Fallback: manual paste
+  showManualLyricsInput(fullTitle);
 }
 async function saveLyrics(){
   if(!currentLyrics){showToast('❌ Sin letra para guardar',true);return;}
@@ -2526,11 +2695,18 @@ function listenCifrados(){
     document.getElementById('cifradoCount').textContent=list.length+' cifrado'+(list.length!==1?'s':'');
     document.getElementById('cifradoList').innerHTML=list.length?list.map(c=>`
       <div class="cifrado-card">
-        ${c.type==='image'?`<img class="cifrado-thumb" src="${c.data}" alt="${esc(c.name||'')}" onclick="viewCifrado('${c._k}')" loading="lazy"/>`:'<div style="padding:16px;text-align:center;font-size:28px;cursor:pointer" onclick="viewCifrado(\''+c._k+'\')">📄</div>'}
+        ${c.type==='image'
+          ?`<img class="cifrado-thumb" src="${c.data}" alt="${esc(c.name||'')}" onclick="viewCifrado('${c._k}')" loading="lazy"/>`
+          :`<div style="padding:18px;text-align:center;font-size:36px;cursor:pointer;background:var(--surf2)" onclick="viewCifrado('${c._k}')">📄<div style="font-size:11px;color:var(--mut);margin-top:4px">Toca para ver PDF</div></div>`}
         <div class="cifrado-meta">
           <div class="cifrado-name">${esc(c.name||'Sin nombre')}</div>
-          👤 ${esc(c.savedBy||'')} · ${c.savedAt?new Date(c.savedAt).toLocaleDateString('es',{day:'numeric',month:'short'}):''}
-          ${isAdmin(loggedUser)?`<button class="bo-red" style="float:right;font-size:10px;padding:2px 7px;margin-top:2px" onclick="deleteCifrado('${c._k}')">✕</button>`:''}
+          <div class="cifrado-meta-row">
+            <span>👤 ${esc(c.savedBy||'')} · ${c.savedAt?new Date(c.savedAt).toLocaleDateString('es',{day:'numeric',month:'short'}):''}</span>
+            <div style="display:flex;gap:5px">
+              <button class="bg-s" style="font-size:11px;padding:5px 10px" onclick="viewCifrado('${c._k}')">👁 Ver</button>
+              ${isAdmin(loggedUser)?`<button class="bo-red" style="font-size:11px;padding:5px 10px" onclick="deleteCifrado('${c._k}')">✕ Borrar</button>`:''}
+            </div>
+          </div>
         </div>
       </div>`).join(''):'<div class="empty"><div class="ei">🎸</div><p>Sin cifrados guardados.<br>Sube una foto o PDF.</p></div>';
   });
@@ -2538,12 +2714,15 @@ function listenCifrados(){
 function viewCifrado(k){
   db.ref(`${P}/cifrados/${k}`).once('value').then(snap=>{
     const c=snap.val();if(!c)return;
+    const ov=document.getElementById('projectorOv');
+    const cont=document.getElementById('projectorContent');
     if(c.type==='image'){
-      document.getElementById('projectorContent').innerHTML=`<img src="${c.data}" style="max-width:100%;border-radius:10px"/>`;
-      document.getElementById('projectorOv').style.display='block';
+      cont.innerHTML=`<img src="${c.data}" style="max-width:100%;border-radius:10px"/>`;
     }else{
-      const a=document.createElement('a');a.href=c.data;a.download=c.name||'cifrado.pdf';a.click();
+      // PDF: embed in projector overlay
+      cont.innerHTML=`<embed src="${c.data}" type="application/pdf" style="width:100%;min-height:80vh;border-radius:10px"/><br><a href="${c.data}" download="${esc(c.name||'cifrado.pdf')}" style="color:var(--gold);font-size:14px;margin-top:10px;display:inline-block">⬇ Descargar PDF</a>`;
     }
+    ov.style.display='block';
   });
 }
 async function deleteCifrado(k){
@@ -2645,6 +2824,101 @@ function initNewTabs(){
   listenCifrados();
 }
 
+// ══ MEMBER MANAGEMENT ════════════════════════════════════════
+let dynamicMembers=null; // null = use default ALL_MEMBERS
+async function loadDynamicMembers(){
+  const snap=await db.ref(`${P}/membersList`).once('value');
+  const val=snap.val();
+  dynamicMembers=val?Object.values(val).filter(Boolean).sort():null;
+  return dynamicMembers||ALL_MEMBERS;
+}
+function renderMemberMgmt(){
+  const sec=document.getElementById('memberMgmtSection');
+  const list=document.getElementById('memberMgmtList');
+  if(!sec||!list)return;
+  sec.style.display='';
+  const members=dynamicMembers||ALL_MEMBERS;
+  list.innerHTML=members.map((m,i)=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr)">
+      <span style="font-size:13px;font-weight:600">${esc(m)}</span>
+      <button class="bo-red" style="font-size:10.5px;padding:4px 9px" onclick="removeMemberDynamic('${esc(m)}')">✕ Eliminar</button>
+    </div>`).join('');
+}
+async function addMemberDynamic(){
+  const inp=document.getElementById('newMemberName');
+  const name=inp.value.trim();if(!name){showToast('❌ Escribe un nombre',true);return;}
+  const members=[...(dynamicMembers||ALL_MEMBERS)];
+  if(members.includes(name)){showToast('⚠️ Ya existe ese miembro',true);return;}
+  members.push(name);members.sort();
+  try{
+    const obj={};members.forEach((m,i)=>{obj[`m${i}`]=m;});
+    await db.ref(`${P}/membersList`).set(obj);
+    dynamicMembers=members;inp.value='';renderMemberMgmt();showToast('✓ Miembro añadido',false);
+  }catch(e){showToast('❌ Error',true);}
+}
+async function removeMemberDynamic(name){
+  if(!confirm(`¿Eliminar a ${name}?`))return;
+  const members=(dynamicMembers||ALL_MEMBERS).filter(m=>m!==name);
+  try{
+    const obj={};members.forEach((m,i)=>{obj[`m${i}`]=m;});
+    await db.ref(`${P}/membersList`).set(obj);
+    dynamicMembers=members;renderMemberMgmt();showToast(`✓ ${name} eliminado`,false);
+  }catch(e){showToast('❌ Error',true);}
+}
+
+// ══ CALENDAR EVENT EDITOR ════════════════════════════════════
+let selectedCalColor='#c9a96e';
+function selectCalColor(color,btn){
+  selectedCalColor=color;
+  document.getElementById('calEvColor').value=color;
+  document.querySelectorAll('.color-dot').forEach(b=>b.style.border='2px solid transparent');
+  btn.style.border='3px solid var(--txt)';
+}
+function loadCalEvents(){
+  const sec=document.getElementById('calEditorSection');if(!sec)return;
+  sec.style.display='';
+  db.ref(`${P}/customEvents`).orderByKey().on('value',snap=>{
+    const raw=snap.val();
+    const el=document.getElementById('calEventsList');if(!el)return;
+    if(!raw){el.innerHTML='<div class="lmsg">Sin eventos personalizados.</div>';return;}
+    const items=Object.entries(raw).sort(([a],[b])=>a.localeCompare(b));
+    el.innerHTML=items.map(([date,ev])=>`
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bdr)">
+        <span style="width:12px;height:12px;border-radius:50%;background:${esc(ev.color||'#c9a96e')};flex-shrink:0;display:inline-block"></span>
+        <div style="flex:1">
+          <div style="font-size:12.5px;font-weight:600">${esc(ev.name||'')}</div>
+          <div style="font-size:10.5px;color:var(--mut)">${esc(date)} · ${esc(ev.type||'')}</div>
+        </div>
+        <button class="bo-red" style="font-size:10.5px;padding:4px 9px" onclick="deleteCalEvent('${esc(date)}')">✕</button>
+      </div>`).join('');
+  });
+}
+async function saveCalEvent(){
+  const date=document.getElementById('calEvDate').value;
+  const name=document.getElementById('calEvName').value.trim();
+  const type=document.getElementById('calEvType').value;
+  const color=document.getElementById('calEvColor').value||selectedCalColor;
+  if(!date||!name){showToast('❌ Fecha y nombre requeridos',true);return;}
+  try{
+    await db.ref(`${P}/customEvents/${date}`).set({name,type,color,createdBy:loggedUser,createdAt:new Date().toISOString()});
+    document.getElementById('calEvDate').value='';
+    document.getElementById('calEvName').value='';
+    showToast('✓ Evento guardado',false);
+  }catch(e){showToast('❌ Error',true);}
+}
+async function deleteCalEvent(date){
+  if(!confirm(`¿Eliminar evento del ${date}?`))return;
+  try{await db.ref(`${P}/customEvents/${date}`).remove();showToast('Evento eliminado',false);}
+  catch(e){showToast('❌ Error',true);}
+}
+
+// ══ CLEAR CIFRADOS ════════════════════════════════════════════
+async function clearAllCifrados(){
+  if(!confirm('¿Eliminar TODOS los cifrados? Esta acción no se puede deshacer.'))return;
+  try{await db.ref(`${P}/cifrados`).remove();listenCifrados();showToast('✓ Cifrados eliminados',false);}
+  catch(e){showToast('❌ Error',true);}
+}
+
 // ══ UTILS ════════════════════════════════════════════════════
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function showToast(msg,isErr){
@@ -2652,6 +2926,6 @@ function showToast(msg,isErr){
   t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200);
 }
 </script>
-<script src="cuestionario-modal.js"></script>
+<!-- cuestionario eliminado por solicitud -->
 </body>
 </html>
