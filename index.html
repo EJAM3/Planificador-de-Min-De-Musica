@@ -143,6 +143,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .cd.tap{cursor:pointer}.cd.tap:active{opacity:.65;transform:scale(.93);transition:none}
 .cdn{line-height:1;margin-bottom:1px}
 .cdl{font-size:7.5px;font-weight:800;text-transform:uppercase;opacity:.9;margin-top:1px}
+.cd-cust-dot{width:6px;height:6px;border-radius:50%;margin-top:2px;flex-shrink:0;cursor:pointer}
 .ev-g1{background:var(--g1bg);border:1px solid var(--g1bdr);color:var(--g1c)}
 .ev-g2{background:var(--g2bg);border:1px solid var(--g2bdr);color:var(--g2c)}
 .ev-fri{background:rgba(45,212,191,.09);border:1px dashed rgba(45,212,191,.28);color:#2dd4bf}
@@ -681,6 +682,10 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <div class="cm"><div class="ct">Junio 2026</div><div class="cg" id="calJun"></div></div>
       <div class="cm"><div class="ct">Julio 2026</div><div class="cg" id="calJul"></div></div>
       <div class="cm"><div class="ct">Agosto 2026</div><div class="cg" id="calAgo"></div></div>
+      <div class="cm"><div class="ct">Septiembre 2026</div><div class="cg" id="calSep"></div></div>
+      <div class="cm"><div class="ct">Octubre 2026</div><div class="cg" id="calOct"></div></div>
+      <div class="cm"><div class="ct">Noviembre 2026</div><div class="cg" id="calNov"></div></div>
+      <div class="cm"><div class="ct">Diciembre 2026</div><div class="cg" id="calDic"></div></div>
     </div>
 
     <!-- ══ REPERTORIO ══ -->
@@ -1611,6 +1616,8 @@ function loadAndBuildCal(){
     customCalEvents=snap.val()||{};
     buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
     buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
+    buildCal(2026,9,'calSep');buildCal(2026,10,'calOct');
+    buildCal(2026,11,'calNov');buildCal(2026,12,'calDic');
   });
 }
 function pad(n){return String(n).padStart(2,'0')}
@@ -1624,19 +1631,23 @@ function buildCal(yr,mo,cid){
     const ev=CAL[key],sp=SPECIAL_DATES[key];
     const bday=BIRTHDAYS.find(b=>b.m===mo&&b.d===d);
     const cust=customCalEvents[key];
+    // Punto coloreado para evento personalizado (aparece en cualquier celda)
+    const custDot=cust
+      ?`<div class="cd-cust-dot" style="background:${cust.color||'#c9a96e'}" title="${esc(cust.name||'')}" onclick="event.stopPropagation();showCustomEventSheet('${key}')"></div>`
+      :'';
     if(ev){
       const ag=getAG(ev.wn);
       const isCom=ev.especial==='Comunión';
-      if(ev.t==='sun') h+=`<div class="cd tap ev-g${ag}${isCom?' ev-com':''}" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div class="cdl">G${ag}</div></div>`;
-      else if(ev.t==='wed') h+=`<div class="cd tap ev-wed" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div class="cdl">Mié</div></div>`;
-      else h+=`<div class="cd tap ev-fri" onclick="openSheet('${key}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl">Ens.</div></div>`;
+      if(ev.t==='sun') h+=`<div class="cd tap ev-g${ag}${isCom?' ev-com':''}" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div class="cdl">G${ag}</div>${custDot}</div>`;
+      else if(ev.t==='wed') h+=`<div class="cd tap ev-wed" onclick="openSheet('${key}')"><div class="cdn">${d}</div><div class="cdl">Mié</div>${custDot}</div>`;
+      else h+=`<div class="cd tap ev-fri" onclick="openSheet('${key}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl">Ens.</div>${custDot}</div>`;
     }else if(sp){
       const cls=sp.type==='adorar'?'ev-adorar':'ev-special';
-      h+=`<div class="cd tap ${cls}" onclick="openSheetSpecial('${key}','${esc(sp.label)}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl" style="font-size:7px">${sp.type==='adorar'?'Adorar':'Esp.'}</div></div>`;
+      h+=`<div class="cd tap ${cls}" onclick="openSheetSpecial('${key}','${esc(sp.label)}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl" style="font-size:7px">${sp.type==='adorar'?'Adorar':'Esp.'}</div>${custDot}</div>`;
     }else if(cust){
       const ico=cust.type==='cumpleanos'?'🎂':cust.type==='actividad'?'⭐':'📌';
       const dotColor=cust.color||'#c9a96e';
-      h+=`<div class="cd tap" style="border:1.5px solid ${dotColor}22" onclick="showCustomEventSheet('${key}')"><div class="cdn" style="font-size:11px;color:${dotColor}">${d}</div><div class="cdl" style="font-size:8px">${ico}</div></div>`;
+      h+=`<div class="cd tap" style="border:1.5px solid ${dotColor}33;background:${dotColor}0a" onclick="showCustomEventSheet('${key}')"><div class="cdn" style="font-size:11px;color:${dotColor}">${d}</div><div class="cdl" style="font-size:8px">${ico}</div></div>`;
     }else if(bday){
       h+=`<div class="cd tap ev-bday" onclick="showBdaySheet('${bday.name}')"><div class="cdn" style="font-size:11px">${d}</div><div class="cdl">🎂</div></div>`;
     }else{
@@ -2089,7 +2100,9 @@ function loadGruposOverride(){
   db.ref(`${P}/gruposOverride`).on('value',snap=>{
     gruposOverride=snap.val()||{};buildWeekRows();
     buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
-    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo'); // re-render with group overrides
+    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
+    buildCal(2026,9,'calSep');buildCal(2026,10,'calOct');
+    buildCal(2026,11,'calNov');buildCal(2026,12,'calDic'); // re-render with group overrides
     const ap=document.querySelector('#inicioPills .pill.active');if(ap) ap.click();
   });
 }
