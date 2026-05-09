@@ -486,6 +486,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 
   /* ── Topbar ── */
   .topbar{padding:20px 48px 0;position:sticky;top:0;z-index:10;background:var(--bg)}
+  .topbar-logo-block{display:none!important} /* logo ya está en el sidebar */
   .atitle{font-size:22px}
   .asub{border-bottom:none;padding-bottom:8px}
 
@@ -748,7 +749,13 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <div class="app" id="mainApp" style="display:none">
   <div class="topbar">
     <div class="toprow">
-      <span class="atitle">🎶 Ministerio Musical</span>
+      <div class="topbar-logo-block" style="display:flex;align-items:center;gap:8px">
+        <img src="logo-alabanza.png" alt="Alabanza" style="height:38px;width:38px;border-radius:10px;object-fit:cover;flex-shrink:0"/>
+        <div>
+          <div class="atitle" style="line-height:1.1">Alabanza</div>
+          <div style="font-size:10px;color:var(--mut);font-weight:500;line-height:1">Ministerio Musical · Grace</div>
+        </div>
+      </div>
       <div style="display:flex;gap:5px">
         <button class="bsm" id="userBadge" onclick="logout()">👤 —</button>
         <button class="bsm" id="pendingBadge" onclick="goNav('panel',document.querySelector('[data-page=panel]'))" style="display:none">⏳ Pendientes</button>
