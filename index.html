@@ -948,7 +948,13 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
           <button class="bo-red" onclick="clearAllCifrados()" style="width:100%;margin-bottom:8px">🗑 Limpiar todos los cifrados de prueba</button>
         </div>
 
-        <!-- cuestionario eliminado -->
+        <!-- Resultados del cuestionario -->
+        <div class="panel-sec">
+          <div class="panel-hdr">📊 Resultados del cuestionario</div>
+          <a href="resultados.html" target="_blank" class="bg" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;padding:12px;border-radius:13px;font-weight:700;font-size:14px;color:#1a0e00;background:linear-gradient(135deg,#f59e0b,#f97316);box-shadow:0 4px 16px rgba(245,158,11,.3);">
+            📋 Ver respuestas de la encuesta
+          </a>
+        </div>
 
       </div><!-- /adminPanel -->
 
@@ -1369,8 +1375,9 @@ function initApp(){
   // Ticker + countdown
   buildTicker();startCountdown();
 
-  // Reminders
-  checkReminders();checkBirthdays();
+  // Reminders (wrapped in try-catch so a crash here no rompe el resto)
+  try{checkReminders();}catch(e){console.warn('checkReminders error:',e);}
+  try{checkBirthdays();}catch(e){console.warn('checkBirthdays error:',e);}
 
   // FCM
   initFCM();
@@ -2323,6 +2330,7 @@ function checkReminders(){
   const today=new Date();today.setHours(0,0,0,0);
   SEMANAS.forEach(s=>{
     [[s.fri,'fri'],[s.sun,'sun'],[s.wed,'wed']].forEach(([ds,t])=>{
+      if(!ds)return; // S10 y otras semanas sin miércoles tienen wed:null
       const [yr,mo,dy]=ds.split('-').map(Number);
       const evDate=new Date(yr,mo-1,dy);
       const diff=Math.round((evDate-today)/864e5);
