@@ -2642,10 +2642,11 @@ function closeChatActions(){
 }
 async function deleteChatMsg(){
   if(!_chatActKey)return;
+  const key=_chatActKey;   // guardar antes de que closeChatActions lo ponga en null
   closeChatActions();
   if(!confirm('¿Eliminar este mensaje?'))return;
   try{
-    await db.ref(`${P}/chat/${_chatActKey}`).remove();
+    await db.ref(`${P}/chat/${key}`).remove();
     showToast('✓ Mensaje eliminado',false);
   }catch(e){showToast('❌ Error al eliminar',true);}
 }
