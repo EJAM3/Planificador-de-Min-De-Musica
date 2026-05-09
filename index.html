@@ -473,6 +473,123 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
   .card{padding:18px}
 }
 
+/* ══ DESKTOP LAYOUT (1200px+) ══════════════════════════════════ */
+@media(min-width:1200px){
+  html,body{overflow:auto;background:var(--surf2)}
+
+  /* ── App container ── */
+  .app{max-width:none;margin:0;padding-left:260px;border:none;overflow:visible;height:auto;min-height:100dvh}
+  .scr{overflow:visible;padding-bottom:40px;height:auto}
+
+  /* ── Topbar ── */
+  .topbar{padding:20px 48px 0;position:sticky;top:0;z-index:10;background:var(--bg)}
+  .atitle{font-size:22px}
+  .asub{border-bottom:none;padding-bottom:8px}
+
+  /* ── Pages ── */
+  .page{padding:28px 48px 0;max-width:1140px}
+  .page.active{display:block}
+  .page-chat-layout{min-height:calc(100dvh - 80px)!important}
+  .page-chat-layout.active{display:flex!important;height:calc(100dvh - 80px)}
+  .chat-wrap{max-height:calc(100dvh - 180px)}
+
+  /* ── Sidebar: bottom nav oculto ── */
+  .nav{display:none!important}
+
+  /* ── Sidebar: drawer como menú lateral fijo ── */
+  .nav-drawer-ov{display:none!important;pointer-events:none!important}
+  .nav-drawer{
+    position:fixed!important;
+    left:0;top:0;bottom:0;
+    width:260px;
+    transform:none!important;
+    border-radius:0;
+    border-right:1px solid var(--bdr);
+    border-top:none;
+    display:flex!important;
+    flex-direction:column;
+    padding:0 12px 20px;
+    overflow-y:auto;
+    z-index:50;
+    background:var(--surf2);
+    transition:none!important;
+    box-shadow:2px 0 16px rgba(0,0,0,.12);
+  }
+  .nav-drawer-handle{display:none}
+  .nav-drawer-title{display:none}
+
+  /* ── Desktop sidebar header ── */
+  .desk-sidebar-hdr{display:flex!important;flex-direction:column;align-items:center;padding:28px 8px 20px;border-bottom:1px solid var(--bdr);margin-bottom:12px}
+  .desk-logo{font-size:32px;line-height:1;margin-bottom:6px}
+  .desk-app-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;color:var(--gold);text-align:center;line-height:1.2}
+  .desk-church{font-size:11px;color:var(--mut);margin-top:3px}
+
+  /* ── Sidebar nav grid: vertical ── */
+  .nav-grid{display:flex!important;flex-direction:column!important;gap:3px!important;grid-template-columns:unset!important}
+  .ng-btn{
+    flex-direction:row!important;
+    justify-content:flex-start!important;
+    align-items:center!important;
+    gap:11px;
+    padding:11px 14px;
+    border-radius:11px;
+    font-size:13.5px;
+    text-align:left;
+    width:100%;
+  }
+  .ng-btn .ng-ico{font-size:18px;line-height:1;flex-shrink:0}
+  .ng-btn.active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+
+  /* ── Cards más espaciosas ── */
+  .card{padding:22px 24px;border-radius:18px}
+
+  /* ── Grids de 2 columnas donde aplique ── */
+  .svcs{grid-template-columns:repeat(3,1fr)}
+  .lgrid{grid-template-columns:repeat(5,1fr)}
+  .dest-grid{grid-template-columns:repeat(4,1fr)}
+  .assign-grid{grid-template-columns:repeat(5,1fr)}
+
+  /* ── Panel: secciones lado a lado ── */
+  #adminPanel .panel-sec{max-width:760px}
+  .week-row,.falta-row,.ruta-row{padding:13px 20px;font-size:14px}
+
+  /* ── Repertorio ── */
+  .song-card,.adorar-song-card{border-radius:16px}
+  .song-title{font-size:15px}
+
+  /* ── Calendar más grande ── */
+  .cg{gap:8px}
+  .cd{border-radius:12px;font-size:15px}
+  .cdl{font-size:9px}
+  .cm{margin-bottom:28px}
+  .ct{font-size:16px}
+
+  /* ── Countdown ── */
+  .countdown-card{padding:24px 28px}
+  .cd-num{font-size:32px}
+
+  /* ── Cifrados grid ── */
+  #cifradoList{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .cifrado-card{flex-direction:column}
+
+  /* ── Letras / Voces ── */
+  .lyrics-box{max-height:600px;font-size:14.5px}
+
+  /* ── Inbox / notas ── */
+  .nota-card,.suplencia-card,.falta-card{padding:13px 18px;border-radius:14px}
+
+  /* ── Overlays centrados en desktop ── */
+  .shov,.chat-act-ov,.nav-drawer-ov{display:none!important}
+  .sh{max-width:560px;border-radius:20px 20px 0 0}
+  .chat-act-sheet{max-width:480px}
+  .bday-card{max-width:420px}
+  .pin-sheet{max-width:none;left:260px}
+  .toast{max-width:520px;left:calc(260px + 50%);transform:translateX(-50%)}
+}
+
+/* ── Desktop sidebar header: oculto en móvil/tablet ── */
+.desk-sidebar-hdr{display:none}
+
 /* Ensure ticker works on all sizes */
 .ticker-wrap{height:52px;min-height:52px}
 .ticker-item{min-height:52px;height:52px}
@@ -1113,6 +1230,12 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 <div class="nav-drawer" id="navDrawer">
   <div class="nav-drawer-handle"></div>
   <div class="nav-drawer-title">Navegación</div>
+  <!-- Desktop sidebar header (solo visible en PC) -->
+  <div class="desk-sidebar-hdr" id="deskSidebarHdr">
+    <div class="desk-logo">🎶</div>
+    <div class="desk-app-name">Ministerio Musical</div>
+    <div class="desk-church">Grace Church</div>
+  </div>
   <div class="nav-grid" id="navGrid">
     <button class="ng-btn active" data-page="inicio" onclick="goNav('inicio',this)"><span class="ng-ico">🏠</span>Inicio</button>
     <button class="ng-btn" data-page="calendario" onclick="goNav('calendario',this)"><span class="ng-ico">📅</span>Calendario</button>
@@ -1439,11 +1562,14 @@ const NAV_PAGES={
   adorar:{ico:'✨',lbl:'ADORAR'},
   panel:{ico:'🛠',lbl:'Panel'}
 };
+function isDesktop(){return window.innerWidth>=1200;}
 function openNavDrawer(){
+  if(isDesktop())return;
   document.getElementById('navDrawerOv').classList.add('open');
   document.getElementById('navDrawer').classList.add('open');
 }
 function closeNavDrawer(){
+  if(isDesktop())return;
   document.getElementById('navDrawerOv').classList.remove('open');
   document.getElementById('navDrawer').classList.remove('open');
 }
