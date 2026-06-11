@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADORAR 2026 — Libreta de Notas</title>
+<style>
+  :root {
+    --bg: #f5f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ede8;
+    --border: #d4cfc8;
+    --text: #1a1814;
+    --text-muted: #6b6560;
+    --accent: #7c5cbf;
+    --accent-light: #ede8f7;
+    --accent-dark: #5a3f9a;
+    --toolbar-bg: #ffffff;
+    --toolbar-border: #e0dbd4;
+    --counter-bg: rgba(124, 92, 191, 0.08);
+    --counter-text: #7c5cbf;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --btn-hover: #f0ede8;
+    --select-bg: #ede8f7;
+    --font-size: 16px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #13121a;
+    --surface: #1e1c28;
+    --surface2: #252334;
+    --border: #3a3650;
+    --text: #e8e4f0;
+    --text-muted: #8b85a8;
+    --accent: #a585e8;
+    --accent-light: #2a2540;
+    --accent-dark: #c4a8f5;
+    --toolbar-bg: #1e1c28;
+    --toolbar-border: #3a3650;
+    --counter-bg: rgba(165, 133, 232, 0.12);
+    --counter-text: #a585e8;
+    --shadow: 0 2px 16px rgba(0,0,0,0.4);
+    --btn-hover: #2a2540;
+    --select-bg: #2a2540;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  /* ── TOP BAR ── */
+  #topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--toolbar-bg);
+    border-bottom: 1px solid var(--toolbar-border);
+    box-shadow: var(--shadow);
+    padding: 8px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .tb-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 6px;
+    border-right: 1px solid var(--toolbar-border);
+  }
+  .tb-group:last-child { border-right: none; }
+
+  .tb-btn {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 5px 8px;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .tb-btn:hover { background: var(--btn-hover); border-color: var(--border); }
+  .tb-btn.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .tb-btn svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+  .tb-select {
+    background: var(--select-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 5px 6px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .tb-select:focus { border-color: var(--accent); }
+
+  #font-size-display {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 8px;
+    min-width: 44px;
+    text-align: center;
+  }
+
+  /* ── COUNTER ── */
+  #counter {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    background: var(--counter-bg);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    color: var(--counter-text);
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 200;
+    backdrop-filter: blur(6px);
+  }
+  #counter:hover { opacity: 1; }
+
+  /* ── EDITOR AREA ── */
+  #editor-wrap {
+    max-width: 820px;
+    margin: 24px auto;
+    padding: 0 16px 80px;
+  }
+
+  #editor {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    min-height: 80vh;
+    padding: 48px 56px;
+    font-size: var(--font-size);
+    line-height: 1.85;
+    color: var(--text);
+    outline: none;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+
+  #editor:focus { border-color: var(--accent); }
+
+  /* ── TYPOGRAPHY IN EDITOR ── */
+  #editor h1 { font-size: 2em; font-weight: 700; margin: 0.4em 0 0.6em; color: var(--accent); letter-spacing: -0.02em; }
+  #editor h2 { font-size: 1.5em; font-weight: 700; margin: 1.2em 0 0.5em; border-bottom: 2px solid var(--accent-light); padding-bottom: 0.25em; }
+  #editor h3 { font-size: 1.2em; font-weight: 600; margin: 1em 0 0.4em; color: var(--accent); }
+  #editor h4 { font-size: 1.05em; font-weight: 600; margin: 0.8em 0 0.3em; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.9em; color: var(--text-muted); }
+  #editor p { margin: 0.5em 0; }
+  #editor blockquote {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    border-radius: 0 8px 8px 0;
+    margin: 1em 0;
+    padding: 12px 20px;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+  #editor ul, #editor ol { padding-left: 1.6em; margin: 0.5em 0; }
+  #editor li { margin: 0.25em 0; }
+  #editor hr { border: none; border-top: 2px solid var(--border); margin: 1.5em 0; }
+  #editor b, #editor strong { color: var(--text); }
+  #editor a { color: var(--accent); }
+
+  /* ── COLOR PICKER POPOVER ── */
+  .color-row {
+    display: flex; flex-wrap: wrap; gap: 4px; padding: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    position: absolute;
+    z-index: 300;
+  }
+  .color-swatch {
+    width: 20px; height: 20px; border-radius: 4px; cursor: pointer;
+    border: 2px solid transparent; transition: transform 0.1s;
+  }
+  .color-swatch:hover { transform: scale(1.2); border-color: var(--text); }
+
+  /* ── PRINT ── */
+  @media print {
+    #topbar, #counter { display: none !important; }
+    #editor { border: none; box-shadow: none; padding: 0; min-height: auto; }
+    #editor-wrap { max-width: 100%; margin: 0; padding: 0; }
+    body { background: white; color: black; }
+  }
+
+  @media (max-width: 600px) {
+    #editor { padding: 24px 20px; }
+    #editor-wrap { padding: 0 8px 80px; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<!-- ══════════════════ TOOLBAR ══════════════════ -->
+<div id="topbar">
+
+  <!-- Historia -->
+  <div class="tb-group">
+    <button class="tb-btn" onclick="doc.execCommand('undo')" title="Deshacer (Ctrl+Z)">
+      <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="doc.execCommand('redo')" title="Rehacer (Ctrl+Y)">
+      <svg viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 9 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
+    </button>
+  </div>
+
+  <!-- Fuente y tamaño -->
+  <div class="tb-group">
+    <select class="tb-select" id="fontFamily" onchange="changeFontFamily(this.value)" title="Fuente">
+      <option value="Georgia,'Times New Roman',serif">Georgia</option>
+      <option value="'Palatino Linotype',Palatino,serif">Palatino</option>
+      <option value="Arial,Helvetica,sans-serif">Arial</option>
+      <option value="'Trebuchet MS',sans-serif">Trebuchet</option>
+      <option value="'Courier New',monospace">Courier</option>
+    </select>
+  </div>
+
+  <!-- Tamaño texto global -->
+  <div class="tb-group">
+    <button class="tb-btn" onclick="changeSize(-1)" title="Reducir texto">
+      <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+    </button>
+    <span id="font-size-display">16px</span>
+    <button class="tb-btn" onclick="changeSize(1)" title="Aumentar texto">
+      <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+    </button>
+  </div>
+
+  <!-- Formato texto -->
+  <div class="tb-group">
+    <button class="tb-btn" id="btn-bold" onclick="fmt('bold')" title="Negrita (Ctrl+B)"><b>B</b></button>
+    <button class="tb-btn" id="btn-italic" onclick="fmt('italic')" title="Cursiva (Ctrl+I)"><i>I</i></button>
+    <button class="tb-btn" id="btn-underline" onclick="fmt('underline')" title="Subrayado (Ctrl+U)"><u>U</u></button>
+    <button class="tb-btn" id="btn-strikeThrough" onclick="fmt('strikeThrough')" title="Tachado"><s>S</s></button>
+  </div>
+
+  <!-- Color -->
+  <div class="tb-group" style="position:relative">
+    <button class="tb-btn" onclick="toggleColors('fg')" title="Color de texto" id="btn-fg">
+      <span style="display:flex;flex-direction:column;align-items:center;gap:1px">
+        <span style="font-weight:700;font-size:13px">A</span>
+        <span id="fg-bar" style="display:block;width:14px;height:3px;background:#7c5cbf;border-radius:2px"></span>
+      </span>
+    </button>
+    <button class="tb-btn" onclick="toggleColors('bg')" title="Color de fondo" id="btn-bg">
+      <span style="display:flex;flex-direction:column;align-items:center;gap:1px">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 0 0 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/></svg>
+        <span id="bg-bar" style="display:block;width:14px;height:3px;background:#ffe066;border-radius:2px"></span>
+      </span>
+    </button>
+    <div id="color-panel" class="color-row" style="display:none;top:42px;left:0"></div>
+  </div>
+
+  <!-- Alineación -->
+  <div class="tb-group">
+    <button class="tb-btn" onclick="fmt('justifyLeft')" title="Izquierda">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="fmt('justifyCenter')" title="Centro">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm-3 4h18v2H3v-2zm3 4h12v2H6v-2zm-3 4h18v2H3v-2z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="fmt('justifyRight')" title="Derecha">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm6 4h12v2H9V7zm-6 4h18v2H3v-2zm6 4h12v2H9v-2zm-6 4h18v2H3v-2z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="fmt('justifyFull')" title="Justificado">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h12v2H3v-2z"/></svg>
+    </button>
+  </div>
+
+  <!-- Listas -->
+  <div class="tb-group">
+    <button class="tb-btn" onclick="fmt('insertUnorderedList')" title="Lista con viñetas">
+      <svg viewBox="0 0 24 24"><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="fmt('insertOrderedList')" title="Lista numerada">
+      <svg viewBox="0 0 24 24"><path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2v1zm5-8v2h14V3H7zm0 14h14v-2H7v2zm0-6h14v-2H7v2z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="fmt('outdent')" title="Quitar sangría">
+      <svg viewBox="0 0 24 24"><path d="M11 17h10v-2H11v2zm-8-5l4 4V8l-4 4zm0 9h18v-2H3v2zM3 3v2h18V3H3zm8 6h10V7H11v2zm0 4h10v-2H11v2z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="fmt('indent')" title="Agregar sangría">
+      <svg viewBox="0 0 24 24"><path d="M3 21h18v-2H3v2zM3 8v8l4-4-4-4zm8 9h10v-2H11v2zM3 3v2h18V3H3zm8 6h10V7H11v2zm0 4h10v-2H11v2z"/></svg>
+    </button>
+  </div>
+
+  <!-- Encabezados -->
+  <div class="tb-group">
+    <select class="tb-select" onchange="insertHeading(this.value); this.value=''" title="Encabezado">
+      <option value="">Párrafo</option>
+      <option value="h1">Título 1</option>
+      <option value="h2">Título 2</option>
+      <option value="h3">Título 3</option>
+      <option value="h4">Etiqueta</option>
+      <option value="blockquote">Cita</option>
+      <option value="pre">Código</option>
+    </select>
+  </div>
+
+  <!-- Insertar -->
+  <div class="tb-group">
+    <button class="tb-btn" onclick="insertHR()" title="Línea divisoria">—</button>
+    <button class="tb-btn" onclick="insertLink()" title="Insertar enlace">
+      <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="clearFormat()" title="Quitar formato">
+      <svg viewBox="0 0 24 24"><path d="M3.27 5L2 6.27l6.97 6.97L6.5 19h3l1.57-3.66L16.73 21 18 19.73 3.27 5zM6 5v.18L8.82 8h2.4l-.72 1.68 2.1 2.1L14.21 8H20V5H6z"/></svg>
+    </button>
+  </div>
+
+  <!-- Exportar / Imprimir -->
+  <div class="tb-group">
+    <button class="tb-btn" onclick="window.print()" title="Imprimir">
+      <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="exportHTML()" title="Guardar HTML">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+    </button>
+    <button class="tb-btn" onclick="exportTXT()" title="Guardar TXT">TXT</button>
+  </div>
+
+  <!-- Tema -->
+  <div class="tb-group">
+    <button class="tb-btn" id="theme-btn" onclick="toggleTheme()" title="Cambiar tema">
+      <svg id="icon-dark" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      <svg id="icon-light" viewBox="0 0 24 24" style="display:none"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2v-2H2v2zm18 0h2v-2h-2v2zM11 2v2h2V2h-2zm0 18v2h2v-2h-2zM5.99 4.58l-1.42 1.42 1.41 1.41 1.42-1.42L5.99 4.58zm12.03 12.01l-1.42 1.42 1.41 1.41 1.42-1.42-1.41-1.41zM5.99 19.42l1.41-1.41-1.42-1.42-1.41 1.42 1.42 1.41zM18.02 4.58l-1.41 1.41 1.42 1.42 1.41-1.42-1.42-1.41z"/></svg>
+      <span id="theme-label">Oscuro</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- ══════════════════ EDITOR ══════════════════ -->
+<div id="editor-wrap">
+  <div id="editor" contenteditable="true" spellcheck="true"></div>
+</div>
+
+<!-- ══════════════════ COUNTER ══════════════════ -->
+<div id="counter">palabras: 0 · caracteres: 0</div>
+
+<!-- ══════════════════ COLOR PANEL (hidden) ══════════════════ -->
+
+<script>
+const editor = document.getElementById('editor');
+const doc = document;
+const COLORS = [
+  '#000000','#2d2d2d','#555555','#888888','#bbbbbb','#ffffff',
+  '#c0392b','#e74c3c','#e67e22','#f1c40f','#27ae60','#2ecc71',
+  '#1abc9c','#16a085','#2980b9','#3498db','#8e44ad','#9b59b6',
+  '#7c5cbf','#a585e8','#d35400','#e84393','#ff9ff3','#ffe066'
+];
+
+let currentColorMode = 'fg';
+let fgColor = '#7c5cbf';
+let bgColor = '#ffe066';
+let fontSize = 16;
+let isDark = false;
+
+// ── CONTENT ──
+const content = `<h1>ADORAR 2026</h1>
+<h4>Instrucción para los que servimos</h4>
+<h3>Versículo base</h3>
+<blockquote>"Ten cuidado de ti mismo y de la doctrina; persevera en ello, porque haciendo esto te salvarás a ti mismo y a los que te escuchan."<br>— 1 Timoteo 4:16 (NVI)</blockquote>
+<p>Cada año, en este tiempo de ADORAR, le pido al Señor dirección para nuestro liderazgo y para todos los que servimos en la congregación. Este año, la instrucción que siento en mi corazón es sencilla y profunda a la vez:</p>
+<p><strong>Seamos sanos en doctrina, ejemplares en carácter, humildes en espíritu, fieles en el servicio, capaces de formar discípulos y completamente centrados en Cristo.</strong></p>
+<p>No es una instrucción mía. Es una instrucción que vemos repetidamente en las cartas de Pablo a Timoteo y Tito, hombres que fueron llamados a liderar, cuidar y fortalecer la iglesia.</p>
+<hr>
+<h2>1. Sano en doctrina</h2>
+<h4>Texto clave</h4>
+<blockquote>"Retén la palabra fiel tal como ha sido enseñada, para que también pueda exhortar con sana enseñanza."<br>— Tito 1:9</blockquote>
+<p><strong>La doctrina importa.</strong></p>
+<p>Lo que creemos determina cómo vivimos, cómo servimos y cómo representamos a Cristo.</p>
+<p>La iglesia primitiva perseveraba en la enseñanza apostólica porque entendía que la salud espiritual depende de la verdad. Hoy vivimos un tiempo donde muchos errores doctrinales no llegan de forma agresiva, sino de manera sutil. Ideas humanas son presentadas como si fueran verdad divina.</p>
+<p>Por eso, todo servidor debe preguntarse:</p>
+<p><em>¿Lo que creo viene de la Escritura o solamente de opiniones?</em></p>
+<p>No importa si sirves en adoración, anfitriones, discipulado, niños, multimedia o diaconado. Todos necesitamos un fundamento sólido.</p>
+<p>La instrucción para este año es simple:</p>
+<ul>
+<li>Vigila lo que crees.</li>
+<li>Permanece en la Palabra.</li>
+<li>Protege el evangelio de la gracia.</li>
+</ul>
+<hr>
+<h2>2. Ejemplar en carácter</h2>
+<h4>Texto clave</h4>
+<blockquote>"Sé ejemplo de los creyentes en palabra, conducta, amor, fe y pureza."<br>— 1 Timoteo 4:12</blockquote>
+<p><strong>El servicio revela el carácter.</strong></p>
+<p>Pablo no le dijo a Timoteo que impresionara a la gente. Le dijo que fuera ejemplo.</p>
+<p>La gracia no elimina la responsabilidad sobre nuestra manera de vivir. Al contrario, produce una vida transformada.</p>
+<p>Por eso debemos cuidar:</p>
+<ul>
+<li>Nuestra manera de hablar.</li>
+<li>Nuestra manera de tratar a las personas.</li>
+<li>Nuestra manera de pensar.</li>
+<li>Nuestra manera de reaccionar.</li>
+</ul>
+<p>Guardémonos de la murmuración.<br>Guardémonos del chisme.<br>Guardémonos del resentimiento.<br>Guardémonos de la ofensa permanente.<br>Guardémonos de pensar mal de otros sin evidencia.</p>
+<p>La iglesia es un lugar donde servimos juntos, y las relaciones importan.</p>
+<p>Pablo instruye a tratar a las mujeres jóvenes como hermanas y a las mayores como madres. La honra, el respeto y la pureza deben ser evidentes en nuestra manera de relacionarnos.</p>
+<p>No cuidamos nuestro carácter para ser aceptados por Dios.</p>
+<p><strong>Lo cuidamos porque ya hemos sido aceptados por Dios.</strong></p>
+<p>Nuestro comportamiento no produce salvación.<br>Pero sí refleja la vida que Cristo ha producido en nosotros.</p>
+<hr>
+<h2>3. Humildes en espíritu</h2>
+<h4>Texto clave</h4>
+<blockquote>"Nada hagan por egoísmo o vanidad; más bien, con humildad consideren a los demás como superiores a ustedes mismos."<br>— Filipenses 2:3</blockquote>
+<p><strong>La humildad es la capacidad de seguir aprendiendo.</strong></p>
+<p>La persona que cree que ya no necesita ser enseñada ha comenzado a caminar en la dirección equivocada.</p>
+<p>Dios usa personas para formar personas.</p>
+<ul>
+<li>Nadie tiene todas las respuestas.</li>
+<li>Nadie lo sabe todo.</li>
+<li>Nadie ha llegado completamente.</li>
+</ul>
+<p>La humildad nos permite recibir corrección, valorar la experiencia de otros y reconocer que nos necesitamos mutuamente.</p>
+<p>También nos ayuda a entender una verdad importante:</p>
+<ul>
+<li>No todos estarán conectados con nosotros de la misma manera.</li>
+<li>No todos podrán estar presentes en cada momento.</li>
+<li>No todos podrán responder a cada necesidad.</li>
+</ul>
+<p>Pero seguimos siendo un cuerpo. Estamos unidos por Cristo.<br>Y cuando entendemos eso, desaparece gran parte de la frustración que a veces surge en el servicio.</p>
+<hr>
+<h2>4. Fieles en el servicio</h2>
+<h4>Texto clave</h4>
+<blockquote>"Ahora bien, se requiere de los administradores, que cada uno sea hallado fiel."<br>— 1 Corintios 4:2</blockquote>
+<p><strong>Dios nunca nos pidió éxito. Nos pidió fidelidad.</strong></p>
+<p>La fidelidad significa permanecer cuando las emociones cambian.<br>Significa cumplir cuando nadie está mirando.<br>Significa sostener el compromiso cuando aparecen otras opciones.</p>
+<p>Servir no es algo que hacemos cuando tenemos tiempo.<br>Servir es una prioridad.</p>
+<blockquote>"El que pone la mano en el arado y mira hacia atrás no sirve para el reino de Dios."<br>— Lucas 9:62</blockquote>
+<p>El Reino avanza cuando hombres y mujeres entienden que su asignación importa.</p>
+<ul>
+<li>Si falto a mi responsabilidad, algo deja de hacerse.</li>
+<li>Si abandono mi lugar, alguien tendrá que cargar con una responsabilidad adicional.</li>
+</ul>
+<p>Por eso la fidelidad sigue siendo una marca de madurez espiritual.</p>
+<hr>
+<h2>5. Viviendo el propósito ADORAR</h2>
+<h4>Texto clave</h4>
+<blockquote>"Ocúpate en estas cosas; permanece en ellas, para que tu aprovechamiento sea manifiesto a todos."<br>— 1 Timoteo 4:15</blockquote>
+<p>Nuestro propósito no es solamente ocupar una posición dentro de la iglesia.<br>Nuestro propósito es vivir ADORAR.</p>
+<h3>A — Amar</h3>
+<p>Amamos a Dios y amamos a las personas.<br>No servimos porque la gente sea perfecta.<br>Servimos porque Cristo nos amó primero.</p>
+<h3>D — Dar</h3>
+<blockquote>"Hay más dicha en dar que en recibir."<br>— Hechos 20:35</blockquote>
+<p>La gracia no elimina la generosidad. La multiplica.</p>
+<ul>
+<li>Damos tiempo.</li>
+<li>Damos recursos.</li>
+<li>Damos talentos.</li>
+</ul>
+<p>No damos para cumplir. Damos para extender el Reino.</p>
+<p>Algunos piensan que porque sirven ya no necesitan ofrendar generosamente. Pero la iglesia del Nuevo Pacto fue una iglesia profundamente generosa. El servicio y la generosidad no compiten. Se complementan.</p>
+<h3>O — Orar</h3>
+<blockquote>"Oren sin cesar."<br>— 1 Tesalonicenses 5:17</blockquote>
+<p>No podemos reemplazar la oración por experiencia.<br>No podemos sustituir la comunión con Dios por habilidad.</p>
+<p>La oración no es un evento.<br>Es una atmósfera.<br>Es una actitud.<br>Es una dependencia constante del Señor.</p>
+<h3>R — Restaurar</h3>
+<blockquote>"Lleven los unos las cargas de los otros."<br>— Gálatas 6:2</blockquote>
+<p>Servimos para que las personas experimenten la restauración que Cristo ofrece.<br>No estamos aquí solamente para realizar tareas.<br>Estamos aquí para participar en la obra restauradora de Dios.</p>
+<h3>A — Alcanzar</h3>
+<blockquote>"Vayan y hagan discípulos."<br>— Mateo 28:19</blockquote>
+<p>Nuestro servicio no termina dentro de las cuatro paredes de la iglesia.<br>Hay personas que necesitan escuchar el evangelio.<br>Hay familias que necesitan conocer la gracia de Dios.<br>Hay vidas esperando ser alcanzadas.</p>
+<h3>R — Retar</h3>
+<blockquote>"Lo que has oído de mí... encárgalo a personas fieles."<br>— 2 Timoteo 2:2</blockquote>
+<p>Este es un año para multiplicarnos. No solamente para servir. También para levantar a otros que sirvan.</p>
+<p>La pregunta para cada líder y servidor es:</p>
+<ul>
+<li>¿En quién voy a invertir este año?</li>
+<li>¿A quién voy a discipular?</li>
+<li>¿A quién voy a enseñar?</li>
+<li>¿A quién voy a animar para que descubra su lugar en el Reino?</li>
+</ul>
+<p>Porque un servidor maduro no solamente trabaja. <strong>También multiplica.</strong></p>
+<hr>
+<h2>Conclusión</h2>
+<h4>Texto final</h4>
+<blockquote>"Todo lo que hagan, sea de palabra o de obra, háganlo en el nombre del Señor Jesús."<br>— Colosenses 3:17</blockquote>
+<p>Que este año podamos servir recordando estas cinco instrucciones:</p>
+<ol>
+<li>Sanos en doctrina.</li>
+<li>Ejemplares en carácter.</li>
+<li>Humildes en espíritu.</li>
+<li>Fieles en el servicio.</li>
+<li>Completamente centrados en Cristo.</li>
+</ol>
+<p>Porque al final, no se trata de nosotros.<br>No se trata de una posición.<br>No se trata de reconocimiento.</p>
+<p><strong>Se trata de Cristo y de su Reino.</strong></p>
+<p><em>Y todo lo que hagamos, hagámoslo para Él.</em></p>`;
+
+editor.innerHTML = content;
+
+// ── FONT SIZE ──
+function changeSize(delta) {
+  fontSize = Math.min(36, Math.max(10, fontSize + delta));
+  editor.style.fontSize = fontSize + 'px';
+  document.getElementById('font-size-display').textContent = fontSize + 'px';
+  document.documentElement.style.setProperty('--font-size', fontSize + 'px');
+}
+
+// ── FONT FAMILY ──
+function changeFontFamily(val) {
+  editor.style.fontFamily = val;
+}
+
+// ── FORMAT ──
+function fmt(cmd) {
+  editor.focus();
+  doc.execCommand(cmd, false, null);
+  updateActiveButtons();
+}
+
+function clearFormat() {
+  editor.focus();
+  doc.execCommand('removeFormat', false, null);
+}
+
+function insertHeading(tag) {
+  if (!tag) return;
+  editor.focus();
+  doc.execCommand('formatBlock', false, tag);
+}
+
+function insertHR() {
+  editor.focus();
+  doc.execCommand('insertHTML', false, '<hr>');
+}
+
+function insertLink() {
+  const url = prompt('URL del enlace:', 'https://');
+  if (url) {
+    editor.focus();
+    doc.execCommand('createLink', false, url);
+  }
+}
+
+// ── COLORS ──
+function buildColorPanel(mode) {
+  const panel = document.getElementById('color-panel');
+  panel.innerHTML = '';
+  COLORS.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'color-swatch';
+    sw.style.background = c;
+    sw.title = c;
+    sw.onclick = () => applyColor(mode, c);
+    panel.appendChild(sw);
+  });
+  // custom
+  const inp = document.createElement('input');
+  inp.type = 'color';
+  inp.style.cssText = 'width:20px;height:20px;border:none;padding:0;cursor:pointer;border-radius:4px;';
+  inp.title = 'Color personalizado';
+  inp.oninput = () => applyColor(mode, inp.value);
+  panel.appendChild(inp);
+}
+
+function toggleColors(mode) {
+  const panel = document.getElementById('color-panel');
+  if (panel.style.display !== 'none' && currentColorMode === mode) {
+    panel.style.display = 'none';
+    return;
+  }
+  currentColorMode = mode;
+  buildColorPanel(mode);
+  panel.style.display = 'flex';
+}
+
+function applyColor(mode, color) {
+  editor.focus();
+  if (mode === 'fg') {
+    doc.execCommand('foreColor', false, color);
+    fgColor = color;
+    document.getElementById('fg-bar').style.background = color;
+  } else {
+    doc.execCommand('hiliteColor', false, color);
+    bgColor = color;
+    document.getElementById('bg-bar').style.background = color;
+  }
+  document.getElementById('color-panel').style.display = 'none';
+}
+
+document.addEventListener('click', e => {
+  const panel = document.getElementById('color-panel');
+  if (!e.target.closest('.tb-group') && panel.style.display !== 'none') {
+    panel.style.display = 'none';
+  }
+});
+
+// ── ACTIVE BUTTONS ──
+function updateActiveButtons() {
+  ['bold','italic','underline','strikeThrough'].forEach(cmd => {
+    const btn = document.getElementById('btn-' + cmd);
+    if (btn) btn.classList.toggle('active', doc.queryCommandState(cmd));
+  });
+}
+
+editor.addEventListener('keyup', updateActiveButtons);
+editor.addEventListener('mouseup', updateActiveButtons);
+
+// ── COUNTER ──
+function updateCounter() {
+  const text = editor.innerText || '';
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.replace(/\n/g,'').length;
+  document.getElementById('counter').textContent = `palabras: ${words.toLocaleString()} · caracteres: ${chars.toLocaleString()}`;
+}
+
+editor.addEventListener('input', updateCounter);
+updateCounter();
+
+// ── THEME ──
+function toggleTheme() {
+  isDark = !isDark;
+  document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('icon-dark').style.display = isDark ? 'none' : 'block';
+  document.getElementById('icon-light').style.display = isDark ? 'block' : 'none';
+  document.getElementById('theme-label').textContent = isDark ? 'Claro' : 'Oscuro';
+}
+
+// ── EXPORT HTML ──
+function exportHTML() {
+  const html = `<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><title>ADORAR 2026</title>
+<style>body{font-family:Georgia,serif;max-width:760px;margin:40px auto;padding:20px;line-height:1.8;color:#1a1814}
+blockquote{border-left:4px solid #7c5cbf;background:#ede8f7;border-radius:0 8px 8px 0;padding:12px 20px;margin:1em 0;font-style:italic;color:#555}
+h1{color:#7c5cbf}h2{border-bottom:2px solid #ede8f7;padding-bottom:.25em}h3{color:#7c5cbf}
+h4{text-transform:uppercase;letter-spacing:.05em;font-size:.9em;color:#888}hr{border:none;border-top:2px solid #e0e0e0;margin:1.5em 0}</style>
+</head><body>${editor.innerHTML}</body></html>`;
+  const a = document.createElement('a');
+  a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+  a.download = 'ADORAR_2026.html';
+  a.click();
+}
+
+// ── EXPORT TXT ──
+function exportTXT() {
+  const text = editor.innerText;
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+  a.download = 'ADORAR_2026.txt';
+  a.click();
+}
+
+// ── KEYBOARD SHORTCUTS ──
+editor.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey) {
+    if (e.key === 'b') { e.preventDefault(); fmt('bold'); }
+    if (e.key === 'i') { e.preventDefault(); fmt('italic'); }
+    if (e.key === 'u') { e.preventDefault(); fmt('underline'); }
+  }
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    doc.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
+  }
+});
+</script>
+</body>
+</html>
