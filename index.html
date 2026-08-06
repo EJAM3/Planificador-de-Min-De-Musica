@@ -53,10 +53,13 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
 .ng-btn.active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
 .ng-btn:active{opacity:.7}
 .card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:11px;box-shadow:var(--cs)}
-.pills{display:flex;gap:5px;overflow-x:auto;padding-bottom:11px}
+.pills{display:flex;gap:5px;overflow-x:auto;padding-bottom:11px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .pills::-webkit-scrollbar{display:none}
-.pill{flex:0 0 auto;padding:6px 13px;border-radius:999px;background:var(--surf);border:1px solid var(--bdr);color:var(--mut);font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif}
+.pill{flex:0 0 auto;padding:6px 13px;border-radius:999px;background:var(--surf);border:1px solid var(--bdr);color:var(--mut);font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s ease}
 .pill.active{background:var(--gbg);border-color:var(--gd);color:var(--gold)}
+.pill.is-curr{border-color:var(--gold);box-shadow:0 0 0 1px rgba(201,169,110,.25)}
+.badge-current{display:inline-flex;align-items:center;font-size:10px;font-weight:700;background:var(--gold);color:#0b0e15;padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;letter-spacing:.3px}
+.week-row.is-curr{border:1.5px solid var(--gold);background:rgba(201,169,110,.08)}
 .sec{font-size:10.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;margin:13px 0 7px}
 .inp{width:100%;background:var(--inp);border:1px solid var(--bdr);border-radius:11px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none}
 .inp:focus{border-color:var(--gd)}.inp::placeholder{color:var(--mut)}.inp.err{border-color:var(--red)!important}
@@ -762,7 +765,7 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
         <button class="bsm" onclick="toggleTheme()" id="themeBtn">🌙</button>
       </div>
     </div>
-    <div class="asub">Grace Church · Abr – Jun 2026</div>
+    <div class="asub">Grace Church · 2026 – 2027</div>
   </div>
   <div class="offline-bar" id="offlineBar">📡 Sin conexión — modo offline activo</div>
   <div class="scr">
@@ -816,6 +819,11 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
       <div class="cm"><div class="ct">Octubre 2026</div><div class="cg" id="calOct"></div></div>
       <div class="cm"><div class="ct">Noviembre 2026</div><div class="cg" id="calNov"></div></div>
       <div class="cm"><div class="ct">Diciembre 2026</div><div class="cg" id="calDic"></div></div>
+      <div class="cm"><div class="ct">Enero 2027</div><div class="cg" id="calEne27"></div></div>
+      <div class="cm"><div class="ct">Febrero 2027</div><div class="cg" id="calFeb27"></div></div>
+      <div class="cm"><div class="ct">Marzo 2027</div><div class="cg" id="calMar27"></div></div>
+      <div class="cm"><div class="ct">Abril 2027</div><div class="cg" id="calAbr27"></div></div>
+      <div class="cm"><div class="ct">Mayo 2027</div><div class="cg" id="calMay27"></div></div>
     </div>
 
     <!-- ══ REPERTORIO ══ -->
@@ -995,11 +1003,20 @@ html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--txt);f
           <div class="ig">
             <label class="il">Mes</label>
             <select id="faltasMes" class="inp" onchange="loadFaltas()">
-              <option value="4">Abril 2026</option>
-              <option value="5">Mayo 2026</option>
-              <option value="6">Junio 2026</option>
-              <option value="7">Julio 2026</option>
-              <option value="8">Agosto 2026</option>
+              <option value="2026_4">Abril 2026</option>
+              <option value="2026_5">Mayo 2026</option>
+              <option value="2026_6">Junio 2026</option>
+              <option value="2026_7">Julio 2026</option>
+              <option value="2026_8" selected>Agosto 2026</option>
+              <option value="2026_9">Septiembre 2026</option>
+              <option value="2026_10">Octubre 2026</option>
+              <option value="2026_11">Noviembre 2026</option>
+              <option value="2026_12">Diciembre 2026</option>
+              <option value="2027_1">Enero 2027</option>
+              <option value="2027_2">Febrero 2027</option>
+              <option value="2027_3">Marzo 2027</option>
+              <option value="2027_4">Abril 2027</option>
+              <option value="2027_5">Mayo 2027</option>
             </select>
           </div>
           <div class="ig">
@@ -1402,7 +1419,6 @@ const SEMANAS = [
   {n:4,label:'26 abr',g:2,especial:null,fri:'2026-04-24',sun:'2026-04-26',wed:'2026-04-29'},
   {n:5,label:'3 may',g:1,especial:'Comunión',fri:'2026-05-01',sun:'2026-05-03',wed:'2026-05-06'},
   {n:6,label:'10 may',g:2,especial:null,fri:'2026-05-08',sun:'2026-05-10',wed:'2026-05-13'},
-  // Rotación extendida 3 meses desde S6 (10 may)
   {n:7,label:'17 may',g:1,especial:null,fri:'2026-05-15',sun:'2026-05-17',wed:'2026-05-20'},
   {n:8,label:'24 may',g:2,especial:null,fri:'2026-05-22',sun:'2026-05-24',wed:'2026-05-27'},
   {n:9,label:'31 may',g:1,especial:null,fri:'2026-05-29',sun:'2026-05-31',wed:'2026-06-03'},
@@ -1416,6 +1432,48 @@ const SEMANAS = [
   {n:16,label:'26 jul',g:2,especial:null,fri:'2026-07-24',sun:'2026-07-26',wed:'2026-07-29'},
   {n:17,label:'2 ago',g:1,especial:'Comunión',fri:'2026-07-31',sun:'2026-08-02',wed:'2026-08-05'},
   {n:18,label:'9 ago',g:2,especial:null,fri:'2026-08-07',sun:'2026-08-09',wed:'2026-08-12'},
+  {n:19,label:'16 ago',g:1,especial:null,fri:'2026-08-14',sun:'2026-08-16',wed:'2026-08-19'},
+  {n:20,label:'23 ago',g:2,especial:null,fri:'2026-08-21',sun:'2026-08-23',wed:'2026-08-26'},
+  {n:21,label:'30 ago',g:1,especial:null,fri:'2026-08-28',sun:'2026-08-30',wed:'2026-09-02'},
+  {n:22,label:'6 sep',g:2,especial:'Comunión',fri:'2026-09-04',sun:'2026-09-06',wed:'2026-09-09'},
+  {n:23,label:'13 sep',g:1,especial:null,fri:'2026-09-11',sun:'2026-09-13',wed:'2026-09-16'},
+  {n:24,label:'20 sep',g:2,especial:null,fri:'2026-09-18',sun:'2026-09-20',wed:'2026-09-23'},
+  {n:25,label:'27 sep',g:1,especial:null,fri:'2026-09-25',sun:'2026-09-27',wed:'2026-09-30'},
+  {n:26,label:'4 oct',g:2,especial:'Comunión',fri:'2026-10-02',sun:'2026-10-04',wed:'2026-10-07'},
+  {n:27,label:'11 oct',g:1,especial:null,fri:'2026-10-09',sun:'2026-10-11',wed:'2026-10-14'},
+  {n:28,label:'18 oct',g:2,especial:null,fri:'2026-10-16',sun:'2026-10-18',wed:'2026-10-21'},
+  {n:29,label:'25 oct',g:1,especial:null,fri:'2026-10-23',sun:'2026-10-25',wed:'2026-10-28'},
+  {n:30,label:'1 nov',g:2,especial:'Comunión',fri:'2026-10-30',sun:'2026-11-01',wed:'2026-11-04'},
+  {n:31,label:'8 nov',g:1,especial:null,fri:'2026-11-06',sun:'2026-11-08',wed:'2026-11-11'},
+  {n:32,label:'15 nov',g:2,especial:null,fri:'2026-11-13',sun:'2026-11-15',wed:'2026-11-18'},
+  {n:33,label:'22 nov',g:1,especial:null,fri:'2026-11-20',sun:'2026-11-22',wed:'2026-11-25'},
+  {n:34,label:'29 nov',g:2,especial:null,fri:'2026-11-27',sun:'2026-11-29',wed:'2026-12-02'},
+  {n:35,label:'6 dic',g:1,especial:'Comunión',fri:'2026-12-04',sun:'2026-12-06',wed:'2026-12-09'},
+  {n:36,label:'13 dic',g:2,especial:null,fri:'2026-12-11',sun:'2026-12-13',wed:'2026-12-16'},
+  {n:37,label:'20 dic',g:1,especial:null,fri:'2026-12-18',sun:'2026-12-20',wed:'2026-12-23'},
+  {n:38,label:'27 dic',g:2,especial:null,fri:'2026-12-25',sun:'2026-12-27',wed:'2026-12-30'},
+  {n:39,label:'3 ene',g:1,especial:'Comunión',fri:'2027-01-01',sun:'2027-01-03',wed:'2027-01-06'},
+  {n:40,label:'10 ene',g:2,especial:null,fri:'2027-01-08',sun:'2027-01-10',wed:'2027-01-13'},
+  {n:41,label:'17 ene',g:1,especial:null,fri:'2027-01-15',sun:'2027-01-17',wed:'2027-01-20'},
+  {n:42,label:'24 ene',g:2,especial:null,fri:'2027-01-22',sun:'2027-01-24',wed:'2027-01-27'},
+  {n:43,label:'31 ene',g:1,especial:null,fri:'2027-01-29',sun:'2027-01-31',wed:'2027-02-03'},
+  {n:44,label:'7 feb',g:2,especial:'Comunión',fri:'2027-02-05',sun:'2027-02-07',wed:'2027-02-10'},
+  {n:45,label:'14 feb',g:1,especial:null,fri:'2027-02-12',sun:'2027-02-14',wed:'2027-02-17'},
+  {n:46,label:'21 feb',g:2,especial:null,fri:'2027-02-19',sun:'2027-02-21',wed:'2027-02-24'},
+  {n:47,label:'28 feb',g:1,especial:null,fri:'2027-02-26',sun:'2027-02-28',wed:'2027-03-03'},
+  {n:48,label:'7 mar',g:2,especial:'Comunión',fri:'2027-03-05',sun:'2027-03-07',wed:'2027-03-10'},
+  {n:49,label:'14 mar',g:1,especial:null,fri:'2027-03-12',sun:'2027-03-14',wed:'2027-03-17'},
+  {n:50,label:'21 mar',g:2,especial:null,fri:'2027-03-19',sun:'2027-03-21',wed:'2027-03-24'},
+  {n:51,label:'28 mar',g:1,especial:null,fri:'2027-03-26',sun:'2027-03-28',wed:'2027-03-31'},
+  {n:52,label:'4 abr',g:2,especial:'Comunión',fri:'2027-04-02',sun:'2027-04-04',wed:'2027-04-07'},
+  {n:53,label:'11 abr',g:1,especial:null,fri:'2027-04-09',sun:'2027-04-11',wed:'2027-04-14'},
+  {n:54,label:'18 abr',g:2,especial:null,fri:'2027-04-16',sun:'2027-04-18',wed:'2027-04-21'},
+  {n:55,label:'25 abr',g:1,especial:null,fri:'2027-04-23',sun:'2027-04-25',wed:'2027-04-28'},
+  {n:56,label:'2 may',g:2,especial:'Comunión',fri:'2027-04-30',sun:'2027-05-02',wed:'2027-05-05'},
+  {n:57,label:'9 may',g:1,especial:null,fri:'2027-05-07',sun:'2027-05-09',wed:'2027-05-12'},
+  {n:58,label:'16 may',g:2,especial:null,fri:'2027-05-14',sun:'2027-05-16',wed:'2027-05-19'},
+  {n:59,label:'23 may',g:1,especial:null,fri:'2027-05-21',sun:'2027-05-23',wed:'2027-05-26'},
+  {n:60,label:'30 may',g:2,especial:null,fri:'2027-05-28',sun:'2027-05-30',wed:'2027-06-02'},
 ];
 
 // Build calendar event map
@@ -1436,6 +1494,9 @@ const SPECIAL_DATES = {
   '2026-06-12':{label:'✨ ADORAR 2026 - Día 5',type:'adorar'},
   '2026-06-13':{label:'✨ ADORAR 2026 - Día 6',type:'adorar'},
   '2026-06-14':{label:'✨ ADORAR 2026 - Final',type:'adorar'},
+  '2026-12-25':{label:'🎄 Navidad',type:'special'},
+  '2027-01-01':{label:'🎆 Año Nuevo',type:'special'},
+  '2027-05-09':{label:'🌷 Día de las Madres',type:'special'},
 };
 
 function getAG(wn){ return gruposOverride[wn]||SEMANAS[wn-1].g; }
@@ -1548,9 +1609,13 @@ function initApp(){
   listenDevo();
   if('speechSynthesis' in window) setTimeout(ttsLoadVoices, 500);
 
+  // Current week
+  const cw = getCurrentWeek();
+  curRepWeek = cw;
+
   // Firebase listeners
   loadGruposOverride();loadMiembros();
-  listenRep(1);listenAdorar();
+  listenRep(cw);listenAdorar();
 
   // Calendar (loads custom events from Firebase, then builds all months)
   loadAndBuildCal();
@@ -1558,10 +1623,25 @@ function initApp(){
   // Build dynamic pills for Inicio and Repertorio
   buildSemanasPills();
 
-  // Inicio — auto-select current week
-  const cw = getCurrentWeek();
+  // Inicio — auto-select and scroll current week to first position
   const inicioBtn = document.querySelector(`#inicioPills .pill[data-n="${cw}"]`) || document.querySelector('#inicioPills .pill');
-  if(inicioBtn) showInicio(cw, inicioBtn);
+  if(inicioBtn) {
+    showInicio(cw, inicioBtn);
+    setTimeout(() => {
+      const ip = document.getElementById('inicioPills');
+      if (ip && inicioBtn) ip.scrollLeft = inicioBtn.offsetLeft - 12;
+    }, 80);
+  }
+
+  // Repertorio — auto-select and scroll current week
+  const repBtn = document.querySelector(`#repPills .pill[data-n="${cw}"]`);
+  if(repBtn) {
+    selRepWeek(cw, repBtn);
+    setTimeout(() => {
+      const rp = document.getElementById('repPills');
+      if (rp && repBtn) rp.scrollLeft = repBtn.offsetLeft - 12;
+    }, 80);
+  }
 
   // Auto-refresh Sundays at 3pm
   scheduleWeekRefresh();
@@ -1628,6 +1708,50 @@ function goNav(id,btn){
   document.getElementById('navCurLbl').textContent=id==='panel'?(document.getElementById('panelNavLabel')||{textContent:info.lbl}).textContent:info.lbl;
   closeNavDrawer();
   if(id!=='panel' && typeof ttsStop==='function' && ttsState==='playing') ttsStop();
+
+  const cw = getCurrentWeek();
+  if(id === 'inicio'){
+    setTimeout(()=>{
+      const activeBtn = document.querySelector(`#inicioPills .pill[data-n="${cw}"]`) || document.querySelector('#inicioPills .pill.active');
+      if(activeBtn){
+        const ip = document.getElementById('inicioPills');
+        if(ip) ip.scrollLeft = activeBtn.offsetLeft - 12;
+      }
+    }, 50);
+  }else if(id === 'repertorio'){
+    setTimeout(()=>{
+      const targetWeek = curRepWeek || cw;
+      const repBtn = document.querySelector(`#repPills .pill[data-n="${targetWeek}"]`);
+      if(repBtn && !document.querySelector('#repPills .pill.active')){
+        selRepWeek(targetWeek, repBtn);
+      }
+      const activeRepBtn = document.querySelector('#repPills .pill.active') || repBtn;
+      if(activeRepBtn){
+        const rp = document.getElementById('repPills');
+        if(rp) rp.scrollLeft = activeRepBtn.offsetLeft - 12;
+      }
+    }, 50);
+  }else if(id === 'calendario'){
+    setTimeout(()=>{
+      const today = new Date();
+      const yr = today.getFullYear();
+      const mo = today.getMonth() + 1;
+      const moNames = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      const curCalId = yr === 2027 ? `cal${moNames[mo]}27` : `cal${moNames[mo]}`;
+      const curCalEl = document.getElementById(curCalId);
+      if(curCalEl){
+        const parentCm = curCalEl.closest('.cm');
+        if(parentCm) parentCm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 80);
+  }else if(id === 'panel'){
+    setTimeout(()=>{
+      const curRow = document.querySelector(`.week-row[data-n="${cw}"]`);
+      if(curRow){
+        curRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 80);
+  }
 }
 
 // ══ TICKER ══════════════════════════════════════════════════
@@ -1637,9 +1761,10 @@ function buildTicker(){
   // Birthday this month
   const todayM=today.getMonth()+1,todayD=today.getDate();
   BIRTHDAYS.forEach(b=>{
+    const curYear = today.getFullYear();
     const daysUntil=(b.m>todayM||(b.m===todayM&&b.d>=todayD))?
-      Math.round((new Date(2026,b.m-1,b.d)-today)/864e5):
-      Math.round((new Date(2027,b.m-1,b.d)-today)/864e5);
+      Math.round((new Date(curYear,b.m-1,b.d)-today)/864e5):
+      Math.round((new Date(curYear+1,b.m-1,b.d)-today)/864e5);
     if(daysUntil<=30) items.push({ico:'🎂',text:(daysUntil===0?'¡HOY! Cumpleaños de ':'Cumpleaños: ')+b.name,date:daysUntil===0?'HOY':`En ${daysUntil}d`,priority:daysUntil===0?-1:daysUntil});
   });
   // Upcoming calendar events
@@ -1711,8 +1836,19 @@ function buildSemanasPills(){
   const ip=document.getElementById('inicioPills');
   const rp=document.getElementById('repPills');
   const cw=getCurrentWeek();
-  if(ip) ip.innerHTML=SEMANAS.map(s=>`<button class="pill${s.n===cw?' active':''}" data-n="${s.n}" onclick="showInicio(${s.n},this)">S${s.n} · ${s.label}</button>`).join('');
-  if(rp) rp.innerHTML=SEMANAS.map(s=>`<button class="pill${s.n===1?' active':''}" data-n="${s.n}" onclick="selRepWeek(${s.n},this)">S${s.n} · ${s.label}</button>`).join('');
+  if(ip) {
+    ip.innerHTML=SEMANAS.map(s=>{
+      const isCur = s.n === cw;
+      return `<button class="pill${isCur?' active is-curr':''}" data-n="${s.n}" onclick="showInicio(${s.n},this)">S${s.n} · ${s.label}${isCur?' ⬤':''}</button>`;
+    }).join('');
+  }
+  if(rp) {
+    const activeWeek = curRepWeek || cw;
+    rp.innerHTML=SEMANAS.map(s=>{
+      const isCur = s.n === activeWeek;
+      return `<button class="pill${isCur?' active is-curr':''}" data-n="${s.n}" onclick="selRepWeek(${s.n},this)">S${s.n} · ${s.label}${s.n===cw?' ⬤':''}</button>`;
+    }).join('');
+  }
 }
 
 // Devuelve la semana actual: activa desde el jueves previo al viernes de ensayo
@@ -1747,16 +1883,23 @@ function scheduleWeekRefresh(){
 // ══ INICIO ═══════════════════════════════════════════════════
 function showInicio(n,btn){
   document.querySelectorAll('#inicioPills .pill').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
+  if(btn) {
+    btn.classList.add('active');
+    const ip = document.getElementById('inicioPills');
+    if (ip && btn) ip.scrollLeft = btn.offsetLeft - 12;
+  }
   const s=SEMANAS[n-1];
+  if(!s) return;
+  const cw=getCurrentWeek();
+  const isCurrentWeek = s.n === cw;
   const ag=getAG(n),rg=ag===1?2:1;
   const gA=GRUPOS[ag],gR=GRUPOS[rg];
-  const sunDt=parseDate(s.sun),wedDt=parseDate(s.wed),friDt=parseDate(s.fri);
+  const sunDt=s.sun?parseDate(s.sun):null,wedDt=s.wed?parseDate(s.wed):null,friDt=s.fri?parseDate(s.fri):null;
   const MES_SHORT=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const fmtDate=d=>`${d.getDate()} ${MES_SHORT[d.getMonth()]}`;
+  const fmtDate=d=>d?`${d.getDate()} ${MES_SHORT[d.getMonth()]}`:'—';
   document.getElementById('inicioDetail').innerHTML=`
     <div class="wh">
-      <div class="wd">Semana ${n}</div>
+      <div class="wd">Semana ${n}${isCurrentWeek ? ' <span class="badge-current">⬤ Semana Actual</span>' : ''}</div>
       <div class="wn" style="color:var(--${ag===1?'g1c':'g2c'})">${gA.nombre} — En Servicio</div>
       ${s.especial?`<div class="wbadge">✨ Semana de ${s.especial}</div>`:''}
     </div>
@@ -1769,9 +1912,9 @@ function showInicio(n,btn){
       <div class="member-list">${gA.banda.map(b=>`<span class="mb${ag}">${b.n}<span class="mc-inst"> · ${b.i}</span></span>`).join('')}</div>
     </div>
     <div class="sec">📅 Agenda</div>
-    <div class="tl-item"><div class="tl-dot fri">🎸</div><div class="tl-info"><div class="tl-day">Ensayo · Viernes ${fmtDate(friDt)}</div><div class="tl-detail">Coord.: ${gA.coord}</div></div></div>
-    <div class="tl-item"><div class="tl-dot sun">⛪</div><div class="tl-info"><div class="tl-day">Servicios · Domingo ${fmtDate(sunDt)}</div><div class="tl-times"><span class="tl-time">8:00 am</span><span class="tl-time">10:00 am</span><span class="tl-time">12:00 m</span></div></div></div>
-    <div class="tl-item"><div class="tl-dot wed">🎤</div><div class="tl-info"><div class="tl-day">Servicio · Miércoles ${fmtDate(wedDt)}</div><div class="tl-detail">Continúa el ${gA.nombre}</div></div></div>
+    ${friDt?`<div class="tl-item"><div class="tl-dot fri">🎸</div><div class="tl-info"><div class="tl-day">Ensayo · Viernes ${fmtDate(friDt)}</div><div class="tl-detail">Coord.: ${gA.coord}</div></div></div>`:''}
+    ${sunDt?`<div class="tl-item"><div class="tl-dot sun">⛪</div><div class="tl-info"><div class="tl-day">Servicios · Domingo ${fmtDate(sunDt)}</div><div class="tl-times"><span class="tl-time">8:00 am</span><span class="tl-time">10:00 am</span><span class="tl-time">12:00 m</span></div></div></div>`:''}
+    ${wedDt?`<div class="tl-item"><div class="tl-dot wed">🎤</div><div class="tl-info"><div class="tl-day">Servicio · Miércoles ${fmtDate(wedDt)}</div><div class="tl-detail">Continúa el ${gA.nombre}</div></div></div>`:''}
     <div class="recarga-card">
       <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:13.5px;color:var(--${rg===1?'g1c':'g2c'});margin-bottom:3px">🌿 ${gR.nombre} — Semana de Recarga</div>
       <div style="font-size:12px;color:var(--mut);line-height:1.5;margin-bottom:8px">Tiempo para ser ministrados y renovar fuerzas.</div>
@@ -1780,13 +1923,33 @@ function showInicio(n,btn){
 }
 
 // ══ CALENDAR ════════════════════════════════════════════════
+const CAL_MONTHS = [
+  { yr: 2026, mo: 4, id: 'calAbr' },
+  { yr: 2026, mo: 5, id: 'calMay' },
+  { yr: 2026, mo: 6, id: 'calJun' },
+  { yr: 2026, mo: 7, id: 'calJul' },
+  { yr: 2026, mo: 8, id: 'calAgo' },
+  { yr: 2026, mo: 9, id: 'calSep' },
+  { yr: 2026, mo: 10, id: 'calOct' },
+  { yr: 2026, mo: 11, id: 'calNov' },
+  { yr: 2026, mo: 12, id: 'calDic' },
+  { yr: 2027, mo: 1, id: 'calEne27' },
+  { yr: 2027, mo: 2, id: 'calFeb27' },
+  { yr: 2027, mo: 3, id: 'calMar27' },
+  { yr: 2027, mo: 4, id: 'calAbr27' },
+  { yr: 2027, mo: 5, id: 'calMay27' },
+];
+
+function renderAllCalendars(){
+  CAL_MONTHS.forEach(m => {
+    if(document.getElementById(m.id)) buildCal(m.yr, m.mo, m.id);
+  });
+}
+
 function loadAndBuildCal(){
   db.ref(`${P}/customEvents`).on('value',snap=>{
     customCalEvents=snap.val()||{};
-    buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
-    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
-    buildCal(2026,9,'calSep');buildCal(2026,10,'calOct');
-    buildCal(2026,11,'calNov');buildCal(2026,12,'calDic');
+    renderAllCalendars();
   });
 }
 function pad(n){return String(n).padStart(2,'0')}
@@ -1997,9 +2160,16 @@ function toggleAssignChip(btn,v,isG2){
 
 function selRepWeek(n,btn){
   document.querySelectorAll('#repPills .pill').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');curRepWeek=n;
+  if(btn) {
+    btn.classList.add('active');
+    const rp = document.getElementById('repPills');
+    if (rp && btn) rp.scrollLeft = btn.offsetLeft - 12;
+  }
+  curRepWeek=n;
+  const cw=getCurrentWeek();
+  const isCurrentWeek = n === cw;
   const ag=getAG(n),g=GRUPOS[ag];
-  document.getElementById('repWeekInfo').innerHTML=`<div class="grupo-card g${ag}" style="padding:10px 12px;margin-bottom:0"><div style="display:flex;align-items:center;gap:7px"><div class="gs-active" style="font-size:9.5px">G${ag}</div><div style="font-size:13px;font-weight:600">Sem. ${n} · ${g.nombre}</div><div style="font-size:11px;color:var(--mut)">Coord.: ${g.coord}</div></div></div>`;
+  document.getElementById('repWeekInfo').innerHTML=`<div class="grupo-card g${ag}" style="padding:10px 12px;margin-bottom:0"><div style="display:flex;align-items:center;gap:7px"><div class="gs-active" style="font-size:9.5px">G${ag}</div><div style="font-size:13px;font-weight:600">Sem. ${n} · ${g.nombre}${isCurrentWeek ? ' <span class="badge-current" style="font-size:9.5px;padding:1px 6px">⬤ Actual</span>' : ''}</div><div style="font-size:11px;color:var(--mut)">Coord.: ${g.coord}</div></div></div>`;
   listenRep(n);
 }
 
@@ -2276,16 +2446,24 @@ function ttsStop(){
 function loadGruposOverride(){
   db.ref(`${P}/gruposOverride`).on('value',snap=>{
     gruposOverride=snap.val()||{};buildWeekRows();
-    buildCal(2026,4,'calAbr');buildCal(2026,5,'calMay');buildCal(2026,6,'calJun');
-    buildCal(2026,7,'calJul');buildCal(2026,8,'calAgo');
-    buildCal(2026,9,'calSep');buildCal(2026,10,'calOct');
-    buildCal(2026,11,'calNov');buildCal(2026,12,'calDic'); // re-render with group overrides
+    renderAllCalendars(); // re-render with group overrides
     const ap=document.querySelector('#inicioPills .pill.active');if(ap) ap.click();
   });
 }
 function buildWeekRows(){
   const el=document.getElementById('weekRows');if(!el)return;
-  el.innerHTML=SEMANAS.map(s=>{const ag=getAG(s.n);return`<div class="week-row"><div class="wr-label">S${s.n} · ${s.label}${s.especial?' ✨':''}</div><div class="wr-btns"><button class="wr-btn ${ag===1?'g1-a':''}" onclick="setGO(${s.n},1)">G1</button><button class="wr-btn ${ag===2?'g2-a':''}" onclick="setGO(${s.n},2)">G2</button></div></div>`;}).join('');
+  const cw=getCurrentWeek();
+  el.innerHTML=SEMANAS.map(s=>{
+    const ag=getAG(s.n);
+    const isCur = s.n === cw;
+    return `<div class="week-row${isCur?' is-curr':''}" data-n="${s.n}">
+      <div class="wr-label">S${s.n} · ${s.label}${s.especial?' ✨':''}${isCur?' <span class="badge-current" style="font-size:9px;padding:1px 5px">⬤ Actual</span>':''}</div>
+      <div class="wr-btns">
+        <button class="wr-btn ${ag===1?'g1-a':''}" onclick="setGO(${s.n},1)">G1</button>
+        <button class="wr-btn ${ag===2?'g2-a':''}" onclick="setGO(${s.n},2)">G2</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 async function setGO(wn,gn){
   if(gn===SEMANAS[wn-1].g) await db.ref(`${P}/gruposOverride/${wn}`).remove();
@@ -2381,7 +2559,14 @@ async function registrarFalta(){
 }
 function loadFaltas(){
   const el=document.getElementById('faltasList');if(!el)return;
-  const mes=parseInt(document.getElementById('faltasMes')?.value||4);
+  const selVal=document.getElementById('faltasMes')?.value||'2026_8';
+  let selYr=null, selMo=null;
+  if(selVal.includes('_')||selVal.includes('-')){
+    const parts=selVal.split(/[-_]/).map(Number);
+    selYr=parts[0]; selMo=parts[1];
+  } else {
+    selMo=parseInt(selVal);
+  }
   db.ref(`${P}/faltas`).once('value').then(snap=>{
     const raw=snap.val()||{};
     const counts={};
@@ -2390,7 +2575,7 @@ function loadFaltas(){
       const mData=raw[mk]||{};
       counts[m]=Object.keys(mData).filter(dk=>{
         const [yr,mo,dy]=dk.split('_').map(Number);
-        return mo===mes;
+        return selYr ? (yr===selYr && mo===selMo) : (mo===selMo);
       }).length;
     });
     el.innerHTML=ALL_MEMBERS.map(m=>{
@@ -3289,5 +3474,5 @@ function showToast(msg,isErr){
 }
 </script>
 <!-- cuestionario eliminado por solicitud -->
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a26ffdc969d05ea1',t:'MTc4NjAzOTc1Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
